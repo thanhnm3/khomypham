@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: kho-my-pham
+    env: python
+    buildCommand: pip install -r requirements_production.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    startCommand: gunicorn kho_my_pham.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: kho-my-pham.onrender.com
+      - key: DATABASE_URL
+        value: postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham 

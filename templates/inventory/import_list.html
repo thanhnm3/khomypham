@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% csrf_token %}
+
+{% block title %}Danh sách phiếu nhập kho{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0"><i class="fas fa-download"></i> Danh sách phiếu nhập kho</h2>
+        <a href="{% url 'inventory:import_create' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Tạo phiếu nhập
+        </a>
+    </div>
+    {% if imports %}
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Mã phiếu nhập</th>
+                    <th>Ngày nhập</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Người tạo</th>
+                    <th>Tổng giá trị</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for imp in imports %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ imp.import_code }}</td>
+                    <td>{{ imp.import_date|date:'d/m/Y H:i' }}</td>
+                    <td>{{ imp.supplier|default:'-' }}</td>
+                    <td>{{ imp.created_by.get_full_name|default:imp.created_by.username }}</td>
+                    <td>{{ imp.total_amount|floatformat:0 }} đ</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'inventory:import_detail' imp.pk %}" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'inventory:import_update' imp.pk %}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="{% url 'inventory:import_delete' imp.pk %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-danger btn-sm" title="Xóa" 
+                                        onclick="confirmDeleteForm(this, '{{ imp.import_code|escapejs }}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-info">Chưa có phiếu nhập kho nào.</div>
+    {% endif %}
+</div>
+
+<script>
+function confirmDeleteForm(button, importCode) {
+    console.log('Confirming delete for:', importCode);
+    
+    if (confirm(`Bạn có chắc chắn muốn xóa phiếu nhập kho "${importCode}"? Hành động này không thể hoàn tác.`)) {
+        // Submit form chứa button này
+        const form = button.closest('form');
+        console.log('Submitting form:', form.action);
+        form.submit();
+    } else {
+        console.log('Delete cancelled by user');
+    }
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Hồ sơ cá nhân{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <i class="fas fa-user-circle fa-2x me-2"></i>
+                    <h4 class="mb-0">Hồ sơ cá nhân</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-3 text-center">
+                            {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar.url }}" class="rounded-circle img-thumbnail mb-2" style="width:120px; height:120px; object-fit:cover;" alt="Avatar">
+                            {% else %}
+                                <img src="https://ui-avatars.com/api/?name={{ user.get_full_name|default:user.username }}&background=0D8ABC&color=fff&size=120" class="rounded-circle img-thumbnail mb-2" alt="Avatar">
+                            {% endif %}
+                            <div class="fw-bold mt-2">{{ user.get_full_name|default:user.username }}</div>
+                            <div class="text-muted small">{{ user.email }}</div>
+                        </div>
+                        <div class="col-md-9">
+                            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Tên đăng nhập</label>
+                                        <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ user_form.first_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ user_form.last_name|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ profile_form.phone|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ profile_form.address|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ profile_form.avatar|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ profile_form.role|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-save"></i> Cập nhật hồ sơ
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center bg-light">
+                    <small class="text-muted">Cập nhật thông tin cá nhân để bảo mật tài khoản tốt hơn.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

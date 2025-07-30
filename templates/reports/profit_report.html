@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Báo cáo lợi nhuận - Kho Mỹ Phẩm{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0"><i class="fas fa-chart-line"></i> Báo cáo lợi nhuận</h2>
+        <a href="{% url 'reports:export_profit_excel' %}" class="btn btn-outline-success">
+            <i class="fas fa-file-excel"></i> Xuất Excel
+        </a>
+    </div>
+
+    <!-- Bộ lọc thời gian -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-filter"></i> Bộ lọc thời gian</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="start_date" class="form-label">Từ ngày</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date|default:'' }}">
+                </div>
+                <div class="col-md-4">
+                    <label for="end_date" class="form-label">Đến ngày</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date|default:'' }}">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-search"></i> Lọc
+                    </button>
+                    <a href="{% url 'reports:profit_report' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Xóa lọc
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Thống kê tổng quan -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ total_import_value|floatformat:0 }}</h4>
+                    <p class="card-text">Tổng nhập (VNĐ)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ total_export_value|floatformat:0 }}</h4>
+                    <p class="card-text">Tổng xuất (VNĐ)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-info mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ total_profit|floatformat:0 }}</h4>
+                    <p class="card-text">Tổng lợi nhuận (VNĐ)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ profit_margin|floatformat:1 }}%</h4>
+                    <p class="card-text">Tỷ lệ lợi nhuận</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ lợi nhuận -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Phân bố lợi nhuận</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="profitChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Top sản phẩm lợi nhuận cao</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="topProfitChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bảng chi tiết lợi nhuận -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-table"></i> Chi tiết lợi nhuận theo sản phẩm</h5>
+        </div>
+        <div class="card-body">
+            {% if profit_details %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Số lượng xuất</th>
+                            <th>Giá nhập TB</th>
+                            <th>Giá xuất TB</th>
+                            <th>Lợi nhuận/SP</th>
+                            <th>Tổng lợi nhuận</th>
+                            <th>Tỷ lệ LN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in profit_details %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <strong>{{ item.product.name }}</strong><br>
+                                <small class="text-muted">{{ item.product.code }}</small>
+                            </td>
+                            <td>{{ item.product.category.name }}</td>
+                            <td>{{ item.total_quantity }} {{ item.product.unit }}</td>
+                            <td>{{ item.avg_import_price|floatformat:0 }} VNĐ</td>
+                            <td>{{ item.avg_export_price|floatformat:0 }} VNĐ</td>
+                            <td>
+                                {% if item.profit_per_unit > 0 %}
+                                    <span class="text-success fw-bold">+{{ item.profit_per_unit|floatformat:0 }} VNĐ</span>
+                                {% else %}
+                                    <span class="text-danger fw-bold">{{ item.profit_per_unit|floatformat:0 }} VNĐ</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.total_profit > 0 %}
+                                    <span class="text-success fw-bold">+{{ item.total_profit|floatformat:0 }} VNĐ</span>
+                                {% else %}
+                                    <span class="text-danger fw-bold">{{ item.total_profit|floatformat:0 }} VNĐ</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.profit_margin > 0 %}
+                                    <span class="badge bg-success">{{ item.profit_margin|floatformat:1 }}%</span>
+                                {% else %}
+                                    <span class="badge bg-danger">{{ item.profit_margin|floatformat:1 }}%</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr>
+                            <td colspan="7" class="text-end fw-bold">Tổng cộng:</td>
+                            <td class="text-success fw-bold">
+                                {% if total_profit > 0 %}
+                                    +{{ total_profit|floatformat:0 }} VNĐ
+                                {% else %}
+                                    {{ total_profit|floatformat:0 }} VNĐ
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if profit_margin > 0 %}
+                                    <span class="badge bg-success">{{ profit_margin|floatformat:1 }}%</span>
+                                {% else %}
+                                    <span class="badge bg-danger">{{ profit_margin|floatformat:1 }}%</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Không có dữ liệu lợi nhuận trong khoảng thời gian này.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Thông tin bổ sung -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="alert alert-info">
+                <strong>Ghi chú:</strong> Lợi nhuận được tính từ chênh lệch giữa giá xuất và giá nhập trung bình của từng sản phẩm.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-warning">
+                <strong>Cảnh báo:</strong> Sản phẩm có lợi nhuận âm cần được xem xét lại chiến lược giá.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Dữ liệu cho biểu đồ
+const profitData = {
+    labels: ['Tổng nhập', 'Tổng xuất', 'Lợi nhuận'],
+    datasets: [{
+        data: [JSON.parse('{{ total_import_value|escapejs }}'), JSON.parse('{{ total_export_value|escapejs }}'), JSON.parse('{{ total_profit|escapejs }}')],
+        backgroundColor: ['#dc3545', '#198754', '#0dcaf0'],
+        borderWidth: 2
+    }]
+};
+
+const topProfitData = {
+    labels: JSON.parse('{{ top_products_labels|escapejs }}'),
+    datasets: [{
+        label: 'Lợi nhuận (VNĐ)',
+        data: JSON.parse('{{ top_products_profits|escapejs }}'),
+        backgroundColor: 'rgba(13, 202, 240, 0.5)',
+        borderColor: 'rgba(13, 202, 240, 1)',
+        borderWidth: 1
+    }]
+};
+
+// Biểu đồ phân bố lợi nhuận
+new Chart(document.getElementById('profitChart'), {
+    type: 'doughnut',
+    data: profitData,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+// Biểu đồ top sản phẩm lợi nhuận cao
+new Chart(document.getElementById('topProfitChart'), {
+    type: 'bar',
+    data: topProfitData,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Tự động submit form khi thay đổi ngày
+document.getElementById('start_date').addEventListener('change', function() {
+    if (this.value && document.getElementById('end_date').value) {
+        this.form.submit();
+    }
+});
+
+document.getElementById('end_date').addEventListener('change', function() {
+    if (this.value && document.getElementById('start_date').value) {
+        this.form.submit();
+    }
+});
+</script>
+{% endblock %} 

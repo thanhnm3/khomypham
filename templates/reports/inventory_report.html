@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Báo cáo tồn kho chi tiết{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0"><i class="fas fa-warehouse"></i> Báo cáo tồn kho chi tiết</h2>
+        <a href="{% url 'reports:export_inventory_excel' %}" class="btn btn-outline-success btn-export">
+            <i class="fas fa-file-excel"></i> Xuất Excel
+        </a>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ total_products }}</h4>
+                    <p class="card-text">Tổng sản phẩm</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ low_stock_products|length }}</h4>
+                    <p class="card-text">Sắp hết hàng</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-danger mb-3">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ expiring_products|length }}</h4>
+                    <p class="card-text">Sắp hết hạn</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Mã SP</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Đơn vị</th>
+                    <th>Tổng tồn kho</th>
+                    <th>Lô hàng</th>
+                    <th>Hạn sử dụng</th>
+                    <th>Số lượng còn</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in inventory_details %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.product.code }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.category.name }}</td>
+                    <td>{{ item.product.unit }}</td>
+                    <td>{{ item.product.total_stock }}</td>
+                    <td>{{ item.batch.batch_code }}</td>
+                    <td>{{ item.batch.expiry_date|date:'d/m/Y' }}</td>
+                    <td>{{ item.batch.remaining_quantity }}</td>
+                    <td>
+                        {% if item.batch.expiry_date < today %}
+                            <span class="badge bg-danger">Hết hạn</span>
+                        {% elif item.batch.expiry_date < expiring_soon %}
+                            <span class="badge bg-warning text-dark">Sắp hết hạn</span>
+                        {% elif item.batch.remaining_quantity <= 10 %}
+                            <span class="badge bg-warning text-dark">Sắp hết hàng</span>
+                        {% else %}
+                            <span class="badge bg-success">Bình thường</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" class="text-center text-muted">
+                        <i class="fas fa-info-circle"></i> Chưa có dữ liệu tồn kho
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="alert alert-warning">
+                <strong>Cảnh báo:</strong> Các sản phẩm/lô hàng sắp hết hạn hoặc sắp hết hàng sẽ được đánh dấu màu vàng hoặc đỏ.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-info">
+                <strong>Ghi chú:</strong> Báo cáo này tổng hợp tồn kho theo từng lô hàng, giúp kiểm soát hạn dùng và số lượng tồn thực tế.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

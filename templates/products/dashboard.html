@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Kho Mỹ Phẩm{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </h1>
+    <!-- Thống kê tổng quan -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card dashboard-card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">{{ total_products }}</h4>
+                            <p class="card-text">Tổng loại sản phẩm</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-box fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">{{ total_stock_value|floatformat:0 }}</h4>
+                            <p class="card-text">Tổng sản phẩm tồn kho</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-warehouse fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card bg-warning text-dark">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">{{ low_stock_products|length }}</h4>
+                            <p class="card-text">Sắp hết hàng</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card dashboard-card bg-danger text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4 class="card-title">{{ expiring_products|length }}</h4>
+                            <p class="card-text">Sắp hết hạn</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Biểu đồ dashboard -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-light fw-bold"><i class="fas fa-chart-bar"></i> Tồn kho theo danh mục</div>
+                <div class="card-body">
+                    <canvas id="categoryStockChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-light fw-bold"><i class="fas fa-chart-line"></i> Nhập/Xuất kho 7 ngày gần nhất</div>
+                <div class="card-body">
+                    <canvas id="importExportChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-light fw-bold"><i class="fas fa-arrow-down"></i> Sản phẩm tồn kho thấp nhất</div>
+                <div class="card-body">
+                    <canvas id="lowStockChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-light fw-bold"><i class="fas fa-star"></i> Sản phẩm bán chạy nhất</div>
+                <div class="card-body">
+                    <canvas id="topExportChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Nút thao tác nhanh -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt"></i> Thao tác nhanh
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'products:product_create' %}" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-plus"></i> Thêm sản phẩm
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'inventory:import_create' %}" class="btn btn-success btn-lg w-100">
+                                <i class="fas fa-download"></i> Nhập kho
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'inventory:export_create' %}" class="btn btn-info btn-lg w-100">
+                                <i class="fas fa-upload"></i> Xuất kho
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'reports:inventory_report' %}" class="btn btn-warning btn-lg w-100">
+                                <i class="fas fa-chart-bar"></i> Báo cáo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cảnh báo sắp hết hàng -->
+    {% if low_stock_products %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Sản phẩm sắp hết hàng
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for item in low_stock_products %}
+                        <div class="col-md-4 mb-2">
+                            <div class="alert alert-warning mb-0">
+                                <strong>{{ item.product.name }}</strong><br>
+                                <small>Tồn kho: {{ item.product.total_stock }} {{ item.product.unit }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- Cảnh báo sắp hết hạn -->
+    {% if expiring_products %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock"></i> Sản phẩm sắp hết hạn
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for item in expiring_products %}
+                        <div class="col-md-4 mb-2">
+                            <div class="alert alert-danger mb-0">
+                                <strong>{{ item.product.name }}</strong><br>
+                                <small>Hết hạn trong 30 ngày tới</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const categoryLabels = JSON.parse('{{ category_labels|escapejs }}');
+const categoryStock = JSON.parse('{{ category_stock|escapejs }}');
+const lowStockNames = JSON.parse('{{ low_stock_names|escapejs }}');
+const lowStockValues = JSON.parse('{{ low_stock_values|escapejs }}');
+const topExportNames = JSON.parse('{{ top_export_names|escapejs }}');
+const topExportValues = JSON.parse('{{ top_export_values|escapejs }}');
+const dateLabels = JSON.parse('{{ date_labels|escapejs }}');
+const importData = JSON.parse('{{ import_data|escapejs }}');
+const exportData = JSON.parse('{{ export_data|escapejs }}');
+
+// Tồn kho theo danh mục
+new Chart(document.getElementById('categoryStockChart'), {
+    type: 'bar',
+    data: {
+        labels: categoryLabels,
+        datasets: [{
+            label: 'Tồn kho',
+            data: categoryStock,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+    }
+});
+// Sản phẩm tồn kho thấp nhất
+new Chart(document.getElementById('lowStockChart'), {
+    type: 'bar',
+    data: {
+        labels: lowStockNames,
+        datasets: [{
+            label: 'Tồn kho',
+            data: lowStockValues,
+            backgroundColor: 'rgba(255, 193, 7, 0.5)',
+            borderColor: 'rgba(255, 193, 7, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+    }
+});
+// Sản phẩm bán chạy nhất
+new Chart(document.getElementById('topExportChart'), {
+    type: 'bar',
+    data: {
+        labels: topExportNames,
+        datasets: [{
+            label: 'Số lượng xuất',
+            data: topExportValues,
+            backgroundColor: 'rgba(40, 167, 69, 0.5)',
+            borderColor: 'rgba(40, 167, 69, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+    }
+});
+// Nhập/Xuất kho 7 ngày gần nhất
+new Chart(document.getElementById('importExportChart'), {
+    type: 'line',
+    data: {
+        labels: dateLabels,
+        datasets: [
+            {
+                label: 'Nhập kho',
+                data: importData,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+                tension: 0.4
+            },
+            {
+                label: 'Xuất kho',
+                data: exportData,
+                borderColor: 'rgba(220, 53, 69, 1)',
+                backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                fill: true,
+                tension: 0.4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } }
+    }
+});
+</script>
+{% endblock %} 

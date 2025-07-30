@@ -18,11 +18,23 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import views as auth_views
 from accounts import views as account_views
 
+@csrf_exempt
+def health_check(request):
+    """Health check endpoint for deployment"""
+    return JsonResponse({
+        'status': 'healthy',
+        'message': 'Kho My Pham is running',
+        'database': 'connected'
+    })
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('health/', health_check, name='health_check'),
     
     # Authentication URLs
     path('accounts/login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),

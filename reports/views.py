@@ -45,19 +45,19 @@ def inventory_report(request):
     # Dữ liệu chi tiết cho bảng
     inventory_details = []
     today = timezone.now().date()
-    expiring_soon = today + timedelta(days=30)
+    expiring_soon = today + timedelta(days=270)  # 9 tháng
     
     for product in products:
-        # Kiểm tra sản phẩm sắp hết hàng
-        if product.total_stock <= 10:
+        # Kiểm tra sản phẩm sắp hết hàng (tổng tồn kho <= 1)
+        if product.total_stock <= 1:
             low_stock_products.append(product)
         
         # Lấy tất cả lô hàng của sản phẩm
-        batches = product.batches.filter(is_active=True, remaining_quantity__gt=0).order_by('expiry_date')
+        batches = product.batches.filter(is_active=True, remaining_quantity__gt=0).order_by('import_date')
         
         for batch in batches:
-            # Kiểm tra lô hàng sắp hết hạn
-            if batch.expiry_date <= expiring_soon:
+            # Kiểm tra lô hàng sắp hết hạn (expiry_date là property)
+            if batch.expiry_date and batch.expiry_date <= expiring_soon:
                 expiring_products.append(product)
             
             # Thêm vào danh sách chi tiết
@@ -147,18 +147,18 @@ def export_inventory_excel(request):
     # Dữ liệu
     row = 4
     today = timezone.now().date()
-    expiring_soon = today + timedelta(days=30)
+    expiring_soon = today + timedelta(days=270)  # 9 tháng
     
     for product in products:
-        batches = product.batches.filter(is_active=True, remaining_quantity__gt=0).order_by('expiry_date')
+        batches = product.batches.filter(is_active=True, remaining_quantity__gt=0).order_by('import_date')
         
         for batch in batches:
-            # Xác định trạng thái
-            if batch.expiry_date < today:
+            # Xác định trạng thái (expiry_date là property)
+            if batch.expiry_date and batch.expiry_date < today:
                 status = "Hết hạn"
-            elif batch.expiry_date < expiring_soon:
+            elif batch.expiry_date and batch.expiry_date < expiring_soon:
                 status = "Sắp hết hạn"
-            elif batch.remaining_quantity <= 10:
+            elif batch.remaining_quantity <= 1:
                 status = "Sắp hết hàng"
             else:
                 status = "Bình thường"
@@ -171,7 +171,7 @@ def export_inventory_excel(request):
             ws.cell(row=row, column=5, value=product.unit)
             ws.cell(row=row, column=6, value=product.total_stock)
             ws.cell(row=row, column=7, value=batch.batch_code)
-            ws.cell(row=row, column=8, value=batch.expiry_date.strftime('%d/%m/%Y'))
+            ws.cell(row=row, column=8, value=batch.expiry_date.strftime('%d/%m/%Y') if batch.expiry_date else '-')
             ws.cell(row=row, column=9, value=batch.remaining_quantity)
             ws.cell(row=row, column=10, value=status)
             row += 1

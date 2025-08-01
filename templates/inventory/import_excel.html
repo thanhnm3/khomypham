@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{{ title }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <div class="form-group">
+                                    <label for="{{ form.excel_file.id_for_label }}">{{ form.excel_file.label }}</label>
+                                    {{ form.excel_file }}
+                                    {% if form.excel_file.help_text %}
+                                        <small class="form-text text-muted">{{ form.excel_file.help_text }}</small>
+                                    {% endif %}
+                                    {% if form.excel_file.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.excel_file.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-upload"></i> Upload và Xem trước
+                                </button>
+                                
+                                <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Quay lại
+                                </a>
+                            </form>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">
+                                        <i class="fas fa-info-circle"></i> Hướng dẫn
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Cấu trúc file Excel:</h6>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Tên SP:</strong> Tên sản phẩm</li>
+                                        <li><strong>Danh mục:</strong> Tên danh mục (phải tồn tại)</li>
+                                        <li><strong>Số lượng:</strong> Số lượng nhập</li>
+                                        <li><strong>Giá nhập:</strong> Giá nhập hàng</li>
+                                        <li><strong>Giá bán:</strong> Giá bán sản phẩm</li>
+                                        <li><strong>Đơn vị:</strong> hop, chai, tuyp, goi</li>
+                                        <li><strong>Hạn sử dụng:</strong> (tùy chọn)</li>
+                                        <li><strong>Mô tả:</strong> (tùy chọn)</li>
+                                    </ul>
+                                    
+                                    <h6>Lưu ý:</h6>
+                                    <ul class="list-unstyled">
+                                        <li>• Danh mục phải tồn tại trong hệ thống</li>
+                                        <li>• Sản phẩm mới sẽ được tạo tự động</li>
+                                        <li>• Sản phẩm cũ sẽ cập nhật giá bán</li>
+                                        <li>• File tối đa 5MB</li>
+                                    </ul>
+                                    
+                                    <div class="mt-3">
+                                        <a href="#" class="btn btn-sm btn-outline-primary" onclick="downloadTemplate()">
+                                            <i class="fas fa-download"></i> Tải mẫu Excel
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function downloadTemplate() {
+    // Tạo dữ liệu mẫu
+    const templateData = [
+        ['Tên SP', 'Danh mục', 'Số lượng', 'Giá nhập', 'Giá bán', 'Đơn vị', 'Hạn sử dụng', 'Mô tả'],
+        ['Serum Vitamin C', 'Serum', 50, 350000, 550000, 'chai', '2025-12-31', 'Serum làm sáng da'],
+        ['Kem chống nắng SPF50', 'Kem chống nắng', 30, 280000, 420000, 'tuyp', '2025-10-31', 'Kem chống nắng cao cấp'],
+        ['Sữa rửa mặt dịu nhẹ', 'Sữa rửa mặt', 100, 120000, 180000, 'chai', '2025-08-31', 'Sữa rửa mặt cho da nhạy cảm']
+    ];
+    
+    // Tạo workbook
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(templateData);
+    
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Mẫu nhập kho");
+    
+    // Tải xuống file
+    XLSX.writeFile(wb, "mau_nhap_kho.xlsx");
+}
+
+// Thêm thư viện XLSX nếu chưa có
+if (typeof XLSX === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    document.head.appendChild(script);
+}
+</script>
+{% endblock %} 

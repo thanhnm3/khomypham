@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Xóa sản phẩm - {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-danger text-white d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                    <h4 class="mb-0">Xác nhận xóa sản phẩm</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-warning"></i> Cảnh báo!</h6>
+                        <p class="mb-0">Bạn có chắc chắn muốn xóa sản phẩm <strong>"{{ product.name }}"</strong> không?</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 120px;">
+                                    <i class="fas fa-image fa-2x text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>Tên sản phẩm:</strong></td>
+                                    <td>{{ product.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Danh mục:</strong></td>
+                                    <td>{{ product.category.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tổng tồn kho:</strong></td>
+                                    <td>{{ product.total_stock }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <small>
+                            <i class="fas fa-info-circle"></i> 
+                            <strong>Lưu ý:</strong> Sản phẩm sẽ được đánh dấu là "không hoạt động" thay vì xóa hoàn toàn để bảo toàn dữ liệu lịch sử.
+                        </small>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <form method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Xác nhận xóa
+                        </button>
+                    </form>
+                    <a href="{% url 'products:product_detail' product.pk %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Hủy bỏ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

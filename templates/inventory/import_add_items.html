@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <p class="text-muted">Nhà cung cấp: {{ import_order.supplier|default:"Chưa có" }}</p>
+                </div>
+                <div class="card-body">
+                    <!-- Form thêm sản phẩm -->
+                    <form method="post" id="importItemForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{ form.product.id_for_label }}">Sản phẩm *</label>
+                                    {{ form.product }}
+                                    {% if form.product.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.product.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="{{ form.quantity.id_for_label }}">Số lượng *</label>
+                                    {{ form.quantity }}
+                                    {% if form.quantity.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.quantity.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="{{ form.unit_price.id_for_label }}">Giá nhập *</label>
+                                    {{ form.unit_price }}
+                                    {% if form.unit_price.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.unit_price.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="{{ form.expiry_date.id_for_label }}">Hạn sử dụng *</label>
+                                    {{ form.expiry_date }}
+                                    {% if form.expiry_date.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.expiry_date.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Thông tin sản phẩm tự động -->
+                        <div class="row mt-3" id="productInfo" style="display: none;">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <strong>Giá bán:</strong> <span id="sellingPrice">0</span> VNĐ
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Đơn vị:</strong> <span id="productUnit">-</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Danh mục:</strong> <span id="productCategory">-</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Tên sản phẩm:</strong> <span id="productName">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <hr>
+                    
+                    <!-- Danh sách sản phẩm đã thêm -->
+                    <h5>Sản phẩm đã thêm</h5>
+                    {% if items %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá nhập</th>
+                                        <th>Thành tiền</th>
+                                        <th>Hạn sử dụng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.product.name }}</td>
+                                        <td>{{ item.quantity }} {{ item.product.get_unit_display }}</td>
+                                        <td>{{ item.unit_price|floatformat:0 }} VNĐ</td>
+                                        <td>{{ item.total_price|floatformat:0 }} VNĐ</td>
+                                        <td>
+                                            {% for batch in item.product.batches.all %}
+                                                {% if batch.import_date == import_order.import_date.date %}
+                                                    {{ batch.expiry_date|date:"d/m/Y" }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-primary">
+                                        <th colspan="4" class="text-right">Tổng cộng:</th>
+                                        <th>{{ import_order.total_amount|floatformat:0 }} VNĐ</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                            </a>
+                            <a href="{% url 'inventory:import_detail' import_order.pk %}" class="btn btn-info">
+                                <i class="fas fa-eye"></i> Xem chi tiết
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Chưa có sản phẩm nào được thêm vào phiếu nhập.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const productSelect = document.getElementById('{{ form.product.id_for_label }}');
+    const productInfo = document.getElementById('productInfo');
+    const sellingPrice = document.getElementById('sellingPrice');
+    const productUnit = document.getElementById('productUnit');
+    const productCategory = document.getElementById('productCategory');
+    const productName = document.getElementById('productName');
+    
+    // Xử lý khi chọn sản phẩm
+    productSelect.addEventListener('change', function() {
+        const productId = this.value;
+        
+        if (productId) {
+            // Gọi AJAX để lấy thông tin sản phẩm
+            fetch(`{% url 'inventory:get_product_info' %}?product_id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const product = data.product;
+                        sellingPrice.textContent = product.selling_price.toLocaleString('vi-VN');
+                        productUnit.textContent = product.unit;
+                        productCategory.textContent = product.category;
+                        productName.textContent = product.name;
+                        productInfo.style.display = 'block';
+                    } else {
+                        console.error('Lỗi:', data.error);
+                        productInfo.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi AJAX:', error);
+                    productInfo.style.display = 'none';
+                });
+        } else {
+            productInfo.style.display = 'none';
+        }
+    });
+    
+    // Tự động trigger change event nếu có giá trị mặc định
+    if (productSelect.value) {
+        productSelect.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+{% endblock %} 

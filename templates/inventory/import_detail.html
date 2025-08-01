@@ -92,7 +92,7 @@
                                                 <small class="text-muted">{{ item.product.code }}</small>
                                             </td>
                                             <td>
-                                                <span class="badge bg-info">{{ item.batch_code }}</span>
+                                                <span class="badge bg-info">{{ item.batch.batch_code|default:"-" }}</span>
                                             </td>
                                             <td>
                                                 {{ item.quantity }} {{ item.product.unit }}
@@ -104,12 +104,12 @@
                                                 {{ item.total_price|floatformat:0 }} VNĐ
                                             </td>
                                             <td>
-                                                {% if item.expiry_date < today %}
+                                                {% if item.product.expiry_date < today %}
                                                     <span class="badge bg-danger">Đã hết hạn</span>
-                                                {% elif item.expiry_date < expiring_soon %}
+                                                {% elif item.product.expiry_date < expiring_soon %}
                                                     <span class="badge bg-warning">Sắp hết hạn</span>
                                                 {% else %}
-                                                    <span class="badge bg-success">{{ item.expiry_date|date:"d/m/Y" }}</span>
+                                                    <span class="badge bg-success">{{ item.product.expiry_date|date:"d/m/Y" }}</span>
                                                 {% endif %}
                                             </td>
                                         </tr>

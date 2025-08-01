@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum
 from .models import Product, Category
-from .forms import ProductForm, CategoryForm
+from .forms import ProductForm, ProductUpdateForm, CategoryForm
 from inventory.models import Batch, Import, Export, ExportItem
 from django.utils import timezone
 import json
@@ -19,7 +19,7 @@ def dashboard(request):
     expiring_products = []
     for product in Product.objects.filter(is_active=True):
         expiring_batches = product.expiring_batches
-        if expiring_batches.exists():
+        if expiring_batches:  # Kiểm tra list có phần tử không
             expiring_products.append({
                 'product': product,
                 'batches': expiring_batches[:3]
@@ -29,7 +29,7 @@ def dashboard(request):
     low_stock_products = []
     for product in Product.objects.filter(is_active=True):
         low_stock_batches = product.low_stock_batches
-        if low_stock_batches.exists():
+        if low_stock_batches.exists():  # QuerySet vẫn có .exists()
             low_stock_products.append({
                 'product': product,
                 'batches': low_stock_batches[:3]
@@ -108,7 +108,6 @@ def product_list(request):
     if search_query:
         products = products.filter(
             Q(name__icontains=search_query) |
-            Q(code__icontains=search_query) |
             Q(category__name__icontains=search_query)
         )
     
@@ -122,11 +121,17 @@ def product_list(request):
     
     categories = Category.objects.all()
     
+    # Thêm context cho template
+    today = timezone.now().date()
+    warning_date = today + timezone.timedelta(days=270)  # 9 tháng
+    
     context = {
         'page_obj': page_obj,
         'categories': categories,
         'search_query': search_query,
         'category_filter': category_filter,
+        'today': today,
+        'warning_date': warning_date,
     }
     return render(request, 'products/product_list.html', context)
 
@@ -134,11 +139,17 @@ def product_list(request):
 def product_detail(request, pk):
     """Chi tiết sản phẩm"""
     product = get_object_or_404(Product, pk=pk)
-    batches = product.batches.filter(is_active=True).order_by('expiry_date')
+    batches = product.batches.filter(is_active=True).order_by('import_date')
+    
+    # Thêm context cho template
+    today = timezone.now().date()
+    warning_date = today + timezone.timedelta(days=270)  # 9 tháng
     
     context = {
         'product': product,
         'batches': batches,
+        'today': today,
+        'warning_date': warning_date,
     }
     return render(request, 'products/product_detail.html', context)
 
@@ -148,7 +159,16 @@ def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # Lưu sản phẩm nhưng chưa commit
+            product = form.save(commit=False)
+            
+            # Lưu giá nhập vào purchase_price
+            if form.cleaned_data.get('import_price'):
+                product.purchase_price = form.cleaned_data['import_price']
+            
+            # Lưu sản phẩm
+            product.save()
+            
             messages.success(request, 'Sản phẩm đã được tạo thành công!')
             return redirect('products:product_list')
     else:
@@ -162,24 +182,28 @@ def product_create(request):
 
 @login_required
 def product_update(request, pk):
-    """Cập nhật sản phẩm"""
+    """Cập nhật sản phẩm - chỉ thông tin cơ bản"""
     product = get_object_or_404(Product, pk=pk)
     
     if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES, instance=product)
+        form = ProductUpdateForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             messages.success(request, 'Sản phẩm đã được cập nhật thành công!')
             return redirect('products:product_detail', pk=product.pk)
     else:
-        form = ProductForm(instance=product)
+        form = ProductUpdateForm(instance=product)
+    
+    # Lấy thông tin lô hàng hiện tại
+    batches = product.batches.filter(is_active=True).order_by('-import_date')
     
     context = {
         'form': form,
         'product': product,
+        'batches': batches,
         'title': 'Cập nhật sản phẩm',
     }
-    return render(request, 'products/product_form.html', context)
+    return render(request, 'products/product_update_form.html', context)
 
 @login_required
 def product_delete(request, pk):

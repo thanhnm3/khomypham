@@ -62,14 +62,14 @@
                     <td>{{ item.product.unit }}</td>
                     <td>{{ item.product.total_stock }}</td>
                     <td>{{ item.batch.batch_code }}</td>
-                    <td>{{ item.batch.expiry_date|date:'d/m/Y' }}</td>
+                    <td>{{ item.batch.expiry_date|date:'d/m/Y'|default:"-" }}</td>
                     <td>{{ item.batch.remaining_quantity }}</td>
                     <td>
-                        {% if item.batch.expiry_date < today %}
+                        {% if item.batch.expiry_date and item.batch.expiry_date < today %}
                             <span class="badge bg-danger">Hết hạn</span>
-                        {% elif item.batch.expiry_date < expiring_soon %}
+                        {% elif item.batch.expiry_date and item.batch.expiry_date < expiring_soon %}
                             <span class="badge bg-warning text-dark">Sắp hết hạn</span>
-                        {% elif item.batch.remaining_quantity <= 10 %}
+                        {% elif item.batch.remaining_quantity <= 1 %}
                             <span class="badge bg-warning text-dark">Sắp hết hàng</span>
                         {% else %}
                             <span class="badge bg-success">Bình thường</span>

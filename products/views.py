@@ -25,14 +25,13 @@ def dashboard(request):
                 'batches': expiring_batches[:3]
             })
     
-    # Sản phẩm sắp hết hàng
+    # Sản phẩm sắp hết hàng (tổng tồn kho <= 1)
     low_stock_products = []
     for product in Product.objects.filter(is_active=True):
-        low_stock_batches = product.low_stock_batches
-        if low_stock_batches.exists():  # QuerySet vẫn có .exists()
+        if product.total_stock <= 1:  # Kiểm tra tổng tồn kho của sản phẩm
             low_stock_products.append({
                 'product': product,
-                'batches': low_stock_batches[:3]
+                'batches': product.batches.filter(is_active=True, remaining_quantity__gt=0)[:3]
             })
 
     # Tồn kho theo danh mục (bar chart)

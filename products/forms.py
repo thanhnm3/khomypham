@@ -16,7 +16,7 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        fields = ['name', 'category', 'image', 'unit', 'selling_price', 'expiry_date', 'expiry_days', 'description']
+        fields = ['name', 'category', 'image', 'unit', 'selling_price', 'expiry_date', 'description']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
@@ -24,7 +24,6 @@ class ProductForm(forms.ModelForm):
             'unit': forms.Select(attrs={'class': 'form-select'}),
             'selling_price': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'step': 0.01}),
             'expiry_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'expiry_days': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 3650}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
     
@@ -35,7 +34,6 @@ class ProductForm(forms.ModelForm):
             from django.utils import timezone
             default_date = timezone.now().date() + timezone.timedelta(days=365)
             self.fields['expiry_date'].initial = default_date
-            self.fields['expiry_days'].initial = 365
 
 class ProductUpdateForm(forms.ModelForm):
     """Form cập nhật sản phẩm - chỉ thông tin cơ bản"""

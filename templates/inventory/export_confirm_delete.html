@@ -1,39 +1,84 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Xác nhận xóa phiếu xuất kho{% endblock %}
 
 {% block content %}
 <div class="container py-4">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card border-danger">
                 <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0">
-                        <i class="fas fa-exclamation-triangle"></i> Xác nhận xóa phiếu xuất kho
-                    </h4>
+                    <h4 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Xác nhận xóa phiếu xuất kho</h4>
                 </div>
                 <div class="card-body">
                     <div class="alert alert-warning">
-                        <strong>Cảnh báo:</strong> Hành động này sẽ xóa vĩnh viễn phiếu xuất kho và hoàn trả số lượng tồn kho. Không thể hoàn tác.
+                        <h5><i class="fas fa-warning"></i> Cảnh báo!</h5>
+                        <p class="mb-0">Bạn sắp xóa phiếu xuất kho <strong>{{ export_order.export_code }}</strong>. Hành động này sẽ:</p>
+                        <ul class="mb-0 mt-2">
+                            <li>Xóa vĩnh viễn phiếu xuất kho này</li>
+                            <li>Hoàn trả tất cả số lượng hàng về kho</li>
+                            <li>Không thể hoàn tác sau khi xóa</li>
+                        </ul>
                     </div>
                     
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5>Thông tin phiếu xuất kho:</h5>
-                            <p><strong>Mã phiếu:</strong> {{ export_order.export_code }}</p>
-                            <p><strong>Ngày tạo:</strong> {{ export_order.export_date|date:'d/m/Y H:i' }}</p>
-                            <p><strong>Khách hàng:</strong> {{ export_order.customer|default:'-' }}</p>
-                            <p><strong>Tổng giá trị:</strong> {{ export_order.total_amount|floatformat:0 }} VNĐ</p>
-                            <p><strong>Số sản phẩm:</strong> {{ export_order.items.count }} sản phẩm</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Thông tin phiếu xuất:</h6>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>Mã phiếu:</strong></td>
+                                    <td>{{ export_order.export_code }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ngày xuất:</strong></td>
+                                    <td>{{ export_order.export_date|date:'d/m/Y H:i' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Khách hàng:</strong></td>
+                                    <td>{{ export_order.customer|default:'-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Số sản phẩm:</strong></td>
+                                    <td>{{ export_order.items.count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tổng giá trị:</strong></td>
+                                    <td class="text-success fw-bold">{{ export_order.total_amount|floatformat:0 }} VNĐ</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Danh sách sản phẩm sẽ được hoàn trả:</h6>
+                            {% if export_order.items.all %}
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Sản phẩm</th>
+                                            <th>Số lượng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in export_order.items.all %}
+                                        <tr>
+                                            <td>{{ item.batch.product.name }}</td>
+                                            <td>{{ item.quantity }} {{ item.batch.product.unit }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <p class="text-muted">Không có sản phẩm nào</p>
+                            {% endif %}
                         </div>
                     </div>
                     
-                    <form method="post">
+                    <form method="post" class="mt-4">
                         {% csrf_token %}
                         <div class="d-flex justify-content-between">
                             <a href="{% url 'inventory:export_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> Hủy bỏ
+                                <i class="fas fa-arrow-left"></i> Hủy bỏ
                             </a>
                             <button type="submit" class="btn btn-danger">
                                 <i class="fas fa-trash"></i> Xác nhận xóa

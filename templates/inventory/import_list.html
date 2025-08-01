@@ -16,7 +16,7 @@
             </a>
         </div>
     </div>
-    {% if imports %}
+    {% if page_obj %}
     <div class="table-responsive">
         <table class="table table-hover align-middle">
             <thead class="table-light">
@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for imp in imports %}
+                {% for imp in page_obj %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ imp.import_code }}</td>
@@ -61,6 +61,44 @@
             </tbody>
         </table>
     </div>
+    
+    <!-- Phân trang -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Phân trang">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo; Đầu</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Trước</a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Sau</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Cuối &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    
     {% else %}
         <div class="alert alert-info">Chưa có phiếu nhập kho nào.</div>
     {% endif %}
@@ -68,16 +106,11 @@
 
 <script>
 function confirmDeleteForm(button, importCode) {
-    console.log('Confirming delete for:', importCode);
-    
     if (confirm(`Bạn có chắc chắn muốn xóa phiếu nhập kho "${importCode}"? Hành động này không thể hoàn tác.`)) {
-        // Submit form chứa button này
         const form = button.closest('form');
-        console.log('Submitting form:', form.action);
         form.submit();
-    } else {
-        console.log('Delete cancelled by user');
     }
 }
 </script>
+
 {% endblock %} 

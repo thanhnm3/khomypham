@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <p class="text-muted">Xác nhận dữ liệu từ file Excel</p>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Thông tin phiếu nhập -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="supplier">Nhà cung cấp</label>
+                                    <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Tên nhà cung cấp">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="notes">Ghi chú</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="2" placeholder="Ghi chú về phiếu nhập"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Bảng dữ liệu Excel -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th width="50">
+                                            <input type="checkbox" id="selectAll" checked>
+                                        </th>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá nhập</th>
+                                        <th>Giá bán</th>
+                                        <th>Đơn vị</th>
+                                        <th>Hạn sử dụng</th>
+                                        <th>Mô tả</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for index, row in excel_data %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="include_{{ index }}" value="1" checked class="item-checkbox">
+                                        </td>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ row.Tên SP }}</td>
+                                        <td>{{ row.Danh mục }}</td>
+                                        <td>
+                                            <input type="number" name="quantity_{{ index }}" value="{{ row.Số lượng }}" min="1" class="form-control form-control-sm" style="width: 80px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="import_price_{{ index }}" value="{{ row.Giá nhập }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="selling_price_{{ index }}" value="{{ row.Giá bán }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
+                                        </td>
+                                        <td>{{ row.Đơn vị }}</td>
+                                        <td>
+                                            <input type="date" name="expiry_date_{{ index }}" value="{{ row.Hạn sử dụng|default:'' }}" class="form-control form-control-sm" style="width: 130px;">
+                                        </td>
+                                        <td>{{ row.Mô tả|default:'' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Thống kê -->
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="alert alert-info">
+                                    <strong>Tổng số sản phẩm:</strong> {{ excel_data|length }}
+                                    <br>
+                                    <strong>Sản phẩm được chọn:</strong> <span id="selectedCount">{{ excel_data|length }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Lưu ý:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        <li>Sản phẩm mới sẽ được tạo tự động</li>
+                                        <li>Sản phẩm cũ sẽ cập nhật giá bán</li>
+                                        <li>Mã sản phẩm sẽ được tạo tự động</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Nút hành động -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-check"></i> Xác nhận và Import
+                            </button>
+                            <a href="{% url 'inventory:import_excel' %}" class="btn btn-secondary btn-lg ml-2">
+                                <i class="fas fa-arrow-left"></i> Quay lại
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+    const selectedCountSpan = document.getElementById('selectedCount');
+    
+    // Xử lý checkbox "Chọn tất cả"
+    selectAllCheckbox.addEventListener('change', function() {
+        itemCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateSelectedCount();
+    });
+    
+    // Xử lý checkbox từng item
+    itemCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateSelectedCount();
+            
+            // Cập nhật trạng thái checkbox "Chọn tất cả"
+            const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+            const someChecked = Array.from(itemCheckboxes).some(cb => cb.checked);
+            
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        });
+    });
+    
+    // Cập nhật số lượng được chọn
+    function updateSelectedCount() {
+        const selectedCount = Array.from(itemCheckboxes).filter(cb => cb.checked).length;
+        selectedCountSpan.textContent = selectedCount;
+    }
+    
+    // Khởi tạo
+    updateSelectedCount();
+});
+</script>
+{% endblock %} 

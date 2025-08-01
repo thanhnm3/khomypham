@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ product.name }} - Chi tiết sản phẩm{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-box fa-2x me-3"></i>
+                        <div>
+                            <h4 class="mb-0">Chi tiết sản phẩm</h4>
+                            <small>{{ product.name }}</small>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'products:product_update' product.pk %}" class="btn btn-light btn-sm">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-arrow-left"></i> Quay lại
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Hình ảnh sản phẩm -->
+                        <div class="col-md-4 mb-4">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Thông tin sản phẩm -->
+                        <div class="col-md-8">
+                            <h3 class="text-primary mb-3">{{ product.name }}</h3>
+                            
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td><strong>Danh mục:</strong></td>
+                                            <td>{{ product.category.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Đơn vị tính:</strong></td>
+                                            <td>{{ product.get_unit_display }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Giá bán:</strong></td>
+                                            <td>
+                                                {% if product.selling_price %}
+                                                    <span class="text-success fw-bold">{{ product.selling_price|floatformat:0 }} VNĐ</span>
+                                                {% else %}
+                                                    <span class="text-muted">Chưa cập nhật</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Hạn sử dụng:</strong></td>
+                                            <td>
+                                                {% if product.expiry_date %}
+                                                    <span class="badge {% if product.expiry_date < today %}bg-danger{% elif product.expiry_date < warning_date %}bg-warning{% else %}bg-success{% endif %}">
+                                                        {{ product.expiry_date|date:"d/m/Y" }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-muted">Chưa cập nhật</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Trạng thái:</strong></td>
+                                            <td>
+                                                {% if product.is_active %}
+                                                    <span class="badge bg-success">Đang hoạt động</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Ngừng hoạt động</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="card-title"><i class="fas fa-chart-bar"></i> Thống kê kho</h6>
+                                            <div class="row text-center">
+                                                <div class="col-6">
+                                                    <h4 class="text-primary">{{ product.total_stock }}</h4>
+                                                    <small class="text-muted">Tổng tồn kho</small>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h4 class="text-warning">{{ product.low_stock_batches.count }}</h4>
+                                                    <small class="text-muted">Lô sắp hết</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mô tả -->
+                            {% if product.description %}
+                                <div class="mt-4">
+                                    <h6><i class="fas fa-info-circle"></i> Mô tả</h6>
+                                    <p class="text-muted">{{ product.description }}</p>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Thông tin thời gian -->
+                            <div class="mt-4 pt-3 border-top">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock"></i> Tạo lúc: {{ product.created_at|date:"d/m/Y H:i" }}
+                                    {% if product.updated_at != product.created_at %}
+                                        <br><i class="fas fa-edit"></i> Cập nhật: {{ product.updated_at|date:"d/m/Y H:i" }}
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Các lô hàng -->
+                <div class="card-footer">
+                    <h6 class="mb-3"><i class="fas fa-boxes"></i> Các lô hàng</h6>
+                    {% if product.batches.all %}
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Mã lô</th>
+                                        <th>Số lượng</th>
+                                        <th>Còn lại</th>
+                                        <th>Hạn sử dụng</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for batch in product.batches.all %}
+                                    <tr>
+                                        <td>{{ batch.batch_code }}</td>
+                                        <td>{{ batch.quantity }}</td>
+                                        <td>{{ batch.remaining_quantity }}</td>
+                                        <td>
+                                            <span class="badge {% if batch.expiry_date < today %}bg-danger{% elif batch.expiry_date < warning_date %}bg-warning{% else %}bg-success{% endif %}">
+                                                {{ batch.expiry_date|date:"d/m/Y" }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if batch.is_active %}
+                                                <span class="badge bg-success">Hoạt động</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Không hoạt động</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">Chưa có lô hàng nào cho sản phẩm này.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

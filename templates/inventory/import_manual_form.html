@@ -1,0 +1,468 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tạo phiếu nhập kho thủ công - Kho Mỹ Phẩm{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-download"></i> Tạo phiếu nhập kho thủ công
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="importForm">
+                        {% csrf_token %}
+                        
+                        <!-- Thông tin phiếu nhập -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ form.supplier.id_for_label }}" class="form-label">{{ form.supplier.label }}</label>
+                                {{ form.supplier }}
+                                {% if form.supplier.errors %}
+                                    <div class="text-danger">{{ form.supplier.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
+                                {{ form.notes }}
+                                {% if form.notes.errors %}
+                                    <div class="text-danger">{{ form.notes.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Danh sách sản phẩm -->
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2">
+                                <i class="fas fa-boxes"></i> Danh sách sản phẩm nhập kho
+                            </h5>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                <strong>Lưu ý:</strong> Khi chọn sản phẩm, giá nhập và giá bán sẽ được tự động điền từ thông tin sản phẩm. 
+                                Bạn có thể nhấn nút <i class="fas fa-edit"></i> để chỉnh sửa giá nếu cần.
+                            </div>
+                            
+                            <div id="items-container">
+                                <div class="item-row border rounded p-3 mb-3">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Sản phẩm *</label>
+                                            <div class="d-flex">
+                                                <select class="form-select product-select" name="products[]" required>
+                                                    <option value="">Chọn sản phẩm...</option>
+                                                    {% for product in products %}
+                                                    <option value="{{ product.id }}" data-purchase-price="{% if product.purchase_price %}{{ product.purchase_price }}{% endif %}" data-selling-price="{% if product.selling_price %}{{ product.selling_price }}{% endif %}">{{ product.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <button type="button" class="btn btn-outline-success btn-sm ms-2 new-product-btn" title="Tạo sản phẩm mới">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label">Số lượng *</label>
+                                            <input type="number" class="form-control quantity-input" name="quantities[]" min="1" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label">Giá nhập *</label>
+                                            <div class="d-flex">
+                                                <input type="number" class="form-control purchase-price-input" name="purchase_prices[]" min="0" step="0.01" required readonly>
+                                                <button type="button" class="btn btn-outline-warning btn-sm ms-1 edit-price-btn" title="Chỉnh sửa giá" style="display: none;">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label">Giá bán</label>
+                                            <input type="number" class="form-control selling-price-input" name="selling_prices[]" min="0" step="0.01" readonly>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label">Tổng tiền</label>
+                                            <input type="text" class="form-control total-price" readonly>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label class="form-label">&nbsp;</label>
+                                            <button type="button" class="btn btn-success btn-sm w-100 add-item">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-outline-primary" id="add-new-item">
+                                <i class="fas fa-plus"></i> Thêm sản phẩm
+                            </button>
+                        </div>
+
+                        <!-- Tổng cộng -->
+                        <div class="row mb-4">
+                            <div class="col-md-6 offset-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Tổng cộng</h6>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <strong>Tổng số lượng:</strong>
+                                                <span id="total-quantity">0</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <strong>Tổng tiền:</strong>
+                                                <span id="total-amount">0 VNĐ</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nút thao tác -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Tạo phiếu nhập
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal tạo sản phẩm mới -->
+<div class="modal fade" id="newProductModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Tạo sản phẩm mới
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newProductForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_product_name" class="form-label">Tên sản phẩm *</label>
+                            <input type="text" class="form-control" id="new_product_name" name="name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_product_category" class="form-label">Danh mục *</label>
+                            <select class="form-select" id="new_product_category" name="category" required>
+                                <option value="">Chọn danh mục...</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label for="new_product_unit" class="form-label">Đơn vị tính *</label>
+                            <select class="form-select" id="new_product_unit" name="unit" required>
+                                <option value="">Chọn đơn vị...</option>
+                                <option value="hop">Hộp</option>
+                                <option value="chai">Chai</option>
+                                <option value="tuyp">Tuýp</option>
+                                <option value="goi">Gói</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="new_product_purchase_price" class="form-label">Giá nhập *</label>
+                            <input type="number" class="form-control" id="new_product_purchase_price" name="purchase_price" min="0" step="0.01" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="new_product_selling_price" class="form-label">Giá bán *</label>
+                            <input type="number" class="form-control" id="new_product_selling_price" name="selling_price" min="0" step="0.01" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="new_product_expiry_date" class="form-label">Hạn sử dụng *</label>
+                            <input type="date" class="form-control" id="new_product_expiry_date" name="expiry_date" required>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label for="new_product_description" class="form-label">Mô tả</label>
+                        <textarea class="form-control" id="new_product_description" name="description" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="saveNewProduct">
+                    <i class="fas fa-save"></i> Tạo sản phẩm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let itemIndex = 1;
+
+// Thêm sản phẩm mới
+document.getElementById('add-new-item').addEventListener('click', function() {
+    const container = document.getElementById('items-container');
+    const newForm = document.querySelector('.item-row').cloneNode(true);
+    
+    // Xóa giá trị cũ
+    newForm.querySelectorAll('input, select').forEach(input => {
+        input.value = '';
+    });
+    
+    // Thay đổi nút thành nút xóa
+    const addBtn = newForm.querySelector('.add-item');
+    if (addBtn) {
+        addBtn.className = 'btn btn-danger btn-sm w-100 remove-item';
+        addBtn.innerHTML = '<i class="fas fa-trash"></i>';
+    }
+    
+    container.appendChild(newForm);
+    itemIndex++;
+    
+    // Thêm event listeners cho form mới
+    addEventListeners(newForm);
+});
+
+// Xóa sản phẩm
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-item')) {
+        e.target.closest('.item-row').remove();
+        updateTotals();
+    }
+});
+
+// Tính tổng tiền cho từng item
+function calculateItemTotal(row) {
+    const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+    const unitPrice = parseFloat(row.querySelector('.purchase-price-input').value) || 0;
+    const total = quantity * unitPrice;
+    
+    row.querySelector('.total-price').value = total.toLocaleString('vi-VN') + ' VNĐ';
+    return total;
+}
+
+// Cập nhật tổng cộng
+function updateTotals() {
+    let totalQuantity = 0;
+    let totalAmount = 0;
+    
+    document.querySelectorAll('.item-row').forEach(row => {
+        const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+        const unitPrice = parseFloat(row.querySelector('.purchase-price-input').value) || 0;
+        
+        totalQuantity += quantity;
+        totalAmount += quantity * unitPrice;
+    });
+    
+    document.getElementById('total-quantity').textContent = totalQuantity;
+    document.getElementById('total-amount').textContent = totalAmount.toLocaleString('vi-VN') + ' VNĐ';
+}
+
+// Thêm event listeners cho form
+function addEventListeners(row) {
+    row.querySelector('.quantity-input').addEventListener('input', function() {
+        calculateItemTotal(row);
+        updateTotals();
+    });
+    
+    row.querySelector('.purchase-price-input').addEventListener('input', function() {
+        calculateItemTotal(row);
+        updateTotals();
+    });
+    
+    // Tự động điền giá nhập và giá bán khi chọn sản phẩm
+    const productSelect = row.querySelector('.product-select');
+    if (productSelect) {
+        productSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const purchasePrice = selectedOption.getAttribute('data-purchase-price');
+            const sellingPrice = selectedOption.getAttribute('data-selling-price');
+            
+            console.log('Selected product:', selectedOption.text);
+            console.log('Purchase price (raw):', purchasePrice);
+            console.log('Selling price (raw):', sellingPrice);
+            console.log('Purchase price type:', typeof purchasePrice);
+            console.log('Selling price type:', typeof sellingPrice);
+            
+            const purchasePriceInput = row.querySelector('.purchase-price-input');
+            const sellingPriceInput = row.querySelector('.selling-price-input');
+            
+            // Xử lý giá nhập
+            if (purchasePrice && purchasePrice !== 'None' && purchasePrice !== '' && purchasePrice !== '0') {
+                // Chuyển đổi định dạng số từ "5000,00" thành "5000.00"
+                const cleanPurchasePrice = purchasePrice.replace(',', '.');
+                console.log('Setting purchase price:', cleanPurchasePrice);
+                purchasePriceInput.value = cleanPurchasePrice;
+                purchasePriceInput.readOnly = true;
+                const editBtn = row.querySelector('.edit-price-btn');
+                if (editBtn) editBtn.style.display = 'inline-block';
+            } else {
+                console.log('No purchase price found, clearing field');
+                purchasePriceInput.value = '';
+                purchasePriceInput.readOnly = false;
+                const editBtn = row.querySelector('.edit-price-btn');
+                if (editBtn) editBtn.style.display = 'none';
+            }
+            
+            // Xử lý giá bán
+            if (sellingPrice && sellingPrice !== 'None' && sellingPrice !== '' && sellingPrice !== '0') {
+                // Chuyển đổi định dạng số từ "6000,00" thành "6000.00"
+                const cleanSellingPrice = sellingPrice.replace(',', '.');
+                console.log('Setting selling price:', cleanSellingPrice);
+                sellingPriceInput.value = cleanSellingPrice;
+            } else {
+                console.log('No selling price found, clearing field');
+                sellingPriceInput.value = '';
+            }
+            
+            calculateItemTotal(row);
+            updateTotals();
+        });
+    }
+}
+
+// Thêm event listeners cho tất cả form hiện tại
+document.querySelectorAll('.item-row').forEach(addEventListeners);
+
+// Xử lý nút chỉnh sửa giá
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.edit-price-btn')) {
+        const row = e.target.closest('.item-row');
+        const purchasePriceInput = row.querySelector('.purchase-price-input');
+        const editBtn = row.querySelector('.edit-price-btn');
+        
+        if (purchasePriceInput.readOnly) {
+            purchasePriceInput.readOnly = false;
+            editBtn.innerHTML = '<i class="fas fa-lock"></i>';
+            editBtn.title = 'Khóa giá';
+        } else {
+            purchasePriceInput.readOnly = true;
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.title = 'Chỉnh sửa giá';
+        }
+    }
+});
+
+// Xử lý modal tạo sản phẩm mới
+let currentProductSelect = null;
+
+// Mở modal tạo sản phẩm mới
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.new-product-btn')) {
+        currentProductSelect = e.target.closest('.item-row').querySelector('.product-select');
+        
+        // Set giá trị mặc định cho hạn sử dụng
+        const today = new Date();
+        const oneYearLater = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+        document.getElementById('new_product_expiry_date').value = oneYearLater.toISOString().split('T')[0];
+        
+        // Mở modal
+        const modal = new bootstrap.Modal(document.getElementById('newProductModal'));
+        modal.show();
+    }
+});
+
+// Lưu sản phẩm mới
+document.getElementById('saveNewProduct').addEventListener('click', function() {
+    const formData = new FormData(document.getElementById('newProductForm'));
+    
+    fetch('{% url "inventory:create_product_ajax" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Thêm option mới vào select
+            const option = new Option(
+                data.product.name, 
+                data.product.id, 
+                false, 
+                true
+            );
+            option.setAttribute('data-purchase-price', data.product.purchase_price);
+            option.setAttribute('data-selling-price', data.product.selling_price);
+            currentProductSelect.add(option);
+            
+            // Tự động điền giá nhập và giá bán
+            const currentRow = currentProductSelect.closest('.item-row');
+            const purchasePriceInput = currentRow.querySelector('.purchase-price-input');
+            const sellingPriceInput = currentRow.querySelector('.selling-price-input');
+            
+            if (purchasePriceInput && data.product.purchase_price) {
+                const cleanPurchasePrice = data.product.purchase_price.replace(',', '.');
+                purchasePriceInput.value = cleanPurchasePrice;
+                purchasePriceInput.readOnly = true;
+                const editBtn = currentRow.querySelector('.edit-price-btn');
+                if (editBtn) editBtn.style.display = 'inline-block';
+            }
+            if (sellingPriceInput && data.product.selling_price) {
+                const cleanSellingPrice = data.product.selling_price.replace(',', '.');
+                sellingPriceInput.value = cleanSellingPrice;
+            }
+            
+            calculateItemTotal(currentRow);
+            updateTotals();
+            
+            // Đóng modal
+            bootstrap.Modal.getInstance(document.getElementById('newProductModal')).hide();
+            
+            // Reset form
+            document.getElementById('newProductForm').reset();
+            
+            // Thông báo thành công
+            alert('Tạo sản phẩm mới thành công!');
+        } else {
+            alert('Lỗi: ' + JSON.stringify(data.errors));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi tạo sản phẩm!');
+    });
+});
+
+// Validate form
+document.getElementById('importForm').addEventListener('submit', function(e) {
+    const items = document.querySelectorAll('.item-row');
+    let hasValidItem = false;
+    let missingFields = [];
+    
+    items.forEach((item, index) => {
+        const product = item.querySelector('.product-select').value;
+        const quantity = item.querySelector('.quantity-input').value;
+        const purchasePrice = item.querySelector('.purchase-price-input').value;
+        
+        if (product && quantity) {
+            hasValidItem = true;
+        } else {
+            const itemNumber = index + 1;
+            if (!product) missingFields.push(`Sản phẩm ở dòng ${itemNumber}`);
+            if (!quantity) missingFields.push(`Số lượng ở dòng ${itemNumber}`);
+        }
+    });
+    
+    if (!hasValidItem) {
+        e.preventDefault();
+        if (missingFields.length > 0) {
+            alert('Vui lòng nhập đầy đủ thông tin:\n' + missingFields.join('\n'));
+        } else {
+            alert('Vui lòng nhập ít nhất một sản phẩm!');
+        }
+        return false;
+    }
+});
+</script>
+{% endblock %} 

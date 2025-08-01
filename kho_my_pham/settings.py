@@ -84,27 +84,17 @@ WSGI_APPLICATION = 'kho_my_pham.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Kiểm tra xem có DATABASE_URL từ environment variable không
-DATABASE_URL = config('DATABASE_URL', default=None)
+# Luôn sử dụng PostgreSQL cho cả development và production
+DATABASE_URL = config('DATABASE_URL', default='postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham')
 
-if DATABASE_URL:
-    # Sử dụng PostgreSQL cho production
-    import dj_database_url
-    db_config = dj_database_url.parse(DATABASE_URL)
-    # Đảm bảo tên database không có khoảng trắng
-    if 'NAME' in db_config:
-        db_config['NAME'] = db_config['NAME'].strip()
-    DATABASES = {
-        'default': db_config
-    }
-else:
-    # Sử dụng SQLite cho development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+import dj_database_url
+db_config = dj_database_url.parse(DATABASE_URL)
+# Đảm bảo tên database không có khoảng trắng
+if 'NAME' in db_config:
+    db_config['NAME'] = db_config['NAME'].strip()
+DATABASES = {
+    'default': db_config
+}
 
 
 # Password validation

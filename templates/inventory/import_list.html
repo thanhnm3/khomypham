@@ -7,9 +7,14 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0"><i class="fas fa-download"></i> Danh sách phiếu nhập kho</h2>
-        <a href="{% url 'inventory:import_create' %}" class="btn btn-success">
-            <i class="fas fa-plus"></i> Tạo phiếu nhập
-        </a>
+        <div class="btn-group" role="group">
+            <a href="{% url 'inventory:import_manual_create' %}" class="btn btn-success">
+                <i class="fas fa-plus"></i> Tạo phiếu nhập thủ công
+            </a>
+            <a href="{% url 'inventory:import_excel' %}" class="btn btn-primary">
+                <i class="fas fa-file-excel"></i> Import bằng Excel
+            </a>
+        </div>
     </div>
     {% if imports %}
     <div class="table-responsive">

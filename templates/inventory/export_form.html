@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-lg-10">
             <div class="card shadow">
                 <div class="card-header bg-info text-white">
                     <h4 class="mb-0">
@@ -18,81 +18,28 @@
                     <form method="post" id="exportForm">
                         {% csrf_token %}
                         
-                        <!-- Thông tin khách hàng -->
-                        <div class="row mb-3">
+                        <!-- Thông tin phiếu xuất -->
+                        <div class="row mb-4">
                             <div class="col-md-6">
-                                <label for="customer" class="form-label fw-bold">
-                                    <i class="fas fa-user"></i> Khách hàng *
-                                </label>
-                                <input type="text" class="form-control" id="customer" name="customer" required>
+                                <label for="{{ form.customer.id_for_label }}" class="form-label">{{ form.customer.label }}</label>
+                                {{ form.customer }}
+                                {% if form.customer.errors %}
+                                    <div class="text-danger">{{ form.customer.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6">
-                                <label for="batch" class="form-label fw-bold">
-                                    <i class="fas fa-boxes"></i> Chọn lô hàng *
-                                </label>
-                                <select class="form-select" id="batch" name="batch" required>
-                                    <option value="">Chọn lô hàng...</option>
-                                    {% for batch in batches %}
-                                    <option value="{{ batch.id }}" 
-                                            data-product="{{ batch.product.name }}"
-                                            data-remaining="{{ batch.remaining_quantity }}"
-                                            data-unit="{{ batch.product.unit }}"
-                                            data-expiry="{{ batch.expiry_date|date:'d/m/Y' }}">
-                                        {{ batch.product.name }} - {{ batch.batch_code }} 
-                                        (Còn: {{ batch.remaining_quantity }} {{ batch.product.unit }})
-                                    </option>
-                                    {% endfor %}
-                                </select>
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
+                                {{ form.notes }}
+                                {% if form.notes.errors %}
+                                    <div class="text-danger">{{ form.notes.errors }}</div>
+                                {% endif %}
                             </div>
                         </div>
 
-                        <!-- Thông tin sản phẩm được chọn -->
-                        <div class="row mb-3" id="productInfo" style="display: none;">
-                            <div class="col-12">
-                                <div class="alert alert-info">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <strong>Sản phẩm:</strong> <span id="selectedProduct"></span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <strong>Số lượng còn:</strong> <span id="remainingQuantity"></span>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <strong>Hết hạn:</strong> <span id="expiryDate"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Thông tin số lượng và giá -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label for="quantity" class="form-label fw-bold">
-                                    <i class="fas fa-cubes"></i> Số lượng xuất *
-                                </label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="unit_price" class="form-label fw-bold">
-                                    <i class="fas fa-money-bill"></i> Đơn giá bán (VNĐ) *
-                                </label>
-                                <input type="number" class="form-control" id="unit_price" name="unit_price" min="0" step="1000" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="total_price" class="form-label fw-bold">
-                                    <i class="fas fa-calculator"></i> Tổng tiền
-                                </label>
-                                <input type="text" class="form-control" id="total_price" readonly>
-                            </div>
-                        </div>
-
-                        <!-- Ghi chú -->
-                        <div class="mb-3">
-                            <label for="notes" class="form-label fw-bold">
-                                <i class="fas fa-sticky-note"></i> Ghi chú
-                            </label>
-                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Ghi chú về phiếu xuất kho..."></textarea>
+                        <!-- Thông báo -->
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Sau khi tạo phiếu xuất kho, bạn sẽ được chuyển đến trang thêm sản phẩm.
                         </div>
 
                         <!-- Nút thao tác -->
@@ -112,60 +59,4 @@
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-// Hiển thị thông tin sản phẩm khi chọn lô hàng
-document.getElementById('batch').addEventListener('change', function() {
-    const batchSelect = this;
-    const productInfo = document.getElementById('productInfo');
-    
-    if (batchSelect.value) {
-        const selectedOption = batchSelect.options[batchSelect.selectedIndex];
-        const productName = selectedOption.getAttribute('data-product');
-        const remainingQuantity = selectedOption.getAttribute('data-remaining');
-        const unit = selectedOption.getAttribute('data-unit');
-        const expiryDate = selectedOption.getAttribute('data-expiry');
-        
-        document.getElementById('selectedProduct').textContent = productName;
-        document.getElementById('remainingQuantity').textContent = remainingQuantity + ' ' + unit;
-        document.getElementById('expiryDate').textContent = expiryDate;
-        
-        productInfo.style.display = 'block';
-        
-        // Set max quantity
-        document.getElementById('quantity').max = remainingQuantity;
-    } else {
-        productInfo.style.display = 'none';
-    }
-});
-
-// Tự động tính tổng tiền
-document.getElementById('quantity').addEventListener('input', calculateTotal);
-document.getElementById('unit_price').addEventListener('input', calculateTotal);
-
-function calculateTotal() {
-    const quantity = parseFloat(document.getElementById('quantity').value) || 0;
-    const unitPrice = parseFloat(document.getElementById('unit_price').value) || 0;
-    const total = quantity * unitPrice;
-    
-    document.getElementById('total_price').value = total.toLocaleString('vi-VN') + ' VNĐ';
-}
-
-// Validate form
-document.getElementById('exportForm').addEventListener('submit', function(e) {
-    const batchSelect = document.getElementById('batch');
-    const quantity = parseInt(document.getElementById('quantity').value);
-    
-    if (batchSelect.value) {
-        const selectedOption = batchSelect.options[batchSelect.selectedIndex];
-        const remainingQuantity = parseInt(selectedOption.getAttribute('data-remaining'));
-        
-        if (quantity > remainingQuantity) {
-            e.preventDefault();
-            alert('Số lượng xuất không được vượt quá số lượng còn lại!');
-            return false;
-        }
-    }
-});
-</script>
 {% endblock %} 

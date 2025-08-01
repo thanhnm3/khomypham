@@ -16,9 +16,11 @@
             </a>
         </div>
     </div>
+    
+    <!-- Tìm kiếm và lọc -->
     <form method="get" class="row g-2 mb-4">
         <div class="col-md-4">
-            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên, mã, danh mục..." value="{{ search_query }}">
+            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên, danh mục..." value="{{ search_query }}">
         </div>
         <div class="col-md-3">
             <select name="category" class="form-select">
@@ -34,40 +36,100 @@
             </button>
         </div>
     </form>
+
     {% if page_obj.object_list %}
-    <div class="row">
-        {% for product in page_obj.object_list %}
-        <div class="col-md-4 col-lg-3 mb-4">
-            <div class="card product-card h-100">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
-                {% else %}
-                    <img src="https://ui-avatars.com/api/?name={{ product.name|urlencode }}&background=eee&color=555&size=200" class="card-img-top product-image" alt="{{ product.name }}">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title mb-1">{{ product.name }}</h5>
-                    <div class="mb-2 text-muted small">Mã: {{ product.code }}</div>
-                    <div class="mb-2">
-                        <span class="badge bg-info">{{ product.category.name }}</span>
-                        <span class="badge bg-secondary">{{ product.unit }}</span>
-                    </div>
-                    <div class="mb-2">
-                        <span class="fw-bold">Tồn kho:</span> {{ product.total_stock }}
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <a href="{% url 'products:product_detail' product.pk %}" class="btn btn-sm btn-outline-primary" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
-                    <a href="{% url 'products:product_update' product.pk %}" class="btn btn-sm btn-outline-warning" title="Sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                    <form method="post" action="{% url 'products:product_delete' product.pk %}" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xoá sản phẩm này?');">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Xoá sản phẩm"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
+    <!-- Bảng danh sách sản phẩm -->
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th width="5%">STT</th>
+                            <th width="18%">Tên sản phẩm</th>
+                            <th width="12%">Danh mục</th>
+                            <th width="8%">Đơn vị</th>
+                            <th width="8%">Tồn kho</th>
+                            <th width="12%">Hạn sử dụng</th>
+                            <th width="10%">Giá nhập</th>
+                            <th width="10%">Giá bán</th>
+                            <th width="17%">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in page_obj.object_list %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td>
+                            <td>
+                                <strong>{{ product.name }}</strong>
+                                {% if product.code %}
+                                    <br><small class="text-muted">Mã: {{ product.code }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ product.category.name }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">{{ product.get_unit_display }}</span>
+                            </td>
+                            <td class="text-center">
+                                {% if product.total_stock <= 1 %}
+                                    <span class="badge bg-danger">{{ product.total_stock }}</span>
+                                {% elif product.total_stock <= 5 %}
+                                    <span class="badge bg-warning">{{ product.total_stock }}</span>
+                                {% else %}
+                                    <span class="badge bg-success">{{ product.total_stock }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.expiry_date %}
+                                    <span class="badge {% if product.expiry_date < today %}bg-danger{% elif product.expiry_date < warning_date %}bg-warning{% else %}bg-success{% endif %}">
+                                        {{ product.expiry_date|date:"d/m/Y" }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted small">Chưa có</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.average_import_price > 0 %}
+                                    <span class="fw-bold text-primary">{{ product.average_import_price|floatformat:0 }} VNĐ</span>
+                                {% else %}
+                                    <span class="text-muted small">Chưa có</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.selling_price %}
+                                    <span class="fw-bold text-success">{{ product.selling_price|floatformat:0 }} VNĐ</span>
+                                {% else %}
+                                    <span class="text-muted small">Chưa có</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a href="{% url 'products:product_detail' product.pk %}" class="btn btn-outline-primary" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'products:product_update' product.pk %}" class="btn btn-outline-warning" title="Sửa sản phẩm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="post" action="{% url 'products:product_delete' product.pk %}" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xoá sản phẩm này?');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger" title="Xoá sản phẩm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        {% endfor %}
     </div>
-    <nav aria-label="Page navigation">
+
+    <!-- Phân trang -->
+    <nav aria-label="Page navigation" class="mt-4">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
                 <li class="page-item">
@@ -87,7 +149,9 @@
         </ul>
     </nav>
     {% else %}
-        <div class="alert alert-info">Chưa có sản phẩm nào.</div>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Chưa có sản phẩm nào.
+        </div>
     {% endif %}
 </div>
 {% endblock %} 

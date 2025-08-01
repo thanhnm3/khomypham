@@ -6,6 +6,18 @@ Script kiểm tra deployment status
 import requests
 import os
 import sys
+import django
+
+# Setup Django với production settings
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kho_my_pham.settings')
+os.environ.update({
+    'DEBUG': 'False',
+    'ALLOWED_HOSTS': 'khomypham.onrender.com',
+    'DATABASE_URL': 'postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham',
+    'SECRET_KEY': 'django-insecure-u8&78e%ch+w(7#8a2nm)!$)+iihrx7h35e5pi-exh1z_w$=6se'
+})
+
+django.setup()
 
 def check_deployment():
     """Kiểm tra deployment"""
@@ -50,12 +62,37 @@ def check_health_endpoint():
     except Exception as e:
         print(f"❌ Health check failed: {e}")
 
+def check_database():
+    """Kiểm tra kết nối database"""
+    print(f"\n🔍 Checking database connection...")
+    
+    try:
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT version();")
+            version = cursor.fetchone()
+            print(f"✅ Database connected: {version[0]}")
+            
+            # Kiểm tra số lượng records
+            from django.contrib.auth.models import User
+            from products.models import Product, Category
+            from inventory.models import Batch
+            
+            print(f"✅ Users: {User.objects.count()}")
+            print(f"✅ Categories: {Category.objects.count()}")
+            print(f"✅ Products: {Product.objects.count()}")
+            print(f"✅ Batches: {Batch.objects.count()}")
+            
+    except Exception as e:
+        print(f"❌ Database check failed: {e}")
+
 if __name__ == '__main__':
     print("🚀 Deployment Check Tool")
     print("=" * 50)
     
     success = check_deployment()
     check_health_endpoint()
+    check_database()
     
     if success:
         print("\n✅ Deployment is working correctly!")

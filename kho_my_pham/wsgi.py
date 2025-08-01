@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+# Use settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kho_my_pham.settings')
 
 application = get_wsgi_application()

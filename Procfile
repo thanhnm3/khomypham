@@ -1,0 +1,1 @@
+web: gunicorn kho_my_pham.wsgi:application 

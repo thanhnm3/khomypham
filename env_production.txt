@@ -1,0 +1,13 @@
+# Production Environment Variables
+# Copy this to .env file on Render.com
+
+DJANGO_SETTINGS_MODULE=kho_my_pham.settings
+SECRET_KEY=your-secret-key-here
+DEBUG=False
+ALLOWED_HOSTS=khomypham.onrender.com
+DATABASE_URL=postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham
+
+# Optional: HTTPS settings
+# SECURE_SSL_REDIRECT=True
+# SESSION_COOKIE_SECURE=True
+# CSRF_COOKIE_SECURE=True 

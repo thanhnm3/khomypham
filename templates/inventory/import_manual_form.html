@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Tạo phiếu nhập kho thủ công - Kho Mỹ Phẩm{% endblock %}
+{% block title %}{{ title|default:'Tạo phiếu nhập kho thủ công' }} - Kho Mỹ Phẩm{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -10,7 +10,7 @@
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">
-                        <i class="fas fa-download"></i> Tạo phiếu nhập kho thủ công
+                        <i class="fas fa-download"></i> {{ title|default:'Tạo phiếu nhập kho thủ công' }}
                     </h4>
                 </div>
                 <div class="card-body">

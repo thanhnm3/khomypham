@@ -103,6 +103,28 @@ class Import(models.Model):
     def __str__(self):
         return f"PN{self.import_code} - {self.import_date.strftime('%d/%m/%Y')}"
 
+    def save(self, *args, **kwargs):
+        # Tự động tạo mã phiếu nhập nếu chưa có
+        if not self.import_code:
+            self.import_code = self.generate_import_code()
+        super().save(*args, **kwargs)
+
+    def generate_import_code(self):
+        """Tự động tạo mã phiếu nhập"""
+        import datetime
+        
+        # Lấy năm hiện tại
+        current_year = datetime.datetime.now().year
+        
+        # Tìm số thứ tự tiếp theo trong năm
+        existing_imports = Import.objects.filter(
+            import_code__startswith=f"PN{current_year}"
+        ).count()
+        
+        # Tạo mã mới: PN + YEAR + SEQUENCE (3 chữ số)
+        sequence = existing_imports + 1
+        return f"PN{current_year}{sequence:03d}"
+
     @property
     def total_amount(self):
         """Tổng giá trị phiếu nhập"""
@@ -146,6 +168,28 @@ class Export(models.Model):
     def __str__(self):
         return f"PX{self.export_code} - {self.export_date.strftime('%d/%m/%Y')}"
 
+    def save(self, *args, **kwargs):
+        # Tự động tạo mã phiếu xuất nếu chưa có
+        if not self.export_code:
+            self.export_code = self.generate_export_code()
+        super().save(*args, **kwargs)
+
+    def generate_export_code(self):
+        """Tự động tạo mã phiếu xuất"""
+        import datetime
+        
+        # Lấy năm hiện tại
+        current_year = datetime.datetime.now().year
+        
+        # Tìm số thứ tự tiếp theo trong năm
+        existing_exports = Export.objects.filter(
+            export_code__startswith=f"PX{current_year}"
+        ).count()
+        
+        # Tạo mã mới: PX + YEAR + SEQUENCE (3 chữ số)
+        sequence = existing_exports + 1
+        return f"PX{current_year}{sequence:03d}"
+
     @property
     def total_amount(self):
         """Tổng giá trị phiếu xuất"""
@@ -182,9 +226,10 @@ class ExportItem(models.Model):
 
     def save(self, *args, **kwargs):
         """Cập nhật số lượng còn lại của lô hàng khi xuất"""
-        if not self.pk:  # Chỉ khi tạo mới
-            if self.quantity > self.batch.remaining_quantity:
-                raise ValueError("Số lượng xuất không được vượt quá số lượng còn lại")
-            self.batch.remaining_quantity -= self.quantity
-            self.batch.save()
+        # Bỏ validation này vì chúng ta đã xử lý trong view
+        # if not self.pk:  # Chỉ khi tạo mới
+        #     if self.quantity > self.batch.remaining_quantity:
+        #         raise ValueError("Số lượng xuất không được vượt quá số lượng còn lại")
+        #     self.batch.remaining_quantity -= self.quantity
+        #     self.batch.save()
         super().save(*args, **kwargs) 

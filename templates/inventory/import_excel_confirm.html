@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load inventory_extras %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -52,28 +53,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for index, row in excel_data %}
+                                    {% for row in excel_data %}
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="include_{{ index }}" value="1" checked class="item-checkbox">
+                                            <input type="checkbox" name="include_{{ forloop.counter0 }}" value="1" checked class="item-checkbox">
                                         </td>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ row.Tên SP }}</td>
-                                        <td>{{ row.Danh mục }}</td>
+                                        <td>{{ row|get_item:"Tên SP" }}</td>
+                                        <td>{{ row|get_item:"Danh mục" }}</td>
                                         <td>
-                                            <input type="number" name="quantity_{{ index }}" value="{{ row.Số lượng }}" min="1" class="form-control form-control-sm" style="width: 80px;">
+                                            <input type="number" name="quantity_{{ forloop.counter0 }}" value="{{ row|get_item:'Số lượng' }}" min="1" class="form-control form-control-sm" style="width: 80px;">
                                         </td>
                                         <td>
-                                            <input type="number" name="import_price_{{ index }}" value="{{ row.Giá nhập }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
+                                            <input type="number" name="import_price_{{ forloop.counter0 }}" value="{{ row|get_item:'Giá nhập' }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
                                         </td>
                                         <td>
-                                            <input type="number" name="selling_price_{{ index }}" value="{{ row.Giá bán }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
+                                            <input type="number" name="selling_price_{{ forloop.counter0 }}" value="{{ row|get_item:'Giá bán' }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
                                         </td>
-                                        <td>{{ row.Đơn vị }}</td>
+                                        <td>{{ row|get_item:"Đơn vị" }}</td>
                                         <td>
-                                            <input type="date" name="expiry_date_{{ index }}" value="{{ row.Hạn sử dụng|default:'' }}" class="form-control form-control-sm" style="width: 130px;">
+                                            <input type="date" name="expiry_date_{{ forloop.counter0 }}" value="{{ row|get_item:'Hạn sử dụng'|default:'' }}" class="form-control form-control-sm" style="width: 130px;">
                                         </td>
-                                        <td>{{ row.Mô tả|default:'' }}</td>
+                                        <td>{{ row|get_item:"Mô tả"|default:'' }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

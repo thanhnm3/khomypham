@@ -17,13 +17,6 @@ class ImportForm(forms.ModelForm):
 class ImportManualForm(forms.ModelForm):
     """Form cho phiếu nhập kho thủ công với nhiều sản phẩm"""
     
-    # Thêm trường cho hạn sử dụng
-    expiry_date = forms.DateField(
-        required=True,
-        label="Hạn sử dụng",
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
-    )
-    
     class Meta:
         model = Import
         fields = ['supplier', 'notes']
@@ -131,7 +124,7 @@ class ImportItemBulkForm(forms.Form):
     
     def _create_dynamic_fields(self):
         """Tạo các trường động từ dữ liệu Excel"""
-        for index, row in self.excel_data.iterrows():
+        for index, row in enumerate(self.excel_data):
             product_name = str(row['Tên SP'])
             category_name = str(row['Danh mục'])
             quantity = row['Số lượng']
@@ -165,7 +158,7 @@ class ImportItemBulkForm(forms.Form):
             
             # Tạo field cho hạn sử dụng
             expiry_date = row.get('Hạn sử dụng', None)
-            if pd.isna(expiry_date):
+            if expiry_date is None or (hasattr(expiry_date, 'isna') and expiry_date.isna()):
                 from django.utils import timezone
                 expiry_date = timezone.now().date() + timezone.timedelta(days=365)
             
@@ -200,11 +193,18 @@ class ExportForm(forms.ModelForm):
 
 class ExportItemForm(forms.ModelForm):
     """Form cho từng item trong phiếu xuất kho"""
+    # Thêm field để chọn sản phẩm thay vì batch
+    product = forms.ModelChoiceField(
+        queryset=None,
+        empty_label="Chọn sản phẩm...",
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label="Sản phẩm"
+    )
+    
     class Meta:
         model = ExportItem
-        fields = ['batch', 'quantity', 'unit_price', 'discount_percent']
+        fields = ['quantity', 'unit_price', 'discount_percent']
         widgets = {
-            'batch': forms.Select(attrs={'class': 'form-select'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
             'unit_price': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'step': 0.01}),
             'discount_percent': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 100, 'step': 0.01}),
@@ -212,11 +212,20 @@ class ExportItemForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Chỉ hiển thị các batch có số lượng > 0
-        self.fields['batch'].queryset = Batch.objects.filter(
-            is_active=True, 
-            remaining_quantity__gt=0
-        ).order_by('import_date')
+        # Chỉ hiển thị các sản phẩm có tồn kho > 0
+        from products.models import Product
+        products_with_stock = []
+        for product in Product.objects.filter(is_active=True):
+            if product.total_stock > 0:
+                products_with_stock.append(product)
+        
+        self.fields['product'].queryset = Product.objects.filter(id__in=[p.id for p in products_with_stock])
+        
+        # Tùy chỉnh cách hiển thị - chỉ hiển thị tên sản phẩm
+        self.fields['product'].label_from_instance = lambda obj: obj.name
+        
+        # Set giá trị mặc định cho discount_percent
+        self.fields['discount_percent'].initial = 0
 
 class ExportItemFormSet(forms.BaseFormSet):
     """FormSet cho nhiều items xuất kho"""

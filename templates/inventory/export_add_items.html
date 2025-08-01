@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <p class="text-muted">Khách hàng: {{ export_order.customer|default:"Chưa có" }}</p>
+                </div>
+                <div class="card-body">
+                    <!-- Form thêm sản phẩm -->
+                    <form method="post" id="exportItemForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{ form.product.id_for_label }}">Sản phẩm *</label>
+                                    {{ form.product }}
+                                    {% if form.product.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.product.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="{{ form.quantity.id_for_label }}">Số lượng *</label>
+                                    {{ form.quantity }}
+                                    {% if form.quantity.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.quantity.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="{{ form.unit_price.id_for_label }}">Giá xuất *</label>
+                                    {{ form.unit_price }}
+                                    {% if form.unit_price.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.unit_price.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="{{ form.discount_percent.id_for_label }}">Giảm giá (%)</label>
+                                    {{ form.discount_percent }}
+                                    {% if form.discount_percent.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.discount_percent.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Thông tin sản phẩm tự động -->
+                        <div class="row mt-3" id="productInfo" style="display: none;">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <strong>Tên sản phẩm:</strong> <span id="productName">-</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Tổng tồn kho:</strong> <span id="totalStock">0</span> <span id="productUnit">-</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Giá bán:</strong> <span id="sellingPrice">0</span> VNĐ
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Đơn vị:</strong> <span id="unitDisplay">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <hr>
+                    
+                    <!-- Danh sách sản phẩm đã thêm -->
+                    <h5>Sản phẩm đã thêm</h5>
+                    {% if export_items %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Lô hàng</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá xuất</th>
+                                    <th>Giảm giá</th>
+                                    <th>Thành tiền</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in export_items %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.batch.product.name }}</td>
+                                    <td>{{ item.batch.import_date|date:"d/m/Y" }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.unit_price|floatformat:0 }} VNĐ</td>
+                                    <td>{{ item.discount_percent|default:"0" }}%</td>
+                                    <td class="text-success fw-bold">{{ item.total_price|floatformat:0 }} VNĐ</td>
+                                    <td>
+                                        <form method="post" action="{% url 'inventory:export_add_items' export_order.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="delete_item" value="{{ item.pk }}">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+                                    <td class="text-success fw-bold">{{ export_order.total_amount|floatformat:0 }} VNĐ</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Chưa có sản phẩm nào được thêm vào phiếu xuất.
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Nút hành động -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'inventory:export_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                        </a>
+                        <div>
+                            <a href="{% url 'inventory:export_detail' export_order.pk %}" class="btn btn-info">
+                                <i class="fas fa-eye"></i> Xem chi tiết phiếu xuất
+                            </a>
+                            {% if export_items %}
+                            <a href="{% url 'inventory:export_detail' export_order.pk %}" class="btn btn-success">
+                                <i class="fas fa-check"></i> Hoàn tất phiếu xuất
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const productSelect = document.getElementById('id_product');
+    const productInfo = document.getElementById('productInfo');
+    const productName = document.getElementById('productName');
+    const totalStock = document.getElementById('totalStock');
+    const productUnit = document.getElementById('productUnit');
+    const sellingPrice = document.getElementById('sellingPrice');
+    const unitDisplay = document.getElementById('unitDisplay');
+    const quantityInput = document.getElementById('id_quantity');
+    const unitPriceInput = document.getElementById('id_unit_price');
+    
+    // Xử lý khi chọn sản phẩm
+    productSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.value) {
+            const productId = selectedOption.value;
+            
+            // Gọi AJAX để lấy thông tin sản phẩm
+            fetch(`/inventory/get-product-info/${productId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        productName.textContent = data.product_name;
+                        totalStock.textContent = data.total_stock;
+                        productUnit.textContent = data.unit;
+                        sellingPrice.textContent = data.selling_price;
+                        unitDisplay.textContent = data.unit;
+                        
+                        // Tự động điền giá xuất
+                        unitPriceInput.value = data.selling_price;
+                        
+                        // Hiển thị thông tin
+                        productInfo.style.display = 'block';
+                        
+                        // Cập nhật max quantity
+                        quantityInput.max = data.total_stock;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            productInfo.style.display = 'none';
+        }
+    });
+    
+    // Xử lý khi thay đổi số lượng
+    quantityInput.addEventListener('input', function() {
+        const maxQuantity = parseInt(this.max);
+        const currentValue = parseInt(this.value);
+        
+        if (currentValue > maxQuantity) {
+            this.value = maxQuantity;
+            alert(`Số lượng không được vượt quá tồn kho (${maxQuantity})`);
+        }
+    });
+});
+</script>
+{% endblock %} 

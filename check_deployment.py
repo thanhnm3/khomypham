@@ -1,103 +1,130 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
-Script kiểm tra deployment status
+Script để kiểm tra deployment và dependencies
 """
 
-import requests
-import os
 import sys
-import django
+import importlib
+import requests
 
-# Setup Django với production settings
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kho_my_pham.settings')
-os.environ.update({
-    'DEBUG': 'False',
-    'ALLOWED_HOSTS': 'khomypham.onrender.com',
-    'DATABASE_URL': 'postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham',
-    'SECRET_KEY': 'django-insecure-u8&78e%ch+w(7#8a2nm)!$)+iihrx7h35e5pi-exh1z_w$=6se'
-})
-
-django.setup()
-
-def check_deployment():
-    """Kiểm tra deployment"""
-    url = "https://khomypham.onrender.com/"
-    
-    print(f"🔍 Checking deployment at: {url}")
-    
+def check_dependency(module_name, package_name=None):
+    """Kiểm tra một dependency có được cài đặt không"""
     try:
-        # Test basic connection
-        response = requests.get(url, timeout=10)
-        print(f"✅ Status Code: {response.status_code}")
-        print(f"✅ Response Headers: {dict(response.headers)}")
+        importlib.import_module(module_name)
+        print(f"✅ {package_name or module_name} - OK")
+        return True
+    except ImportError:
+        print(f"❌ {package_name or module_name} - MISSING")
+        return False
+
+def check_django_settings():
+    """Kiểm tra cấu hình Django"""
+    try:
+        import os
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kho_my_pham.settings')
         
-        if response.status_code == 200:
-            print("✅ Deployment is working!")
-            return True
-        else:
-            print(f"❌ Error: Status code {response.status_code}")
-            return False
-            
-    except requests.exceptions.ConnectionError:
-        print("❌ Connection Error: Cannot connect to server")
-        return False
-    except requests.exceptions.Timeout:
-        print("❌ Timeout Error: Server is taking too long to respond")
-        return False
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        return False
-
-def check_health_endpoint():
-    """Kiểm tra health endpoint"""
-    url = "https://khomypham.onrender.com/health/"
-    
-    print(f"\n🔍 Checking health endpoint: {url}")
-    
-    try:
-        response = requests.get(url, timeout=10)
-        print(f"✅ Health Status: {response.status_code}")
-        print(f"✅ Response: {response.text[:200]}...")
+        import django
+        django.setup()
         
+        from django.conf import settings
+        
+        print("\n🔧 Django Settings Check:")
+        print(f"✅ DEBUG = {settings.DEBUG}")
+        print(f"✅ ALLOWED_HOSTS = {settings.ALLOWED_HOSTS}")
+        print(f"✅ STATIC_ROOT = {settings.STATIC_ROOT}")
+        print(f"✅ DATABASES = {list(settings.DATABASES.keys())}")
+        
+        return True
     except Exception as e:
-        print(f"❌ Health check failed: {e}")
+        print(f"❌ Django Settings Error: {e}")
+        return False
 
-def check_database():
-    """Kiểm tra kết nối database"""
-    print(f"\n🔍 Checking database connection...")
-    
+def check_static_files():
+    """Kiểm tra static files"""
     try:
-        from django.db import connection
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT version();")
-            version = cursor.fetchone()
-            print(f"✅ Database connected: {version[0]}")
-            
-            # Kiểm tra số lượng records
-            from django.contrib.auth.models import User
-            from products.models import Product, Category
-            from inventory.models import Batch
-            
-            print(f"✅ Users: {User.objects.count()}")
-            print(f"✅ Categories: {Category.objects.count()}")
-            print(f"✅ Products: {Product.objects.count()}")
-            print(f"✅ Batches: {Batch.objects.count()}")
-            
+        from django.conf import settings
+        from django.core.management import execute_from_command_line
+        
+        # Chạy collectstatic để kiểm tra
+        execute_from_command_line(['manage.py', 'collectstatic', '--dry-run', '--noinput'])
+        print("✅ Static files collection - OK")
+        return True
     except Exception as e:
-        print(f"❌ Database check failed: {e}")
+        print(f"❌ Static files Error: {e}")
+        return False
 
-if __name__ == '__main__':
-    print("🚀 Deployment Check Tool")
+def main():
+    """Main function"""
+    print("🚀 Kho My Pham - Deployment Check")
     print("=" * 50)
     
-    success = check_deployment()
-    check_health_endpoint()
-    check_database()
+    # Danh sách dependencies cần kiểm tra
+    dependencies = [
+        ('django', 'Django'),
+        ('PIL', 'Pillow'),
+        ('openpyxl', 'openpyxl'),
+        ('reportlab', 'reportlab'),
+        ('crispy_forms', 'django-crispy-forms'),
+        ('crispy_bootstrap5', 'crispy-bootstrap5'),
+        ('psycopg2', 'psycopg2-binary'),
+        ('decouple', 'python-decouple'),
+        ('dj_database_url', 'dj-database-url'),
+        ('whitenoise', 'whitenoise'),
+        ('requests', 'requests'),
+        ('pandas', 'pandas'),
+        ('xlrd', 'xlrd'),
+    ]
     
-    if success:
-        print("\n✅ Deployment is working correctly!")
-        print("🌐 URL: https://khomypham.onrender.com/")
-        print("👤 Admin: https://khomypham.onrender.com/admin/")
+    # Dependencies chỉ cần thiết cho production
+    production_dependencies = [
+        ('gunicorn', 'gunicorn'),
+    ]
+    
+    print("\n📦 Dependencies Check:")
+    print("-" * 30)
+    
+    all_ok = True
+    for module, package in dependencies:
+        if not check_dependency(module, package):
+            all_ok = False
+    
+    print("\n📦 Production Dependencies Check:")
+    print("-" * 40)
+    
+    production_ok = True
+    for module, package in production_dependencies:
+        if not check_dependency(module, package):
+            print(f"⚠️  {package} - MISSING (chỉ cần cho production)")
+            production_ok = False
+        else:
+            print(f"✅ {package} - OK")
+    
+    # Kiểm tra Django settings
+    django_ok = check_django_settings()
+    
+    # Kiểm tra static files
+    static_ok = check_static_files()
+    
+    print("\n" + "=" * 50)
+    if all_ok and django_ok and static_ok:
+        print("🎉 Tất cả kiểm tra đều PASSED!")
+        print("✅ Ứng dụng sẵn sàng để deploy")
+        if not production_ok:
+            print("⚠️  Lưu ý: Một số dependencies production chưa được cài đặt")
+            print("   (Điều này bình thường trong môi trường development)")
     else:
-        print("\n❌ Deployment has issues!")
-        print("🔧 Check Render.com logs for more details") 
+        print("⚠️  Có một số vấn đề cần khắc phục:")
+        if not all_ok:
+            print("   - Thiếu một số dependencies")
+        if not django_ok:
+            print("   - Lỗi cấu hình Django")
+        if not static_ok:
+            print("   - Lỗi static files")
+        print("\n💡 Hãy cài đặt các dependencies thiếu:")
+        print("   pip install -r requirements_production.txt")
+    
+    return all_ok and django_ok and static_ok
+
+if __name__ == "__main__":
+    success = main()
+    sys.exit(0 if success else 1) 

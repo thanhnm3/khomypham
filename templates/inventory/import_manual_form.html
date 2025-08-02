@@ -10,7 +10,7 @@
             <div class="glass-card shadow glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-header bg-primary text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <h4 class="mb-0">
-                        <i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> {{ title|default:'Tạo phiếu nhập kho thủ công' }}
+                        <i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> {{ title|default:'Tạo phiếu nhập kho thủ công' }}
                     </h4>
                 </div>
                 <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
@@ -38,12 +38,16 @@
                         <!-- Danh sách sản phẩm -->
                         <div class="mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h5 class="border-bottom pb-2">
-                                <i class="fas fa-boxes" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Danh sách sản phẩm nhập kho
+                                <i class="fas fa-boxes" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Danh sách sản phẩm nhập kho
                             </h5>
                             <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
-                                <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                                <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Lưu ý:</strong> Khi chọn sản phẩm, giá nhập và giá bán sẽ được tự động điền từ thông tin sản phẩm. 
-                                Bạn có thể nhấn nút <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> để chỉnh sửa giá nếu cần.
+                                <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Hướng dẫn sử dụng:</strong>
+                                <ul class="mb-0 mt-2">
+                                    <li><strong>Đối với sản phẩm đã có trong kho:</strong> Chỉ cần chọn tên sản phẩm từ danh sách và điền số lượng. Giá nhập và giá bán sẽ được tự động điền từ thông tin sản phẩm.</li>
+                                    <li><strong>Đối với sản phẩm chưa có trong kho:</strong> Nhấn nút <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> (Tạo sản phẩm mới) bên cạnh ô chọn sản phẩm để thêm sản phẩm mới vào hệ thống.</li>
+                                    <li>Bạn có thể nhấn nút <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> để chỉnh sửa giá nhập nếu cần.</li>
+                                </ul>
                             </div>
                             
                             <div id="items-container">
@@ -58,8 +62,8 @@
                                                     <option value="{{ product.id }}" data-purchase-price="{% if product.purchase_price %}{{ product.purchase_price }}{% endif %}" data-selling-price="{% if product.selling_price %}{{ product.selling_price }}{% endif %}">{{ product.name }}</option>
                                                     {% endfor %}
                                                 </select>
-                                                <button type="button" class="btn btn-outline-success btn-sm ms-2 new-product-btn" title="Tạo sản phẩm mới">
-                                                    <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                                <button type="button" class="btn btn-outline-success btn-sm ms-2 new-product-btn" title="Tạo sản phẩm mới chưa có trong kho">
+                                                    <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -72,7 +76,7 @@
                                             <div class="d-flex" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                                 <input type="number" class="form-control purchase-price-input" name="purchase_prices[]" min="0" step="0.01" required readonly>
                                                 <button type="button" class="btn btn-outline-warning btn-sm ms-1 edit-price-btn" title="Chỉnh sửa giá" style="display: none;">
-                                                    <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                                    <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -87,7 +91,7 @@
                                         <div class="col-md-1" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">&nbsp;</label>
                                             <button type="button" class="btn btn-success-modern-modern-modern btn-sm w-100 add-item">
-                                                <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                                <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -95,7 +99,7 @@
                             </div>
                             
                             <button type="button" class="btn btn-outline-primary" id="add-new-item">
-                                <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Thêm sản phẩm
+                                <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Thêm sản phẩm
                             </button>
                         </div>
 
@@ -123,10 +127,10 @@
                         <!-- Nút thao tác -->
                         <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <a href="{% url 'inventory:import_list' %}" class="btn btn-modern">
-                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                             </a>
                             <button type="submit" class="btn btn-modern">
-                                <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo phiếu nhập
+                                <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo phiếu nhập
                             </button>
                         </div>
                     </form>
@@ -142,7 +146,7 @@
         <div class="modal-content" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
             <div class="modal-header" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                 <h5 class="modal-title">
-                    <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo sản phẩm mới
+                    <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo sản phẩm mới
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -196,7 +200,7 @@
             <div class="modal-footer" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                 <button type="button" class="btn btn-modern" data-bs-dismiss="modal">Hủy</button>
                 <button type="button" class="btn btn-modern" id="saveNewProduct">
-                    <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo sản phẩm
+                    <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo sản phẩm
                 </button>
             </div>
         </div>
@@ -222,7 +226,7 @@ document.getElementById('add-new-item').addEventListener('click', function() {
     const addBtn = newForm.querySelector('.add-item');
     if (addBtn) {
         addBtn.className = 'btn btn-danger btn-sm w-100 remove-item';
-        addBtn.innerHTML = '<i class="fas fa-trash" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
+        addBtn.innerHTML = '<i class="fas fa-trash" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
     }
     
     container.appendChild(newForm);
@@ -346,7 +350,7 @@ document.addEventListener('click', function(e) {
             editBtn.title = 'Khóa giá';
         } else {
             purchasePriceInput.readOnly = true;
-            editBtn.innerHTML = '<i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
+            editBtn.innerHTML = '<i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
             editBtn.title = 'Chỉnh sửa giá';
         }
     }

@@ -254,6 +254,7 @@
 :root {
     --primary-color: #667eea;
     --primary-dark: #5a6fd8;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --secondary-color: #764ba2;
     --success-color: #28a745;
     --warning-color: #ffc107;
@@ -333,6 +334,15 @@
     padding: 1rem 2rem !important;
     background: rgba(248, 249, 250, 0.8) !important;
     border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Gradient Icon Styles */
+.fas[style*="background: var(--primary-gradient)"] {
+    background: var(--primary-gradient) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    display: inline-block !important;
 }
 
 /* Modern Form Controls */

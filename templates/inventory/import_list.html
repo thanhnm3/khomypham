@@ -1,26 +1,25 @@
 {% extends 'base.html' %}
-{% csrf_token %}
 
 {% block title %}Danh sách phiếu nhập kho{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" data-aos="fade-up">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0"><i class="fas fa-download"></i> Danh sách phiếu nhập kho</h2>
+        <h2 class="mb-0"><i class="fas fa-download brand-icon"></i><span class="brand-gradient"> Danh sách phiếu nhập kho</span></h2>
         <div class="btn-group" role="group">
-            <a href="{% url 'inventory:import_manual_create' %}" class="btn btn-success">
+            <a href="{% url 'inventory:import_manual_create' %}" class="btn btn-success-modern">
                 <i class="fas fa-plus"></i> Tạo phiếu nhập thủ công
             </a>
-            <a href="{% url 'inventory:import_excel' %}" class="btn btn-primary">
+            <a href="{% url 'inventory:import_excel' %}" class="btn btn-modern">
                 <i class="fas fa-file-excel"></i> Import bằng Excel
             </a>
         </div>
     </div>
     {% if page_obj %}
     <div class="table-responsive">
-        <table class="table table-hover align-middle">
+        <table class="table table-hover align-middle glass-table">
             <thead class="table-light">
-                <tr>
+                <tr data-aos="fade-in" data-aos-delay="500">
                     <th>#</th>
                     <th>Mã phiếu nhập</th>
                     <th>Ngày nhập</th>
@@ -32,7 +31,7 @@
             </thead>
             <tbody>
                 {% for imp in page_obj %}
-                <tr>
+                <tr data-aos="fade-in" data-aos-delay="500">
                     <td>{{ forloop.counter }}</td>
                     <td>{{ imp.import_code }}</td>
                     <td>{{ imp.import_date|date:'d/m/Y H:i' }}</td>
@@ -41,15 +40,15 @@
                     <td>{{ imp.total_amount|floatformat:0 }} đ</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a href="{% url 'inventory:import_detail' imp.pk %}" class="btn btn-info btn-sm" title="Xem chi tiết">
+                            <a href="{% url 'inventory:import_detail' imp.pk %}" class="btn btn-modern btn-sm" title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{% url 'inventory:import_update' imp.pk %}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
+                            <a href="{% url 'inventory:import_update' imp.pk %}" class="btn btn-warning-modern btn-sm" title="Chỉnh sửa">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form method="post" action="{% url 'inventory:import_delete' imp.pk %}" style="display: inline;">
                                 {% csrf_token %}
-                                <button type="button" class="btn btn-danger btn-sm" title="Xóa" 
+                                <button type="button" class="btn btn-danger-modern btn-sm" title="Xóa" 
                                         onclick="confirmDeleteForm(this, '{{ imp.import_code|escapejs }}')">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -100,7 +99,7 @@
     {% endif %}
     
     {% else %}
-        <div class="alert alert-info">Chưa có phiếu nhập kho nào.</div>
+        <div class="alert alert-info glass-alert" data-aos="fade-in" data-aos-delay="300">Chưa có phiếu nhập kho nào.</div>
     {% endif %}
 </div>
 

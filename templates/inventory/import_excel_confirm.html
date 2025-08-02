@@ -5,28 +5,28 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">{{ title }}</h4>
+<div class="container-fluid" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ title }}</h4>
                     <p class="text-muted">Xác nhận dữ liệu từ file Excel</p>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <form method="post">
                         {% csrf_token %}
                         
                         <!-- Thông tin phiếu nhập -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="form-group">
+                        <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="supplier">Nhà cung cấp</label>
                                     <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Tên nhà cung cấp">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="notes">Ghi chú</label>
                                     <textarea class="form-control" id="notes" name="notes" rows="2" placeholder="Ghi chú về phiếu nhập"></textarea>
                                 </div>
@@ -34,10 +34,10 @@
                         </div>
                         
                         <!-- Bảng dữ liệu Excel -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead class="table-primary">
-                                    <tr>
+                        <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <table class="table glass-table glass-table table-bordered table-striped glass-table">
+                                <thead class="table glass-table glass-table-primary">
+                                    <tr data-aos="fade-in" data-aos-delay="500">
                                         <th width="50">
                                             <input type="checkbox" id="selectAll" checked>
                                         </th>
@@ -54,7 +54,7 @@
                                 </thead>
                                 <tbody>
                                     {% for row in excel_data %}
-                                    <tr>
+                                    <tr data-aos="fade-in" data-aos-delay="500">
                                         <td>
                                             <input type="checkbox" name="include_{{ forloop.counter0 }}" value="1" checked class="item-checkbox">
                                         </td>
@@ -82,18 +82,18 @@
                         </div>
                         
                         <!-- Thống kê -->
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="alert alert-info">
-                                    <strong>Tổng số sản phẩm:</strong> {{ excel_data|length }}
+                        <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                                    <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tổng số sản phẩm:</strong> {{ excel_data|length }}
                                     <br>
-                                    <strong>Sản phẩm được chọn:</strong> <span id="selectedCount">{{ excel_data|length }}</span>
+                                    <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Sản phẩm được chọn:</strong> <span id="selectedCount">{{ excel_data|length }}</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <strong>Lưu ý:</strong>
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="glass-alert alert alert-warning glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                                    <i class="fas fa-exclamation-triangle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                    <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Lưu ý:</strong>
                                     <ul class="mb-0 mt-2">
                                         <li>Sản phẩm mới sẽ được tạo tự động</li>
                                         <li>Sản phẩm cũ sẽ cập nhật giá bán</li>
@@ -104,12 +104,12 @@
                         </div>
                         
                         <!-- Nút hành động -->
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="fas fa-check"></i> Xác nhận và Import
+                        <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <button type="submit" class="btn btn-success-modern-modern-modern btn-lg">
+                                <i class="fas fa-check" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xác nhận và Import
                             </button>
-                            <a href="{% url 'inventory:import_excel' %}" class="btn btn-secondary btn-lg ml-2">
-                                <i class="fas fa-arrow-left"></i> Quay lại
+                            <a href="{% url 'inventory:import_excel' %}" class="btn btn-modern btn-lg ml-2">
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                             </a>
                         </div>
                     </form>

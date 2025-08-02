@@ -4,60 +4,60 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">{{ title }}</h4>
+<div class="container-fluid" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ title }}</h4>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-8" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 
-                                <div class="form-group">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="{{ form.excel_file.id_for_label }}">{{ form.excel_file.label }}</label>
                                     {{ form.excel_file }}
                                     {% if form.excel_file.help_text %}
                                         <small class="form-text text-muted">{{ form.excel_file.help_text }}</small>
                                     {% endif %}
                                     {% if form.excel_file.errors %}
-                                        <div class="invalid-feedback d-block">
+                                        <div class="invalid-feedback d-block" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             {{ form.excel_file.errors.0 }}
                                         </div>
                                     {% endif %}
                                 </div>
                                 
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-upload"></i> Upload và Xem trước
+                                <button type="submit" class="btn btn-modern">
+                                    <i class="fas fa-upload" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Upload và Xem trước
                                 </button>
                                 
-                                <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
-                                    <i class="fas fa-arrow-left"></i> Quay lại
+                                <a href="{% url 'inventory:import_list' %}" class="btn btn-modern">
+                                    <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                                 </a>
                             </form>
                         </div>
                         
-                        <div class="col-md-4">
-                            <div class="card bg-light">
-                                <div class="card-header">
-                                    <h6 class="card-title mb-0">
-                                        <i class="fas fa-info-circle"></i> Hướng dẫn
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="glass-card bg-light glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                    <h6 class="glass-card-title mb-0">
+                                        <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Hướng dẫn
                                     </h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                                     <h6>Cấu trúc file Excel:</h6>
                                     <ul class="list-unstyled">
-                                        <li><strong>Tên SP:</strong> Tên sản phẩm</li>
-                                        <li><strong>Danh mục:</strong> Tên danh mục (phải tồn tại)</li>
-                                        <li><strong>Số lượng:</strong> Số lượng nhập</li>
-                                        <li><strong>Giá nhập:</strong> Giá nhập hàng</li>
-                                        <li><strong>Giá bán:</strong> Giá bán sản phẩm</li>
-                                        <li><strong>Đơn vị:</strong> hop, chai, tuyp, goi</li>
-                                        <li><strong>Hạn sử dụng:</strong> (tùy chọn)</li>
-                                        <li><strong>Mô tả:</strong> (tùy chọn)</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tên SP:</strong> Tên sản phẩm</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Danh mục:</strong> Tên danh mục (phải tồn tại)</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Số lượng:</strong> Số lượng nhập</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Giá nhập:</strong> Giá nhập hàng</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Giá bán:</strong> Giá bán sản phẩm</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Đơn vị:</strong> hop, chai, tuyp, goi</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Hạn sử dụng:</strong> (tùy chọn)</li>
+                                        <li><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Mô tả:</strong> (tùy chọn)</li>
                                     </ul>
                                     
                                     <h6>Lưu ý:</h6>
@@ -68,9 +68,9 @@
                                         <li>• File tối đa 5MB</li>
                                     </ul>
                                     
-                                    <div class="mt-3">
+                                    <div class="mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                         <a href="#" class="btn btn-sm btn-outline-primary" onclick="downloadTemplate()">
-                                            <i class="fas fa-download"></i> Tải mẫu Excel
+                                            <i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tải mẫu Excel
                                         </a>
                                     </div>
                                 </div>

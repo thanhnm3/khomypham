@@ -4,35 +4,35 @@
 {% block title %}Báo cáo nhập/xuất kho - Kho Mỹ Phẩm{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0"><i class="fas fa-exchange-alt"></i> Báo cáo nhập/xuất kho</h2>
+<div class="container py-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="mb-0"><i class="fas fa-exchange-alt brand-icon" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i><span class="brand-gradient"> Báo cáo nhập/xuất kho</span></h2>
         <a href="{% url 'reports:export_import_export_excel' %}" class="btn btn-outline-success">
-            <i class="fas fa-file-excel"></i> Xuất Excel
+            <i class="fas fa-file-excel" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xuất Excel
         </a>
     </div>
 
     <!-- Bộ lọc thời gian -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0"><i class="fas fa-filter"></i> Bộ lọc thời gian</h5>
+    <div class="glass-card mb-4 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+        <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <h5 class="mb-0"><i class="fas fa-filter" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Bộ lọc thời gian</h5>
         </div>
-        <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-4">
+        <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <form method="get" class="row g-3 glass-form">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                     <label for="start_date" class="form-label">Từ ngày</label>
                     <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date|default:'' }}">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                     <label for="end_date" class="form-label">Đến ngày</label>
                     <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date|default:'' }}">
                 </div>
-                <div class="col-md-4 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary me-2">
-                        <i class="fas fa-search"></i> Lọc
+                <div class="col-md-4 d-flex align-items-end" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                    <button type="submit" class="btn btn-modern me-2">
+                        <i class="fas fa-search" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Lọc
                     </button>
-                    <a href="{% url 'reports:import_export_report' %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Xóa lọc
+                    <a href="{% url 'reports:import_export_report' %}" class="btn btn-modern">
+                        <i class="fas fa-times" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xóa lọc
                     </a>
                 </div>
             </form>
@@ -40,36 +40,36 @@
     </div>
 
     <!-- Thống kê tổng quan -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-bg-primary mb-3">
-                <div class="card-body text-center">
-                    <h4 class="card-title">{{ imports.count }}</h4>
-                    <p class="card-text">Phiếu nhập</p>
+    <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card text-bg-primary mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ imports.count }}</h4>
+                    <p class="glass-card-text">Phiếu nhập</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-bg-success mb-3">
-                <div class="card-body text-center">
-                    <h4 class="card-title">{{ exports.count }}</h4>
-                    <p class="card-text">Phiếu xuất</p>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card text-bg-success mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ exports.count }}</h4>
+                    <p class="glass-card-text">Phiếu xuất</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-bg-info mb-3">
-                <div class="card-body text-center">
-                    <h4 class="card-title">{{ total_import_value|floatformat:0 }}</h4>
-                    <p class="card-text">Tổng nhập (VNĐ)</p>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card text-bg-info mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ total_import_value|floatformat:0 }}</h4>
+                    <p class="glass-card-text">Tổng nhập (VNĐ)</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-bg-warning mb-3">
-                <div class="card-body text-center">
-                    <h4 class="card-title">{{ total_export_value|floatformat:0 }}</h4>
-                    <p class="card-text">Tổng xuất (VNĐ)</p>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card text-bg-warning mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ total_export_value|floatformat:0 }}</h4>
+                    <p class="glass-card-text">Tổng xuất (VNĐ)</p>
                 </div>
             </div>
         </div>
@@ -79,35 +79,35 @@
     <ul class="nav nav-tabs mb-3" id="reportTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="import-tab" data-bs-toggle="tab" data-bs-target="#import" type="button" role="tab">
-                <i class="fas fa-download"></i> Phiếu nhập kho
+                <i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Phiếu nhập kho
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="export-tab" data-bs-toggle="tab" data-bs-target="#export" type="button" role="tab">
-                <i class="fas fa-upload"></i> Phiếu xuất kho
+                <i class="fas fa-upload" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Phiếu xuất kho
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button" role="tab">
-                <i class="fas fa-chart-bar"></i> Tổng hợp
+                <i class="fas fa-chart-bar" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tổng hợp
             </button>
         </li>
     </ul>
 
     <!-- Tab Content -->
-    <div class="tab-content" id="reportTabsContent">
+    <div class="tab-content" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" id="reportTabsContent">
         <!-- Tab Phiếu nhập -->
-        <div class="tab-pane fade show active" id="import" role="tabpanel">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-download"></i> Danh sách phiếu nhập kho</h5>
+        <div class="tab-pane fade show active" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" id="import" role="tabpanel">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h5 class="mb-0"><i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Danh sách phiếu nhập kho</h5>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     {% if imports %}
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead class="table-dark">
-                                <tr>
+                    <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <table class="table glass-table glass-table table-striped table-hover glass-table">
+                            <thead class="table glass-table glass-table-dark">
+                                <tr data-aos="fade-in" data-aos-delay="500">
                                     <th>STT</th>
                                     <th>Mã phiếu</th>
                                     <th>Ngày nhập</th>
@@ -119,7 +119,7 @@
                             </thead>
                             <tbody>
                                 {% for import in imports %}
-                                <tr>
+                                <tr data-aos="fade-in" data-aos-delay="500">
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ import.import_code }}</td>
                                     <td>{{ import.import_date|date:"d/m/Y H:i" }}</td>
@@ -127,8 +127,8 @@
                                     <td>{{ import.created_by.get_full_name|default:import.created_by.username }}</td>
                                     <td class="text-success fw-bold">{{ import.total_amount|floatformat:0 }} VNĐ</td>
                                     <td>
-                                        <a href="{% url 'inventory:import_detail' import.pk %}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i> Chi tiết
+                                        <a href="{% url 'inventory:import_detail' import.pk %}" class="btn btn-modern btn-sm">
+                                            <i class="fas fa-eye" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chi tiết
                                         </a>
                                     </td>
                                 </tr>
@@ -137,8 +137,8 @@
                         </table>
                     </div>
                     {% else %}
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> Không có phiếu nhập kho nào trong khoảng thời gian này.
+                    <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                        <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Không có phiếu nhập kho nào trong khoảng thời gian này.
                     </div>
                     {% endif %}
                 </div>
@@ -146,17 +146,17 @@
         </div>
 
         <!-- Tab Phiếu xuất -->
-        <div class="tab-pane fade" id="export" role="tabpanel">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-upload"></i> Danh sách phiếu xuất kho</h5>
+        <div class="tab-pane fade" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" id="export" role="tabpanel">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h5 class="mb-0"><i class="fas fa-upload" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Danh sách phiếu xuất kho</h5>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     {% if exports %}
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead class="table-dark">
-                                <tr>
+                    <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <table class="table glass-table glass-table table-striped table-hover glass-table">
+                            <thead class="table glass-table glass-table-dark">
+                                <tr data-aos="fade-in" data-aos-delay="500">
                                     <th>STT</th>
                                     <th>Mã phiếu</th>
                                     <th>Ngày xuất</th>
@@ -168,7 +168,7 @@
                             </thead>
                             <tbody>
                                 {% for export in exports %}
-                                <tr>
+                                <tr data-aos="fade-in" data-aos-delay="500">
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ export.export_code }}</td>
                                     <td>{{ export.export_date|date:"d/m/Y H:i" }}</td>
@@ -176,8 +176,8 @@
                                     <td>{{ export.created_by.get_full_name|default:export.created_by.username }}</td>
                                     <td class="text-success fw-bold">{{ export.total_amount|floatformat:0 }} VNĐ</td>
                                     <td>
-                                        <a href="{% url 'inventory:export_detail' export.pk %}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i> Chi tiết
+                                        <a href="{% url 'inventory:export_detail' export.pk %}" class="btn btn-modern btn-sm">
+                                            <i class="fas fa-eye" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chi tiết
                                         </a>
                                     </td>
                                 </tr>
@@ -186,8 +186,8 @@
                         </table>
                     </div>
                     {% else %}
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> Không có phiếu xuất kho nào trong khoảng thời gian này.
+                    <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                        <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Không có phiếu xuất kho nào trong khoảng thời gian này.
                     </div>
                     {% endif %}
                 </div>
@@ -195,30 +195,30 @@
         </div>
 
         <!-- Tab Tổng hợp -->
-        <div class="tab-pane fade" id="summary" role="tabpanel">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Tổng hợp nhập/xuất</h5>
+        <div class="tab-pane fade" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" id="summary" role="tabpanel">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tổng hợp nhập/xuất</h5>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card border-primary">
-                                <div class="card-header bg-primary text-white">
-                                    <h6 class="mb-0"><i class="fas fa-download"></i> Tổng nhập kho</h6>
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="glass-card border-primary glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                <div class="glass-card-header bg-primary text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                    <h6 class="mb-0"><i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tổng nhập kho</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                                     <h3 class="text-primary">{{ total_import_value|floatformat:0 }} VNĐ</h3>
                                     <p class="text-muted">{{ imports.count }} phiếu nhập</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h6 class="mb-0"><i class="fas fa-upload"></i> Tổng xuất kho</h6>
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="glass-card border-success glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                <div class="glass-card-header bg-success text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                    <h6 class="mb-0"><i class="fas fa-upload" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tổng xuất kho</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                                     <h3 class="text-success">{{ total_export_value|floatformat:0 }} VNĐ</h3>
                                     <p class="text-muted">{{ exports.count }} phiếu xuất</p>
                                 </div>
@@ -226,13 +226,13 @@
                         </div>
                     </div>
                     
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <div class="card border-info">
-                                <div class="card-header bg-info text-white">
-                                    <h6 class="mb-0"><i class="fas fa-calculator"></i> Kết quả</h6>
+                    <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="glass-card border-info glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                <div class="glass-card-header bg-info text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                    <h6 class="mb-0"><i class="fas fa-calculator" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Kết quả</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                                     {% if profit > 0 %}
                                         <h3 class="text-success">+{{ profit|floatformat:0 }} VNĐ</h3>
                                         <p class="text-success">Lợi nhuận</p>

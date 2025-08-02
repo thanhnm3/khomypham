@@ -3,26 +3,26 @@
 {% block title %}{{ title|default:'Thêm sản phẩm' }}{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white d-flex align-items-center">
-                    <i class="fas fa-plus-circle fa-2x me-2"></i>
+            <div class="glass-card">
+                <div class="glass-card-header d-flex align-items-center">
+                    <i class="fas fa-plus-circle fa-2x me-2 brand-icon"></i>
                     <h4 class="mb-0">{{ title|default:'Thêm sản phẩm mới' }}</h4>
                 </div>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="glass-card-body">
+                    <form method="post" enctype="multipart/form-data" class="glass-form needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
                                 {{ form.name }}
                                 {% if form.name.errors %}
                                     <div class="text-danger">{{ form.name.errors }}</div>
                                 {% endif %}
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label }}</label>
                                 {{ form.category }}
                                 {% if form.category.errors %}
@@ -31,14 +31,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.unit.id_for_label }}" class="form-label">{{ form.unit.label }}</label>
                                 {{ form.unit }}
                                 {% if form.unit.errors %}
                                     <div class="text-danger">{{ form.unit.errors }}</div>
                                 {% endif %}
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.import_price.id_for_label }}" class="form-label">{{ form.import_price.label }}</label>
                                 {{ form.import_price }}
                                 {% if form.import_price.errors %}
@@ -47,14 +47,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.selling_price.id_for_label }}" class="form-label">{{ form.selling_price.label }}</label>
                                 {{ form.selling_price }}
                                 {% if form.selling_price.errors %}
                                     <div class="text-danger">{{ form.selling_price.errors }}</div>
                                 {% endif %}
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.expiry_date.id_for_label }}" class="form-label">{{ form.expiry_date.label }}</label>
                                 {{ form.expiry_date }}
                                 {% if form.expiry_date.errors %}
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}</label>
                                 {{ form.image }}
                                 {% if form.image.errors %}
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 mb-3">
+                            <div class="col-12">
                                 <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
                                 {{ form.description }}
                                 {% if form.description.errors %}
@@ -81,17 +81,17 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="d-grid gap-2 mt-3">
-                            <button type="submit" class="btn btn-success btn-lg">
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success-modern btn-lg">
                                 <i class="fas fa-save"></i> Lưu sản phẩm
                             </button>
-                            <a href="{% url 'products:product_list' %}" class="btn btn-secondary btn-lg">
+                            <a href="{% url 'products:product_list' %}" class="btn btn-modern btn-lg">
                                 <i class="fas fa-arrow-left"></i> Quay lại danh sách
                             </a>
                         </div>
                     </form>
                 </div>
-                <div class="card-footer text-center bg-light">
+                <div class="glass-card-footer text-center">
                     <small class="text-muted">Điền đầy đủ thông tin sản phẩm để quản lý kho hiệu quả.</small>
                 </div>
             </div>

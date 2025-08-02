@@ -4,45 +4,65 @@
 {% block title %}Danh sách sản phẩm{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0"><i class="fas fa-box"></i> Danh sách sản phẩm</h2>
-        <div>
-            <a href="{% url 'products:category_create' %}" class="btn btn-outline-primary me-2">
-                <i class="fas fa-folder-plus"></i> Thêm danh mục
-            </a>
-            <a href="{% url 'products:product_create' %}" class="btn btn-success">
-                <i class="fas fa-plus"></i> Thêm sản phẩm
-            </a>
+<div class="container py-4" data-aos="fade-up">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-box fa-2x me-3 brand-icon"></i>
+                <div>
+                    <h1 class="mb-1">Danh sách sản phẩm</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Sản phẩm</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div>
+                <a href="{% url 'products:category_create' %}" class="btn btn-modern me-2">
+                    <i class="fas fa-folder-plus me-2"></i> Thêm danh mục
+                </a>
+                <a href="{% url 'products:product_create' %}" class="btn btn-success-modern">
+                    <i class="fas fa-plus me-2"></i> Thêm sản phẩm
+                </a>
+            </div>
         </div>
     </div>
     
     <!-- Tìm kiếm và lọc -->
-    <form method="get" class="row g-2 mb-4">
-        <div class="col-md-4">
-            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên, danh mục..." value="{{ search_query }}">
+    <div class="glass-card mb-4">
+        <div class="glass-card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên, danh mục..." value="{{ search_query }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Danh mục</label>
+                    <select name="category" class="form-select">
+                        <option value="">-- Tất cả danh mục --</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if cat.id|stringformat:'s' == category_filter %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-modern w-100">
+                        <i class="fas fa-search me-2"></i> Lọc
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="col-md-3">
-            <select name="category" class="form-select">
-                <option value="">-- Tất cả danh mục --</option>
-                {% for cat in categories %}
-                    <option value="{{ cat.id }}" {% if cat.id|stringformat:'s' == category_filter %}selected{% endif %}>{{ cat.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">
-                <i class="fas fa-search"></i> Lọc
-            </button>
-        </div>
-    </form>
+    </div>
 
     {% if page_obj.object_list %}
     <!-- Bảng danh sách sản phẩm -->
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
+    <div class="modern-table">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
                             <th width="5%">STT</th>
@@ -106,15 +126,15 @@
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="{% url 'products:product_detail' product.pk %}" class="btn btn-outline-primary" title="Xem chi tiết">
+                                    <a href="{% url 'products:product_detail' product.pk %}" class="btn btn-modern btn-sm" title="Xem chi tiết">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{% url 'products:product_update' product.pk %}" class="btn btn-outline-warning" title="Sửa sản phẩm">
+                                    <a href="{% url 'products:product_update' product.pk %}" class="btn btn-warning-modern btn-sm" title="Sửa sản phẩm">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form method="post" action="{% url 'products:product_delete' product.pk %}" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xoá sản phẩm này?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-outline-danger" title="Xoá sản phẩm">
+                                        <button type="submit" class="btn btn-danger-modern btn-sm" title="Xoá sản phẩm">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>

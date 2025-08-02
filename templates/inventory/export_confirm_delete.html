@@ -3,17 +3,17 @@
 {% block title %}Xác nhận xóa phiếu xuất kho{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-danger">
-                <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Xác nhận xóa phiếu xuất kho</h4>
+<div class="container py-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-md-8" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card border-danger glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header bg-danger text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="mb-0"><i class="fas fa-exclamation-triangle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xác nhận xóa phiếu xuất kho</h4>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-warning">
-                        <h5><i class="fas fa-warning"></i> Cảnh báo!</h5>
-                        <p class="mb-0">Bạn sắp xóa phiếu xuất kho <strong>{{ export_order.export_code }}</strong>. Hành động này sẽ:</p>
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="glass-alert alert alert-warning glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                        <h5><i class="fas fa-warning" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Cảnh báo!</h5>
+                        <p class="mb-0">Bạn sắp xóa phiếu xuất kho <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ export_order.export_code }}</strong>. Hành động này sẽ:</p>
                         <ul class="mb-0 mt-2">
                             <li>Xóa vĩnh viễn phiếu xuất kho này</li>
                             <li>Hoàn trả tất cả số lượng hàng về kho</li>
@@ -21,46 +21,46 @@
                         </ul>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h6>Thông tin phiếu xuất:</h6>
-                            <table class="table table-sm">
-                                <tr>
-                                    <td><strong>Mã phiếu:</strong></td>
+                            <table class="table glass-table glass-table table-sm glass-table">
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Mã phiếu:</strong></td>
                                     <td>{{ export_order.export_code }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Ngày xuất:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Ngày xuất:</strong></td>
                                     <td>{{ export_order.export_date|date:'d/m/Y H:i' }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Khách hàng:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Khách hàng:</strong></td>
                                     <td>{{ export_order.customer|default:'-' }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Số sản phẩm:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Số sản phẩm:</strong></td>
                                     <td>{{ export_order.items.count }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Tổng giá trị:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tổng giá trị:</strong></td>
                                     <td class="text-success fw-bold">{{ export_order.total_amount|floatformat:0 }} VNĐ</td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h6>Danh sách sản phẩm sẽ được hoàn trả:</h6>
                             {% if export_order.items.all %}
-                            <div class="table-responsive">
-                                <table class="table table-sm">
+                            <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <table class="table glass-table glass-table table-sm glass-table">
                                     <thead>
-                                        <tr>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
                                             <th>Sản phẩm</th>
                                             <th>Số lượng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for item in export_order.items.all %}
-                                        <tr>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
                                             <td>{{ item.batch.product.name }}</td>
                                             <td>{{ item.quantity }} {{ item.batch.product.unit }}</td>
                                         </tr>
@@ -74,14 +74,14 @@
                         </div>
                     </div>
                     
-                    <form method="post" class="mt-4">
+                    <form method="post" class="mt-4 glass-form">
                         {% csrf_token %}
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'inventory:export_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Hủy bỏ
+                        <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{% url 'inventory:export_list' %}" class="btn btn-modern">
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Hủy bỏ
                             </a>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> Xác nhận xóa
+                            <button type="submit" class="btn btn-danger-modern-modern-modern">
+                                <i class="fas fa-trash" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xác nhận xóa
                             </button>
                         </div>
                     </form>

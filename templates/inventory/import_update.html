@@ -4,32 +4,32 @@
 {% block title %}Chỉnh sửa phiếu nhập kho{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">
+<div class="container py-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-md-10" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <h4 class="mb-0">
-                        <i class="fas fa-edit"></i> Chỉnh sửa phiếu nhập kho
+                        <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chỉnh sửa phiếu nhập kho
                     </h4>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-info">
-                        <strong>Mã phiếu:</strong> {{ import_order.import_code }}<br>
-                        <strong>Ngày tạo:</strong> {{ import_order.import_date|date:'d/m/Y H:i' }}
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                        <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Mã phiếu:</strong> {{ import_order.import_code }}<br>
+                        <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Ngày tạo:</strong> {{ import_order.import_date|date:'d/m/Y H:i' }}
                     </div>
                     
                     <form method="post" id="importForm">
                         {% csrf_token %}
                         
                         <!-- Thông tin cơ bản -->
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="supplier" class="form-label">Nhà cung cấp *</label>
                                 <input type="text" class="form-control" id="supplier" name="supplier" 
                                        value="{{ import_order.supplier|default:'' }}" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="batch_code" class="form-label">Mã lô hàng *</label>
                                 <input type="text" class="form-control" id="batch_code" name="batch_code" 
                                        value="{% if import_items %}{{ import_items.0.batch_code }}{% endif %}" required>
@@ -37,8 +37,8 @@
                         </div>
                         
                         <!-- Thông tin sản phẩm -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
+                        <div class="row mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="product" class="form-label">Sản phẩm *</label>
                                 <select class="form-select" id="product" name="product" required>
                                     <option value="">Chọn sản phẩm</option>
@@ -50,12 +50,12 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="quantity" class="form-label">Số lượng *</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity" 
                                        value="{% if import_items %}{{ import_items.0.quantity }}{% endif %}" min="1" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="unit_price" class="form-label">Đơn giá (VNĐ) *</label>
                                 <input type="number" class="form-control" id="unit_price" name="unit_price" 
                                        value="{% if import_items %}{{ import_items.0.unit_price }}{% endif %}" min="0" step="1000" required>
@@ -63,30 +63,30 @@
                         </div>
                         
                         <!-- Ngày hết hạn -->
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="expiry_date" class="form-label">Ngày hết hạn *</label>
                                 <input type="date" class="form-control" id="expiry_date" name="expiry_date" 
                                        value="{% if import_items %}{{ import_items.0.expiry_date|date:'Y-m-d' }}{% endif %}" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="total_price" class="form-label">Tổng tiền</label>
                                 <input type="text" class="form-control" id="total_price" readonly>
                             </div>
                         </div>
                         
                         <!-- Ghi chú -->
-                        <div class="mb-3">
+                        <div class="mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="notes" class="form-label">Ghi chú</label>
                             <textarea class="form-control" id="notes" name="notes" rows="3">{{ import_order.notes|default:'' }}</textarea>
                         </div>
                         
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Quay lại
+                        <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-modern">
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                             </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Lưu thay đổi
+                            <button type="submit" class="btn btn-modern">
+                                <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Lưu thay đổi
                             </button>
                         </div>
                     </form>
@@ -95,15 +95,15 @@
             
             <!-- Hiển thị thông tin hiện tại -->
             {% if import_items %}
-            <div class="card mt-4">
-                <div class="card-header">
+            <div class="glass-card mt-4 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <h5 class="mb-0">Thông tin hiện tại</h5>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-sm">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <table class="table glass-table glass-table table-sm glass-table">
                             <thead>
-                                <tr>
+                                <tr data-aos="fade-in" data-aos-delay="500">
                                     <th>Sản phẩm</th>
                                     <th>Lô hàng</th>
                                     <th>Số lượng</th>
@@ -114,7 +114,7 @@
                             </thead>
                             <tbody>
                                 {% for item in import_items %}
-                                <tr>
+                                <tr data-aos="fade-in" data-aos-delay="500">
                                     <td>{{ item.product.name }}</td>
                                     <td>{{ item.batch_code }}</td>
                                     <td>{{ item.quantity }} {{ item.product.unit }}</td>

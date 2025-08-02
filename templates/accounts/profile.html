@@ -4,15 +4,15 @@
 {% block title %}Hồ sơ cá nhân{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white d-flex align-items-center">
-                    <i class="fas fa-user-circle fa-2x me-2"></i>
+            <div class="glass-card">
+                <div class="glass-card-header d-flex align-items-center">
+                    <i class="fas fa-user-circle fa-2x me-2 brand-icon"></i>
                     <h4 class="mb-0">Hồ sơ cá nhân</h4>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body">
                     <div class="row mb-4">
                         <div class="col-md-3 text-center">
                             {% if user.profile.avatar %}
@@ -24,44 +24,44 @@
                             <div class="text-muted small">{{ user.email }}</div>
                         </div>
                         <div class="col-md-9">
-                            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <form method="post" enctype="multipart/form-data" class="glass-form needs-validation" novalidate>
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         <label class="form-label">Tên đăng nhập</label>
                                         <input type="text" class="form-control" value="{{ user.username }}" readonly>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         <label class="form-label">Email</label>
                                         <input type="email" class="form-control" value="{{ user.email }}" readonly>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         {{ user_form.first_name|as_crispy_field }}
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         {{ user_form.last_name|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         {{ profile_form.phone|as_crispy_field }}
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         {{ profile_form.address|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         {{ profile_form.avatar|as_crispy_field }}
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         {{ profile_form.role|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="d-grid gap-2 mt-3">
-                                    <button type="submit" class="btn btn-primary btn-lg">
+                                <div class="d-grid gap-2 mt-4">
+                                    <button type="submit" class="btn btn-success-modern btn-lg">
                                         <i class="fas fa-save"></i> Cập nhật hồ sơ
                                     </button>
                                 </div>
@@ -69,10 +69,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-center bg-light">
+                <div class="glass-card-footer text-center">
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-muted">Cập nhật thông tin cá nhân để bảo mật tài khoản tốt hơn.</small>
-                        <a href="{% url 'user_info' %}" class="btn btn-outline-info btn-sm">
+                        <a href="{% url 'user_info' %}" class="btn btn-modern btn-sm">
                             <i class="fas fa-eye"></i> Xem thông tin chi tiết
                         </a>
                     </div>

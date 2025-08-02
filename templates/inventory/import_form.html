@@ -5,21 +5,21 @@
 {% block title %}Tạo phiếu nhập kho - Kho Mỹ Phẩm{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-4" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
+            <div class="glass-card">
+                <div class="glass-card-header">
                     <h4 class="mb-0">
-                        <i class="fas fa-download"></i> Tạo phiếu nhập kho
+                        <i class="fas fa-download brand-icon"></i> Tạo phiếu nhập kho
                     </h4>
                 </div>
-                <div class="card-body">
-                    <form method="post" id="importForm">
+                <div class="glass-card-body">
+                    <form method="post" id="importForm" class="glass-form">
                         {% csrf_token %}
                         
                         <!-- Thông tin phiếu nhập -->
-                        <div class="row mb-4">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label for="{{ form.supplier.id_for_label }}" class="form-label">{{ form.supplier.label }}</label>
                                 {{ form.supplier }}
@@ -37,19 +37,19 @@
                         </div>
 
                         <!-- Thông báo -->
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle"></i>
+                        <div class="alert alert-info border-0 mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
                             Sau khi tạo phiếu nhập kho, bạn sẽ được chuyển đến trang thêm sản phẩm.
                         </div>
 
                         <!-- Nút thao tác -->
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Quay lại
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Tạo phiếu nhập
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success-modern btn-lg">
+                                <i class="fas fa-save me-2"></i> Tạo phiếu nhập
                             </button>
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-modern btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i> Quay lại danh sách
+                            </a>
                         </div>
                     </form>
                 </div>

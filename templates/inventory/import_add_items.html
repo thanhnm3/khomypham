@@ -4,89 +4,89 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">{{ title }}</h4>
+<div class="container-fluid" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h4 class="glass-card-title">{{ title }}</h4>
                     <p class="text-muted">Nhà cung cấp: {{ import_order.supplier|default:"Chưa có" }}</p>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <!-- Form thêm sản phẩm -->
                     <form method="post" id="importItemForm">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
+                        <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="{{ form.product.id_for_label }}">Sản phẩm *</label>
                                     {{ form.product }}
                                     {% if form.product.errors %}
-                                        <div class="invalid-feedback d-block">
+                                        <div class="invalid-feedback d-block" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             {{ form.product.errors.0 }}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
+                            <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="{{ form.quantity.id_for_label }}">Số lượng *</label>
                                     {{ form.quantity }}
                                     {% if form.quantity.errors %}
-                                        <div class="invalid-feedback d-block">
+                                        <div class="invalid-feedback d-block" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             {{ form.quantity.errors.0 }}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
+                            <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="{{ form.unit_price.id_for_label }}">Giá nhập *</label>
                                     {{ form.unit_price }}
                                     {% if form.unit_price.errors %}
-                                        <div class="invalid-feedback d-block">
+                                        <div class="invalid-feedback d-block" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             {{ form.unit_price.errors.0 }}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
+                            <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label for="{{ form.expiry_date.id_for_label }}">Hạn sử dụng *</label>
                                     {{ form.expiry_date }}
                                     {% if form.expiry_date.errors %}
-                                        <div class="invalid-feedback d-block">
+                                        <div class="invalid-feedback d-block" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             {{ form.expiry_date.errors.0 }}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
+                            <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="form-group" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                     <label>&nbsp;</label>
-                                    <button type="submit" class="btn btn-primary btn-block">
-                                        <i class="fas fa-plus"></i> Thêm
+                                    <button type="submit" class="btn btn-modern btn-block">
+                                        <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Thêm
                                     </button>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Thông tin sản phẩm tự động -->
-                        <div class="row mt-3" id="productInfo" style="display: none;">
-                            <div class="col-12">
-                                <div class="alert alert-info">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <strong>Giá bán:</strong> <span id="sellingPrice">0</span> VNĐ
+                        <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" id="productInfo" style="display: none;">
+                            <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Giá bán:</strong> <span id="sellingPrice">0</span> VNĐ
                                         </div>
-                                        <div class="col-md-3">
-                                            <strong>Đơn vị:</strong> <span id="productUnit">-</span>
+                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Đơn vị:</strong> <span id="productUnit">-</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            <strong>Danh mục:</strong> <span id="productCategory">-</span>
+                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Danh mục:</strong> <span id="productCategory">-</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            <strong>Tên sản phẩm:</strong> <span id="productName">-</span>
+                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tên sản phẩm:</strong> <span id="productName">-</span>
                                         </div>
                                     </div>
                                 </div>
@@ -99,10 +99,10 @@
                     <!-- Danh sách sản phẩm đã thêm -->
                     <h5>Sản phẩm đã thêm</h5>
                     {% if items %}
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                        <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <table class="table glass-table glass-table table-bordered table-striped glass-table">
                                 <thead>
-                                    <tr>
+                                    <tr data-aos="fade-in" data-aos-delay="500">
                                         <th>STT</th>
                                         <th>Sản phẩm</th>
                                         <th>Số lượng</th>
@@ -113,7 +113,7 @@
                                 </thead>
                                 <tbody>
                                     {% for item in items %}
-                                    <tr>
+                                    <tr data-aos="fade-in" data-aos-delay="500">
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ item.product.name }}</td>
                                         <td>{{ item.quantity }} {{ item.product.get_unit_display }}</td>
@@ -130,7 +130,7 @@
                                     {% endfor %}
                                 </tbody>
                                 <tfoot>
-                                    <tr class="table-primary">
+                                    <tr class="table glass-table glass-table-primary">
                                         <th colspan="4" class="text-right">Tổng cộng:</th>
                                         <th>{{ import_order.total_amount|floatformat:0 }} VNĐ</th>
                                         <th></th>
@@ -139,17 +139,17 @@
                             </table>
                         </div>
                         
-                        <div class="text-center mt-3">
-                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+                        <div class="text-center mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-modern">
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại danh sách
                             </a>
-                            <a href="{% url 'inventory:import_detail' import_order.pk %}" class="btn btn-info">
-                                <i class="fas fa-eye"></i> Xem chi tiết
+                            <a href="{% url 'inventory:import_detail' import_order.pk %}" class="btn btn-modern">
+                                <i class="fas fa-eye" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xem chi tiết
                             </a>
                         </div>
                     {% else %}
-                        <div class="alert alert-warning">
-                            <i class="fas fa-exclamation-triangle"></i> Chưa có sản phẩm nào được thêm vào phiếu nhập.
+                        <div class="glass-alert alert alert-warning glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                            <i class="fas fa-exclamation-triangle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chưa có sản phẩm nào được thêm vào phiếu nhập.
                         </div>
                     {% endif %}
                 </div>

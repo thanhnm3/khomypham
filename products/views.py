@@ -246,4 +246,27 @@ def category_create(request):
         'form': form,
         'title': 'Thêm danh mục mới',
     }
-    return render(request, 'products/category_form.html', context) 
+    return render(request, 'products/category_form.html', context)
+
+@login_required
+def category_delete(request, pk):
+    """Xóa danh mục"""
+    category = get_object_or_404(Category, pk=pk)
+    
+    # Kiểm tra xem danh mục có sản phẩm nào không
+    products_count = category.product_set.filter(is_active=True).count()
+    
+    if request.method == 'POST':
+        if products_count > 0:
+            messages.error(request, f'Không thể xóa danh mục "{category.name}" vì có {products_count} sản phẩm đang sử dụng.')
+            return redirect('products:category_list')
+        
+        category.delete()
+        messages.success(request, 'Danh mục đã được xóa thành công!')
+        return redirect('products:category_list')
+    
+    context = {
+        'category': category,
+        'products_count': products_count,
+    }
+    return render(request, 'products/category_confirm_delete.html', context) 

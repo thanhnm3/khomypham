@@ -3,19 +3,19 @@
 {% block title %}Xác nhận xóa phiếu nhập kho{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-danger text-white">
+<div class="container py-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card shadow-lg border-0 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header bg-danger text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <h4 class="mb-0">
-                        <i class="fas fa-exclamation-triangle"></i> Xác nhận xóa phiếu nhập kho
+                        <i class="fas fa-exclamation-triangle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xác nhận xóa phiếu nhập kho
                     </h4>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-warning">
-                        <h5 class="alert-heading">Cảnh báo!</h5>
-                        <p>Bạn đang chuẩn bị xóa phiếu nhập kho <strong>{{ import_order.import_code }}</strong>.</p>
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="glass-alert alert alert-warning glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                        <h5 class="glass-alert alert-heading">Cảnh báo!</h5>
+                        <p>Bạn đang chuẩn bị xóa phiếu nhập kho <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ import_order.import_code }}</strong>.</p>
                         <hr>
                         <p class="mb-0">Hành động này sẽ:</p>
                         <ul>
@@ -26,38 +26,38 @@
                         </ul>
                     </div>
                     
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Mã phiếu:</strong> {{ import_order.import_code }}
+                    <div class="row mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Mã phiếu:</strong> {{ import_order.import_code }}
                         </div>
-                        <div class="col-md-6">
-                            <strong>Ngày nhập:</strong> {{ import_order.import_date|date:"d/m/Y H:i" }}
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Nhà cung cấp:</strong> {{ import_order.supplier|default:"-" }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Số sản phẩm:</strong> {{ import_order.items.count }}
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Ngày nhập:</strong> {{ import_order.import_date|date:"d/m/Y H:i" }}
                         </div>
                     </div>
                     
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <strong>Tổng giá trị:</strong> {{ import_order.total_amount|floatformat:0 }} VNĐ
+                    <div class="row mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Nhà cung cấp:</strong> {{ import_order.supplier|default:"-" }}
+                        </div>
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Số sản phẩm:</strong> {{ import_order.items.count }}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tổng giá trị:</strong> {{ import_order.total_amount|floatformat:0 }} VNĐ
                         </div>
                     </div>
                     
                     <form method="post">
                         {% csrf_token %}
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Hủy bỏ
+                        <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-modern">
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Hủy bỏ
                             </a>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> Xác nhận xóa
+                            <button type="submit" class="btn btn-danger-modern-modern-modern">
+                                <i class="fas fa-trash" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Xác nhận xóa
                             </button>
                         </div>
                     </form>

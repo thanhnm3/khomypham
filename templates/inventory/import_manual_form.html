@@ -4,54 +4,54 @@
 {% block title %}{{ title|default:'Tạo phiếu nhập kho thủ công' }} - Kho Mỹ Phẩm{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
+<div class="container" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card shadow glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header bg-primary text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <h4 class="mb-0">
-                        <i class="fas fa-download"></i> {{ title|default:'Tạo phiếu nhập kho thủ công' }}
+                        <i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> {{ title|default:'Tạo phiếu nhập kho thủ công' }}
                     </h4>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <form method="post" id="importForm">
                         {% csrf_token %}
                         
                         <!-- Thông tin phiếu nhập -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
+                        <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="{{ form.supplier.id_for_label }}" class="form-label">{{ form.supplier.label }}</label>
                                 {{ form.supplier }}
                                 {% if form.supplier.errors %}
-                                    <div class="text-danger">{{ form.supplier.errors }}</div>
+                                    <div class="text-danger" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">{{ form.supplier.errors }}</div>
                                 {% endif %}
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
                                 {{ form.notes }}
                                 {% if form.notes.errors %}
-                                    <div class="text-danger">{{ form.notes.errors }}</div>
+                                    <div class="text-danger" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">{{ form.notes.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
 
                         <!-- Danh sách sản phẩm -->
-                        <div class="mb-4">
+                        <div class="mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h5 class="border-bottom pb-2">
-                                <i class="fas fa-boxes"></i> Danh sách sản phẩm nhập kho
+                                <i class="fas fa-boxes" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Danh sách sản phẩm nhập kho
                             </h5>
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle"></i>
-                                <strong>Lưu ý:</strong> Khi chọn sản phẩm, giá nhập và giá bán sẽ được tự động điền từ thông tin sản phẩm. 
-                                Bạn có thể nhấn nút <i class="fas fa-edit"></i> để chỉnh sửa giá nếu cần.
+                            <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                                <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Lưu ý:</strong> Khi chọn sản phẩm, giá nhập và giá bán sẽ được tự động điền từ thông tin sản phẩm. 
+                                Bạn có thể nhấn nút <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> để chỉnh sửa giá nếu cần.
                             </div>
                             
                             <div id="items-container">
-                                <div class="item-row border rounded p-3 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3">
+                                <div class="item-row border rounded p-3 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">Sản phẩm *</label>
-                                            <div class="d-flex">
+                                            <div class="d-flex" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                                 <select class="form-select product-select" name="products[]" required>
                                                     <option value="">Chọn sản phẩm...</option>
                                                     {% for product in products %}
@@ -59,35 +59,35 @@
                                                     {% endfor %}
                                                 </select>
                                                 <button type="button" class="btn btn-outline-success btn-sm ms-2 new-product-btn" title="Tạo sản phẩm mới">
-                                                    <i class="fas fa-plus"></i>
+                                                    <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">Số lượng *</label>
                                             <input type="number" class="form-control quantity-input" name="quantities[]" min="1" required>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">Giá nhập *</label>
-                                            <div class="d-flex">
+                                            <div class="d-flex" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                                 <input type="number" class="form-control purchase-price-input" name="purchase_prices[]" min="0" step="0.01" required readonly>
                                                 <button type="button" class="btn btn-outline-warning btn-sm ms-1 edit-price-btn" title="Chỉnh sửa giá" style="display: none;">
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">Giá bán</label>
                                             <input type="number" class="form-control selling-price-input" name="selling_prices[]" min="0" step="0.01" readonly>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">Tổng tiền</label>
                                             <input type="text" class="form-control total-price" readonly>
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-1" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                             <label class="form-label">&nbsp;</label>
-                                            <button type="button" class="btn btn-success btn-sm w-100 add-item">
-                                                <i class="fas fa-plus"></i>
+                                            <button type="button" class="btn btn-success-modern-modern-modern btn-sm w-100 add-item">
+                                                <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -95,23 +95,23 @@
                             </div>
                             
                             <button type="button" class="btn btn-outline-primary" id="add-new-item">
-                                <i class="fas fa-plus"></i> Thêm sản phẩm
+                                <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Thêm sản phẩm
                             </button>
                         </div>
 
                         <!-- Tổng cộng -->
-                        <div class="row mb-4">
-                            <div class="col-md-6 offset-md-6">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h6 class="card-title">Tổng cộng</h6>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <strong>Tổng số lượng:</strong>
+                        <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-md-6 offset-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="glass-card bg-light glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                    <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                        <h6 class="glass-card-title">Tổng cộng</h6>
+                                        <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                            <div class="col-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                                <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tổng số lượng:</strong>
                                                 <span id="total-quantity">0</span>
                                             </div>
-                                            <div class="col-6">
-                                                <strong>Tổng tiền:</strong>
+                                            <div class="col-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                                <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tổng tiền:</strong>
                                                 <span id="total-amount">0 VNĐ</span>
                                             </div>
                                         </div>
@@ -121,12 +121,12 @@
                         </div>
 
                         <!-- Nút thao tác -->
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'inventory:import_list' %}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Quay lại
+                        <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <a href="{% url 'inventory:import_list' %}" class="btn btn-modern">
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                             </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Tạo phiếu nhập
+                            <button type="submit" class="btn btn-modern">
+                                <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo phiếu nhập
                             </button>
                         </div>
                     </form>
@@ -137,23 +137,23 @@
 </div>
 
 <!-- Modal tạo sản phẩm mới -->
-<div class="modal fade" id="newProductModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
+<div class="modal fade" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" id="newProductModal" tabindex="-1">
+    <div class="modal-dialog modal-lg" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="modal-content" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="modal-header" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                 <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Tạo sản phẩm mới
+                    <i class="fas fa-plus" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo sản phẩm mới
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                 <form id="newProductForm">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="new_product_name" class="form-label">Tên sản phẩm *</label>
                             <input type="text" class="form-control" id="new_product_name" name="name" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="new_product_category" class="form-label">Danh mục *</label>
                             <select class="form-select" id="new_product_category" name="category" required>
                                 <option value="">Chọn danh mục...</option>
@@ -163,8 +163,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
+                    <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="new_product_unit" class="form-label">Đơn vị tính *</label>
                             <select class="form-select" id="new_product_unit" name="unit" required>
                                 <option value="">Chọn đơn vị...</option>
@@ -174,29 +174,29 @@
                                 <option value="goi">Gói</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="new_product_purchase_price" class="form-label">Giá nhập *</label>
                             <input type="number" class="form-control" id="new_product_purchase_price" name="purchase_price" min="0" step="0.01" required>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="new_product_selling_price" class="form-label">Giá bán *</label>
                             <input type="number" class="form-control" id="new_product_selling_price" name="selling_price" min="0" step="0.01" required>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <label for="new_product_expiry_date" class="form-label">Hạn sử dụng *</label>
                             <input type="date" class="form-control" id="new_product_expiry_date" name="expiry_date" required>
                         </div>
                     </div>
-                    <div class="mt-3">
+                    <div class="mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                         <label for="new_product_description" class="form-label">Mô tả</label>
                         <textarea class="form-control" id="new_product_description" name="description" rows="2"></textarea>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="saveNewProduct">
-                    <i class="fas fa-save"></i> Tạo sản phẩm
+            <div class="modal-footer" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                <button type="button" class="btn btn-modern" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-modern" id="saveNewProduct">
+                    <i class="fas fa-save" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo sản phẩm
                 </button>
             </div>
         </div>
@@ -222,7 +222,7 @@ document.getElementById('add-new-item').addEventListener('click', function() {
     const addBtn = newForm.querySelector('.add-item');
     if (addBtn) {
         addBtn.className = 'btn btn-danger btn-sm w-100 remove-item';
-        addBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        addBtn.innerHTML = '<i class="fas fa-trash" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
     }
     
     container.appendChild(newForm);
@@ -342,11 +342,11 @@ document.addEventListener('click', function(e) {
         
         if (purchasePriceInput.readOnly) {
             purchasePriceInput.readOnly = false;
-            editBtn.innerHTML = '<i class="fas fa-lock"></i>';
+            editBtn.innerHTML = '<i class="fas fa-lock" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
             editBtn.title = 'Khóa giá';
         } else {
             purchasePriceInput.readOnly = true;
-            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.innerHTML = '<i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>';
             editBtn.title = 'Chỉnh sửa giá';
         }
     }

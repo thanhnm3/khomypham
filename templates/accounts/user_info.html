@@ -3,75 +3,75 @@
 {% block title %}Thông tin người dùng{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-info text-white d-flex align-items-center">
-                    <i class="fas fa-user-circle fa-2x me-2"></i>
+<div class="container py-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card shadow-lg border-0 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header bg-info text-white d-flex align-items-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <i class="fas fa-user-circle fa-2x me-2" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <h4 class="mb-0">Thông tin người dùng</h4>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 text-center">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             {% if user.profile.avatar %}
                                 <img src="{{ user.profile.avatar.url }}" class="rounded-circle img-thumbnail mb-3" style="width:150px; height:150px; object-fit:cover;" alt="Avatar">
                             {% else %}
                                 <img src="https://ui-avatars.com/api/?name={{ user.get_full_name|default:user.username }}&background=0D8ABC&color=fff&size=150" class="rounded-circle img-thumbnail mb-3" alt="Avatar">
                             {% endif %}
                             <h5 class="fw-bold">{{ user.get_full_name|default:user.username }}</h5>
-                            <span class="badge bg-primary">{{ profile.get_role_display }}</span>
+                            <span class="badge badge-modern badge-modern badge-modern">{{ profile.get_role_display }}</span>
                         </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                        <div class="col-md-8" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Tên đăng nhập</label>
                                     <p class="form-control-plaintext">{{ user.username }}</p>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Email</label>
                                     <p class="form-control-plaintext">{{ user.email|default:"Chưa cập nhật" }}</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                            <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Họ và tên</label>
                                     <p class="form-control-plaintext">{{ user.get_full_name|default:"Chưa cập nhật" }}</p>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Số điện thoại</label>
                                     <p class="form-control-plaintext">{{ profile.phone|default:"Chưa cập nhật" }}</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-12 mb-3">
+                            <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-12 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Địa chỉ</label>
                                     <p class="form-control-plaintext">{{ profile.address|default:"Chưa cập nhật" }}</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                            <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Vai trò</label>
                                     <p class="form-control-plaintext">
-                                        <span class="badge bg-{% if profile.role == 'admin' %}danger{% else %}success{% endif %}">
+                                        <span class="badge badge-modern badge-modern badge-modern badge-{% if profile.role == 'admin' %}danger{% else %}success{% endif %}">
                                             {{ profile.get_role_display }}
                                         </span>
                                     </p>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Ngày tham gia</label>
                                     <p class="form-control-plaintext">{{ user.date_joined|date:"d/m/Y H:i" }}</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                            <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Đăng nhập lần cuối</label>
                                     <p class="form-control-plaintext">{{ user.last_login|date:"d/m/Y H:i"|default:"Chưa đăng nhập" }}</p>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                                     <label class="form-label fw-bold text-muted">Trạng thái</label>
                                     <p class="form-control-plaintext">
-                                        <span class="badge bg-{% if user.is_active %}success{% else %}danger{% endif %}">
+                                        <span class="badge badge-modern badge-modern badge-modern badge-{% if user.is_active %}success{% else %}danger{% endif %}">
                                             {% if user.is_active %}Hoạt động{% else %}Không hoạt động{% endif %}
                                         </span>
                                     </p>
@@ -80,13 +80,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-center bg-light">
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <a href="{% url 'profile' %}" class="btn btn-primary">
-                            <i class="fas fa-edit"></i> Chỉnh sửa hồ sơ
+                <div class="glass-card-footer text-center bg-light glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <a href="{% url 'profile' %}" class="btn btn-modern">
+                            <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chỉnh sửa hồ sơ
                         </a>
                         <a href="{% url 'logout' %}" class="btn btn-outline-danger">
-                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            <i class="fas fa-sign-out-alt" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Đăng xuất
                         </a>
                     </div>
                 </div>

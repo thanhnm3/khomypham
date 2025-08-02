@@ -4,62 +4,62 @@
 {% block title %}Chi tiết phiếu nhập kho - Kho Mỹ Phẩm{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <div class="d-flex justify-content-between align-items-center">
+<div class="container" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card shadow glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header bg-primary text-white glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="d-flex justify-content-between align-items-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                         <h4 class="mb-0">
-                            <i class="fas fa-download"></i> Chi tiết phiếu nhập kho
+                            <i class="fas fa-download" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chi tiết phiếu nhập kho
                         </h4>
                         <div>
                             <a href="{% url 'inventory:import_list' %}" class="btn btn-light btn-sm">
-                                <i class="fas fa-arrow-left"></i> Quay lại
+                                <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                             </a>
                             <button onclick="window.print()" class="btn btn-light btn-sm">
-                                <i class="fas fa-print"></i> In phiếu
+                                <i class="fas fa-print" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> In phiếu
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                     <!-- Thông tin phiếu nhập -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
+                    <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h5 class="text-primary">Thông tin phiếu nhập</h5>
-                            <table class="table table-borderless">
-                                <tr>
-                                    <td><strong>Mã phiếu:</strong></td>
+                            <table class="table glass-table glass-table table-borderless glass-table">
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Mã phiếu:</strong></td>
                                     <td>{{ import_order.import_code }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Ngày nhập:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Ngày nhập:</strong></td>
                                     <td>{{ import_order.import_date|date:"d/m/Y H:i" }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Nhà cung cấp:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Nhà cung cấp:</strong></td>
                                     <td>{{ import_order.supplier|default:"-" }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Người tạo:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Người tạo:</strong></td>
                                     <td>{{ import_order.created_by.get_full_name|default:import_order.created_by.username }}</td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h5 class="text-primary">Tổng quan</h5>
-                            <table class="table table-borderless">
-                                <tr>
-                                    <td><strong>Tổng giá trị:</strong></td>
+                            <table class="table glass-table glass-table table-borderless glass-table">
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tổng giá trị:</strong></td>
                                     <td class="text-success fw-bold">{{ import_order.total_amount|floatformat:0 }} VNĐ</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Số lượng sản phẩm:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Số lượng sản phẩm:</strong></td>
                                     <td>{{ items.count }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Ghi chú:</strong></td>
+                                <tr data-aos="fade-in" data-aos-delay="500">
+                                    <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Ghi chú:</strong></td>
                                     <td>{{ import_order.notes|default:"-" }}</td>
                                 </tr>
                             </table>
@@ -67,13 +67,13 @@
                     </div>
 
                     <!-- Chi tiết sản phẩm -->
-                    <div class="row">
-                        <div class="col-12">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h5 class="text-primary mb-3">Chi tiết sản phẩm nhập kho</h5>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
+                            <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <table class="table glass-table glass-table table-striped table-hover glass-table">
+                                    <thead class="table glass-table glass-table-dark">
+                                        <tr data-aos="fade-in" data-aos-delay="500">
                                             <th>STT</th>
                                             <th>Sản phẩm</th>
                                             <th>Mã lô</th>
@@ -85,14 +85,14 @@
                                     </thead>
                                     <tbody>
                                         {% for item in items %}
-                                        <tr>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
                                             <td>{{ forloop.counter }}</td>
                                             <td>
-                                                <strong>{{ item.product.name }}</strong><br>
+                                                <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ item.product.name }}</strong><br>
                                                 <small class="text-muted">{{ item.product.code }}</small>
                                             </td>
                                             <td>
-                                                <span class="badge bg-info">{{ item.batch.batch_code|default:"-" }}</span>
+                                                <span class="badge badge-modern badge-modern badge-modern">{{ item.batch.batch_code|default:"-" }}</span>
                                             </td>
                                             <td>
                                                 {{ item.quantity }} {{ item.product.unit }}
@@ -105,24 +105,24 @@
                                             </td>
                                             <td>
                                                 {% if item.product.expiry_date < today %}
-                                                    <span class="badge bg-danger">Đã hết hạn</span>
+                                                    <span class="badge badge-modern badge-modern badge-modern badge-expired">Đã hết hạn</span>
                                                 {% elif item.product.expiry_date < expiring_soon %}
-                                                    <span class="badge bg-warning">Sắp hết hạn</span>
+                                                    <span class="badge badge-modern badge-modern badge-modern badge-expiring">Sắp hết hạn</span>
                                                 {% else %}
-                                                    <span class="badge bg-success">{{ item.product.expiry_date|date:"d/m/Y" }}</span>
+                                                    <span class="badge badge-modern badge-modern badge-modern badge-normal">{{ item.product.expiry_date|date:"d/m/Y" }}</span>
                                                 {% endif %}
                                             </td>
                                         </tr>
                                         {% empty %}
-                                        <tr>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
                                             <td colspan="7" class="text-center text-muted">
-                                                <i class="fas fa-info-circle"></i> Không có sản phẩm nào trong phiếu này
+                                                <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Không có sản phẩm nào trong phiếu này
                                             </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
-                                    <tfoot class="table-light">
-                                        <tr>
+                                    <tfoot class="table glass-table glass-table-light">
+                                        <tr data-aos="fade-in" data-aos-delay="500">
                                             <td colspan="5" class="text-end fw-bold">Tổng cộng:</td>
                                             <td class="text-success fw-bold">{{ import_order.total_amount|floatformat:0 }} VNĐ</td>
                                             <td></td>

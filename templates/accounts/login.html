@@ -5,27 +5,27 @@
 {% block title %}Đăng nhập - Kho Mỹ Phẩm{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-4" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
+            <div class="glass-card">
+                <div class="glass-card-header text-center">
                     <h4 class="mb-0">
-                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                        <i class="fas fa-sign-in-alt brand-icon"></i> Đăng nhập
                     </h4>
                 </div>
-                <div class="card-body">
-                    <form method="post">
+                <div class="glass-card-body">
+                    <form method="post" class="glass-form">
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success-modern">
                                 <i class="fas fa-sign-in-alt"></i> Đăng nhập
                             </button>
                         </div>
                     </form>
                 </div>
-                <div class="card-footer text-center">
+                <div class="glass-card-footer text-center">
                     <small class="text-muted">
                         Hệ thống quản lý kho mỹ phẩm
                     </small>

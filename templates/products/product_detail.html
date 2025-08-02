@@ -4,13 +4,13 @@
 {% block title %}{{ product.name }} - Chi tiết sản phẩm{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-box fa-2x me-3"></i>
+<div class="container py-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up">
+    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-8 mx-auto" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card shadow-lg border-0 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                <div class="glass-card-header bg-primary text-white d-flex align-items-center justify-content-between glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="d-flex align-items-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-box fa-2x me-3" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                         <div>
                             <h4 class="mb-0">Chi tiết sản phẩm</h4>
                             <small>{{ product.name }}</small>
@@ -18,44 +18,44 @@
                     </div>
                     <div>
                         <a href="{% url 'products:product_update' product.pk %}" class="btn btn-light btn-sm">
-                            <i class="fas fa-edit"></i> Sửa
+                            <i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Sửa
                         </a>
                         <a href="{% url 'products:product_list' %}" class="btn btn-outline-light btn-sm">
-                            <i class="fas fa-arrow-left"></i> Quay lại
+                            <i class="fas fa-arrow-left" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Quay lại
                         </a>
                     </div>
                 </div>
                 
-                <div class="card-body">
-                    <div class="row">
+                <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                         <!-- Hình ảnh sản phẩm -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="zoom-in" data-aos-delay="300">
                             {% if product.image %}
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow">
                             {% else %}
-                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" style="height: 200px;">
+                                    <i class="fas fa-image fa-3x text-muted" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                 </div>
                             {% endif %}
                         </div>
                         
                         <!-- Thông tin sản phẩm -->
-                        <div class="col-md-8">
+                        <div class="col-md-8" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <h3 class="text-primary mb-3">{{ product.name }}</h3>
                             
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td><strong>Danh mục:</strong></td>
+                            <div class="row" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-sm-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                    <table class="table glass-table glass-table table-borderless glass-table">
+                                        <tr data-aos="fade-in" data-aos-delay="500">
+                                            <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Danh mục:</strong></td>
                                             <td>{{ product.category.name }}</td>
                                         </tr>
-                                        <tr>
-                                            <td><strong>Đơn vị tính:</strong></td>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
+                                            <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Đơn vị tính:</strong></td>
                                             <td>{{ product.get_unit_display }}</td>
                                         </tr>
-                                        <tr>
-                                            <td><strong>Giá bán:</strong></td>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
+                                            <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Giá bán:</strong></td>
                                             <td>
                                                 {% if product.selling_price %}
                                                     <span class="text-success fw-bold">{{ product.selling_price|floatformat:0 }} VNĐ</span>
@@ -64,8 +64,8 @@
                                                 {% endif %}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><strong>Hạn sử dụng:</strong></td>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
+                                            <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Hạn sử dụng:</strong></td>
                                             <td>
                                                 {% if product.expiry_date %}
                                                     <span class="badge {% if product.expiry_date < today %}bg-danger{% elif product.expiry_date < warning_date %}bg-warning{% else %}bg-success{% endif %}">
@@ -76,29 +76,29 @@
                                                 {% endif %}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><strong>Trạng thái:</strong></td>
+                                        <tr data-aos="fade-in" data-aos-delay="500">
+                                            <td><strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Trạng thái:</strong></td>
                                             <td>
                                                 {% if product.is_active %}
-                                                    <span class="badge bg-success">Đang hoạt động</span>
+                                                    <span class="badge badge-modern badge-modern badge-modern badge-normal">Đang hoạt động</span>
                                                 {% else %}
-                                                    <span class="badge bg-danger">Ngừng hoạt động</span>
+                                                    <span class="badge badge-modern badge-modern badge-modern badge-expired">Ngừng hoạt động</span>
                                                 {% endif %}
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                                 
-                                <div class="col-sm-6">
-                                    <div class="card bg-light">
-                                        <div class="card-body">
-                                            <h6 class="card-title"><i class="fas fa-chart-bar"></i> Thống kê kho</h6>
-                                            <div class="row text-center">
-                                                <div class="col-6">
+                                <div class="col-sm-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="glass-card bg-light glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                        <div class="glass-card-body glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                                            <h6 class="glass-card-title"><i class="fas fa-chart-bar" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Thống kê kho</h6>
+                                            <div class="row text-center" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                                <div class="col-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                                     <h4 class="text-primary">{{ product.total_stock }}</h4>
                                                     <small class="text-muted">Tổng tồn kho</small>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                                     <h4 class="text-warning">{{ product.low_stock_batches.count }}</h4>
                                                     <small class="text-muted">Lô sắp hết</small>
                                                 </div>
@@ -110,18 +110,18 @@
                             
                             <!-- Mô tả -->
                             {% if product.description %}
-                                <div class="mt-4">
-                                    <h6><i class="fas fa-info-circle"></i> Mô tả</h6>
+                                <div class="mt-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                    <h6><i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Mô tả</h6>
                                     <p class="text-muted">{{ product.description }}</p>
                                 </div>
                             {% endif %}
                             
                             <!-- Thông tin thời gian -->
-                            <div class="mt-4 pt-3 border-top">
+                            <div class="mt-4 pt-3 border-top" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                                 <small class="text-muted">
-                                    <i class="fas fa-clock"></i> Tạo lúc: {{ product.created_at|date:"d/m/Y H:i" }}
+                                    <i class="fas fa-clock" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Tạo lúc: {{ product.created_at|date:"d/m/Y H:i" }}
                                     {% if product.updated_at != product.created_at %}
-                                        <br><i class="fas fa-edit"></i> Cập nhật: {{ product.updated_at|date:"d/m/Y H:i" }}
+                                        <br><i class="fas fa-edit" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Cập nhật: {{ product.updated_at|date:"d/m/Y H:i" }}
                                     {% endif %}
                                 </small>
                             </div>
@@ -130,13 +130,13 @@
                 </div>
                 
                 <!-- Các lô hàng -->
-                <div class="card-footer">
-                    <h6 class="mb-3"><i class="fas fa-boxes"></i> Các lô hàng</h6>
+                <div class="glass-card-footer glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+                    <h6 class="mb-3"><i class="fas fa-boxes" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Các lô hàng</h6>
                     {% if product.batches.all %}
-                        <div class="table-responsive">
-                            <table class="table table-sm">
+                        <div class="table glass-table glass-table-responsive" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <table class="table glass-table glass-table table-sm glass-table">
                                 <thead>
-                                    <tr>
+                                    <tr data-aos="fade-in" data-aos-delay="500">
                                         <th>Mã lô</th>
                                         <th>Số lượng</th>
                                         <th>Còn lại</th>
@@ -146,7 +146,7 @@
                                 </thead>
                                 <tbody>
                                     {% for batch in product.batches.all %}
-                                    <tr>
+                                    <tr data-aos="fade-in" data-aos-delay="500">
                                         <td>{{ batch.batch_code }}</td>
                                         <td>{{ batch.quantity }}</td>
                                         <td>{{ batch.remaining_quantity }}</td>
@@ -157,9 +157,9 @@
                                         </td>
                                         <td>
                                             {% if batch.is_active %}
-                                                <span class="badge bg-success">Hoạt động</span>
+                                                <span class="badge badge-modern badge-modern badge-modern badge-normal">Hoạt động</span>
                                             {% else %}
-                                                <span class="badge bg-secondary">Không hoạt động</span>
+                                                <span class="badge badge-modern badge-modern badge-modern">Không hoạt động</span>
                                             {% endif %}
                                         </td>
                                     </tr>

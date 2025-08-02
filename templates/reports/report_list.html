@@ -3,12 +3,12 @@
 {% block title %}Tổng hợp báo cáo kho hàng{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <h2 class="mb-4"><i class="fas fa-chart-bar"></i> Tổng hợp báo cáo kho hàng</h2>
+<div class="container py-4" data-aos="fade-up">
+    <h2 class="mb-4"><i class="fas fa-chart-bar brand-icon"></i><span class="brand-gradient"> Tổng hợp báo cáo kho hàng</span></h2>
     <div class="row g-4">
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm glass-card" data-aos="slide-up" data-aos-delay="200">
+                <div class="card-body text-center glass-card" data-aos="slide-up" data-aos-delay="200">
                     <i class="fas fa-warehouse fa-3x text-primary mb-3"></i>
                     <h5 class="card-title">Báo cáo tồn kho</h5>
                     <p class="card-text">Xem chi tiết tồn kho từng sản phẩm, từng lô, cảnh báo hết hạn, hết hàng.</p>
@@ -17,8 +17,8 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm glass-card" data-aos="slide-up" data-aos-delay="200">
+                <div class="card-body text-center glass-card" data-aos="slide-up" data-aos-delay="200">
                     <i class="fas fa-exchange-alt fa-3x text-success mb-3"></i>
                     <h5 class="card-title">Báo cáo nhập/xuất kho</h5>
                     <p class="card-text">Thống kê nhập, xuất kho theo thời gian, sản phẩm, nhà cung cấp, khách hàng.</p>
@@ -27,8 +27,8 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
+            <div class="card h-100 shadow-sm glass-card" data-aos="slide-up" data-aos-delay="200">
+                <div class="card-body text-center glass-card" data-aos="slide-up" data-aos-delay="200">
                     <i class="fas fa-file-invoice-dollar fa-3x text-warning mb-3"></i>
                     <h5 class="card-title">Báo cáo lợi nhuận</h5>
                     <p class="card-text">Tính toán lợi nhuận từ chênh lệch giá nhập - xuất, xuất file Excel/PDF.</p>
@@ -39,9 +39,9 @@
     </div>
     <div class="row mt-5">
         <div class="col-12 text-center">
-            <a href="{% url 'reports:inventory_report' %}" class="btn btn-lg btn-primary me-2"><i class="fas fa-warehouse"></i> Báo cáo tồn kho</a>
-            <a href="{% url 'reports:import_export_report' %}" class="btn btn-lg btn-success me-2"><i class="fas fa-exchange-alt"></i> Báo cáo nhập/xuất</a>
-            <a href="{% url 'reports:profit_report' %}" class="btn btn-lg btn-warning"><i class="fas fa-file-invoice-dollar"></i> Báo cáo lợi nhuận</a>
+            <a href="{% url 'reports:inventory_report' %}" class="btn btn-lg btn-modern me-2"><i class="fas fa-warehouse"></i> Báo cáo tồn kho</a>
+            <a href="{% url 'reports:import_export_report' %}" class="btn btn-lg btn-success-modern me-2"><i class="fas fa-exchange-alt"></i> Báo cáo nhập/xuất</a>
+            <a href="{% url 'reports:profit_report' %}" class="btn btn-lg btn-warning-modern"><i class="fas fa-file-invoice-dollar"></i> Báo cáo lợi nhuận</a>
         </div>
     </div>
 </div>

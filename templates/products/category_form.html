@@ -4,29 +4,29 @@
 {% block title %}{{ title|default:'Thêm danh mục' }}{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white d-flex align-items-center">
-                    <i class="fas fa-folder-plus fa-2x me-2"></i>
+            <div class="glass-card">
+                <div class="glass-card-header d-flex align-items-center">
+                    <i class="fas fa-folder-plus fa-2x me-2 brand-icon"></i>
                     <h4 class="mb-0">{{ title|default:'Thêm danh mục mới' }}</h4>
                 </div>
-                <div class="card-body">
-                    <form method="post" class="needs-validation" novalidate>
+                <div class="glass-card-body">
+                    <form method="post" class="glass-form needs-validation" novalidate>
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <div class="d-grid gap-2 mt-3">
-                            <button type="submit" class="btn btn-success btn-lg">
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success-modern btn-lg">
                                 <i class="fas fa-save"></i> Lưu danh mục
                             </button>
-                            <a href="{% url 'products:category_list' %}" class="btn btn-secondary btn-lg">
+                            <a href="{% url 'products:category_list' %}" class="btn btn-modern btn-lg">
                                 <i class="fas fa-arrow-left"></i> Quay lại danh sách
                             </a>
                         </div>
                     </form>
                 </div>
-                <div class="card-footer text-center bg-light">
+                <div class="glass-card-footer text-center">
                     <small class="text-muted">Thêm danh mục để phân loại sản phẩm dễ dàng hơn.</small>
                 </div>
             </div>

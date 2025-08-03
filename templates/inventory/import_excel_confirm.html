@@ -60,7 +60,9 @@
                                         </td>
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ row|get_item:"Tên SP" }}</td>
-                                        <td>{{ row|get_item:"Danh mục" }}</td>
+                                        <td>
+                                            {{ form|get_field_value:forloop.counter0|safe }}
+                                        </td>
                                         <td>
                                             <input type="number" name="quantity_{{ forloop.counter0 }}" value="{{ row|get_item:'Số lượng' }}" min="1" class="form-control form-control-sm" style="width: 80px;">
                                         </td>
@@ -81,6 +83,24 @@
                             </table>
                         </div>
                         
+                        <!-- Cảnh báo danh mục thiếu -->
+                        {% if missing_categories %}
+                        <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="glass-alert alert alert-warning glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300" data-missing-categories="{{ missing_categories|join:',' }}">
+                                    <i class="fas fa-exclamation-triangle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                    <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Cảnh báo:</strong>
+                                    <p class="mb-2">Các danh mục sau không tồn tại trong hệ thống. Vui lòng chọn danh mục có sẵn hoặc tạo mới:</p>
+                                    <ul class="mb-0">
+                                        {% for category in missing_categories %}
+                                        <li><strong>{{ category }}</strong></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
                         <!-- Thống kê -->
                         <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
@@ -91,13 +111,14 @@
                                 </div>
                             </div>
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-                                <div class="glass-alert alert alert-warning glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
-                                    <i class="fas fa-exclamation-triangle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                <div class="glass-alert alert alert-info glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                                    <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                                     <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Lưu ý:</strong>
                                     <ul class="mb-0 mt-2">
                                         <li>Sản phẩm mới sẽ được tạo tự động</li>
+                                        <li>Danh mục tồn tại: hiển thị màu xanh</li>
+                                        <li>Danh mục không tồn tại: chọn từ dropdown</li>
                                         <li>Sản phẩm cũ sẽ cập nhật giá bán</li>
-                                        <li>Mã sản phẩm sẽ được tạo tự động</li>
                                     </ul>
                                 </div>
                             </div>
@@ -152,6 +173,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCount = Array.from(itemCheckboxes).filter(cb => cb.checked).length;
         selectedCountSpan.textContent = selectedCount;
     }
+    
+    // Highlight các dropdown danh mục
+    const categorySelects = document.querySelectorAll('select[name^="category_"]');
+    categorySelects.forEach(select => {
+        if (select.classList.contains('category-exists')) {
+            // Danh mục tồn tại - màu xanh
+            select.style.backgroundColor = '#d4edda';
+            select.style.borderColor = '#28a745';
+            select.style.color = '#155724';
+            select.title = 'Danh mục này đã tồn tại trong hệ thống';
+        } else if (select.classList.contains('category-missing')) {
+            // Danh mục không tồn tại - màu vàng
+            select.style.backgroundColor = '#fff3cd';
+            select.style.borderColor = '#ffc107';
+            select.style.color = '#856404';
+            select.title = 'Vui lòng chọn danh mục có sẵn hoặc tạo mới';
+        }
+    });
     
     // Khởi tạo
     updateSelectedCount();

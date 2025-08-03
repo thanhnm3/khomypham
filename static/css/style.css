@@ -858,4 +858,39 @@ body {
         width: 100% !important;
         max-width: none !important;
     }
+}
+
+/* Category dropdown styles */
+.category-exists {
+    background-color: #d4edda !important;
+    border-color: #28a745 !important;
+    color: #155724 !important;
+}
+
+.category-exists:focus {
+    background-color: #c3e6cb !important;
+    border-color: #1e7e34 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
+
+.category-missing {
+    background-color: #fff3cd !important;
+    border-color: #ffc107 !important;
+    color: #856404 !important;
+}
+
+.category-missing:focus {
+    background-color: #ffeaa7 !important;
+    border-color: #e0a800 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25) !important;
+}
+
+.category-exists option {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.category-missing option {
+    background-color: #fff3cd;
+    color: #856404;
 } 

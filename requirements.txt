@@ -8,4 +8,5 @@ psycopg2==2.9.9
 python-decouple==3.8
 dj-database-url==2.1.0
 pandas==2.3.1
-xlrd==2.0.1 
+xlrd==2.0.1
+xlsxwriter==3.2.0 

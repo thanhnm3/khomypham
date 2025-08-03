@@ -3,12 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from .models import Import, ImportItem, Batch, Export, ExportItem
 from .forms import ImportForm, ImportItemForm, ImportExcelForm, ImportItemBulkForm, ImportItemFormSet, ExportForm, ExportItemForm, ExportItemFormSet, ImportManualForm
 from products.models import Product, Category
 import json
+import io
+import xlsxwriter
 
 @login_required
 def import_list(request):
@@ -180,6 +182,10 @@ def import_excel(request):
             # Lưu dữ liệu Excel vào session
             request.session['excel_data'] = form.excel_data.to_dict('records')
             
+            # Lưu thông tin danh mục thiếu nếu có
+            if hasattr(form, 'missing_categories'):
+                request.session['missing_categories'] = form.missing_categories
+            
             messages.success(request, 'File Excel đã được upload thành công! Vui lòng xác nhận dữ liệu.')
             return redirect('inventory:import_excel_confirm')
     else:
@@ -195,6 +201,7 @@ def import_excel(request):
 def import_excel_confirm(request):
     """Xác nhận dữ liệu import từ Excel"""
     excel_data = request.session.get('excel_data')
+    missing_categories = request.session.get('missing_categories', [])
     
     if not excel_data:
         messages.error(request, 'Không có dữ liệu Excel để xác nhận.')
@@ -215,7 +222,7 @@ def import_excel_confirm(request):
             for index, row in enumerate(excel_data):
                 if form.cleaned_data.get(f'include_{index}', False):
                     product_name = row['Tên SP']
-                    category_name = row['Danh mục']
+                    category_name = form.cleaned_data[f'category_{index}']  # Lấy từ form đã chỉnh sửa
                     quantity = form.cleaned_data[f'quantity_{index}']
                     import_price = form.cleaned_data[f'import_price_{index}']
                     selling_price = form.cleaned_data[f'selling_price_{index}']
@@ -223,8 +230,23 @@ def import_excel_confirm(request):
                     description = row.get('Mô tả', '')
                     expiry_date = form.cleaned_data[f'expiry_date_{index}']
                     
+                    # Xử lý danh mục
+                    category_value = form.cleaned_data[f'category_{index}']
+                    
+                    if category_value == 'new':
+                        # Người dùng chọn tạo danh mục mới
+                        category, category_created = Category.objects.get_or_create(
+                            name=category_name
+                        )
+                    else:
+                        # Người dùng chọn danh mục có sẵn
+                        # category_value có thể là Category object hoặc ID string
+                        if isinstance(category_value, Category):
+                            category = category_value
+                        else:
+                            category = Category.objects.get(id=category_value)
+                    
                     # Tìm hoặc tạo sản phẩm
-                    category = Category.objects.get(name=category_name)
                     product, created = Product.objects.get_or_create(
                         name=product_name,
                         category=category,
@@ -277,6 +299,8 @@ def import_excel_confirm(request):
             
             # Xóa dữ liệu session
             del request.session['excel_data']
+            if 'missing_categories' in request.session:
+                del request.session['missing_categories']
             
             messages.success(request, f'Đã import thành công {import_order.items.count()} sản phẩm!')
             return redirect('inventory:import_detail', pk=import_order.pk)
@@ -286,6 +310,7 @@ def import_excel_confirm(request):
     context = {
         'form': form,
         'excel_data': excel_data,
+        'missing_categories': missing_categories,
         'title': 'Xác nhận dữ liệu import',
     }
     return render(request, 'inventory/import_excel_confirm.html', context)
@@ -795,4 +820,88 @@ def export_delete(request, pk):
     context = {
         'export_order': export_order,
     }
-    return render(request, 'inventory/export_confirm_delete.html', context) 
+    return render(request, 'inventory/export_confirm_delete.html', context)
+
+@login_required
+def download_excel_template(request):
+    """Tải file mẫu Excel cho import"""
+    # Tạo workbook trong memory
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet('Mẫu nhập kho')
+    
+    # Định dạng header
+    header_format = workbook.add_format({
+        'bold': True,
+        'bg_color': '#4CAF50',
+        'font_color': 'white',
+        'align': 'center',
+        'valign': 'vcenter',
+        'border': 1
+    })
+    
+    # Định dạng cho dữ liệu mẫu
+    data_format = workbook.add_format({
+        'border': 1,
+        'align': 'left',
+        'valign': 'vcenter'
+    })
+    
+    # Định dạng cho số
+    number_format = workbook.add_format({
+        'border': 1,
+        'align': 'right',
+        'valign': 'vcenter',
+        'num_format': '#,##0'
+    })
+    
+    # Định dạng cho ngày
+    date_format = workbook.add_format({
+        'border': 1,
+        'align': 'center',
+        'valign': 'vcenter',
+        'num_format': 'dd/mm/yyyy'
+    })
+    
+    # Đặt độ rộng cột
+    worksheet.set_column('A:A', 25)  # Tên SP
+    worksheet.set_column('B:B', 15)  # Danh mục
+    worksheet.set_column('C:C', 12)  # Số lượng
+    worksheet.set_column('D:D', 15)  # Giá nhập
+    worksheet.set_column('E:E', 15)  # Giá bán
+    worksheet.set_column('F:F', 10)  # Đơn vị
+    worksheet.set_column('G:G', 15)  # Hạn sử dụng
+    worksheet.set_column('H:H', 30)  # Mô tả
+    
+    # Header
+    headers = ['Tên SP', 'Danh mục', 'Số lượng', 'Giá nhập', 'Giá bán', 'Đơn vị', 'Hạn sử dụng', 'Mô tả']
+    for col, header in enumerate(headers):
+        worksheet.write(0, col, header, header_format)
+    
+    # Dữ liệu mẫu
+    sample_data = [
+        ['Serum Vitamin C', 'Serum', 50, 350000, 550000, 'chai', '2025-12-31', 'Serum làm sáng da'],
+        ['Kem chống nắng SPF50', 'Kem chống nắng', 30, 280000, 420000, 'tuyp', '2025-10-31', 'Kem chống nắng cao cấp'],
+        ['Sữa rửa mặt dịu nhẹ', 'Sữa rửa mặt', 100, 120000, 180000, 'chai', '2025-08-31', 'Sữa rửa mặt cho da nhạy cảm']
+    ]
+    
+    for row, data in enumerate(sample_data, start=1):
+        for col, value in enumerate(data):
+            if col in [2, 3, 4]:  # Số lượng, Giá nhập, Giá bán
+                worksheet.write(row, col, value, number_format)
+            elif col == 6:  # Hạn sử dụng
+                worksheet.write(row, col, value, date_format)
+            else:
+                worksheet.write(row, col, value, data_format)
+    
+    workbook.close()
+    output.seek(0)
+    
+    # Tạo response
+    response = HttpResponse(
+        output.read(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="mau_nhap_kho.xlsx"'
+    
+    return response 

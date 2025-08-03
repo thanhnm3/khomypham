@@ -96,14 +96,16 @@ class ImportExcelForm(forms.Form):
             if df.empty:
                 raise ValidationError("File Excel không có dữ liệu")
             
-            # Kiểm tra danh mục tồn tại
+            # Kiểm tra danh mục tồn tại (chỉ để thông báo, không bắt buộc)
             category_names = df['Danh mục'].dropna().astype(str)
             existing_categories = Category.objects.filter(name__in=category_names)
             existing_category_names = set(existing_categories.values_list('name', flat=True))
             
             missing_categories = set(category_names) - existing_category_names
             if missing_categories:
-                raise ValidationError(f"Danh mục không tồn tại: {', '.join(missing_categories)}")
+                # Lưu thông tin danh mục thiếu vào session để hiển thị cảnh báo
+                if not hasattr(self, 'missing_categories'):
+                    self.missing_categories = list(missing_categories)
             
             # Lưu DataFrame vào session để sử dụng sau
             self.excel_data = df
@@ -155,6 +157,27 @@ class ImportItemBulkForm(forms.Form):
                 decimal_places=2,
                 widget=forms.NumberInput(attrs={'class': 'form-control'})
             )
+            
+            # Tạo field cho danh mục (dropdown hoặc text input)
+            # Kiểm tra xem danh mục có tồn tại không
+            existing_categories = Category.objects.all().order_by('name')
+            category_exists = existing_categories.filter(name=category_name).exists()
+            
+            if category_exists:
+                # Nếu danh mục tồn tại, sử dụng dropdown với giá trị mặc định
+                self.fields[f'category_{index}'] = forms.ModelChoiceField(
+                    queryset=existing_categories,
+                    initial=existing_categories.filter(name=category_name).first(),
+                    widget=forms.Select(attrs={'class': 'form-control form-control-sm', 'style': 'width: 120px;'})
+                )
+            else:
+                # Nếu danh mục không tồn tại, sử dụng dropdown với option "Tạo mới"
+                choices = [('', '-- Chọn danh mục --')] + [(cat.id, cat.name) for cat in existing_categories] + [('new', f'Tạo mới: {category_name}')]
+                self.fields[f'category_{index}'] = forms.ChoiceField(
+                    choices=choices,
+                    initial='',
+                    widget=forms.Select(attrs={'class': 'form-control form-control-sm', 'style': 'width: 120px;'})
+                )
             
             # Tạo field cho hạn sử dụng
             expiry_date = row.get('Hạn sử dụng', None)

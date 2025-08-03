@@ -14,6 +14,7 @@ urlpatterns = [
     path('import/<int:pk>/delete/', views.import_delete, name='import_delete'),
     path('import/excel/', views.import_excel, name='import_excel'),
     path('import/excel/confirm/', views.import_excel_confirm, name='import_excel_confirm'),
+    path('import/excel/template/', views.download_excel_template, name='download_excel_template'),
     
     # AJAX
     path('get-product-info/', views.get_product_info, name='get_product_info'),

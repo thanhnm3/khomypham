@@ -32,7 +32,7 @@ class Product(models.Model):
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Giá mua", null=True, blank=True)
     selling_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Giá bán", null=True, blank=True)
     expiry_date = models.DateField(verbose_name="Hạn sử dụng", null=True, blank=True)
-    description = models.TextField(blank=True, verbose_name="Mô tả")
+    description = models.TextField(blank=True, null=True, verbose_name="Mô tả")
     is_active = models.BooleanField(default=True, verbose_name="Đang hoạt động")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

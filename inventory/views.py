@@ -179,8 +179,8 @@ def import_excel(request):
     if request.method == 'POST':
         form = ImportExcelForm(request.POST, request.FILES)
         if form.is_valid():
-            # Lưu dữ liệu Excel vào session
-            request.session['excel_data'] = form.excel_data.to_dict('records')
+            # Lưu dữ liệu Excel đã được xử lý vào session
+            request.session['excel_data'] = form.excel_data
             
             # Lưu thông tin danh mục thiếu nếu có
             if hasattr(form, 'missing_categories'):
@@ -200,6 +200,8 @@ def import_excel(request):
 @login_required
 def import_excel_confirm(request):
     """Xác nhận dữ liệu import từ Excel"""
+    from datetime import datetime
+    
     excel_data = request.session.get('excel_data')
     missing_categories = request.session.get('missing_categories', [])
     
@@ -221,14 +223,22 @@ def import_excel_confirm(request):
             # Xử lý từng item
             for index, row in enumerate(excel_data):
                 if form.cleaned_data.get(f'include_{index}', False):
-                    product_name = row['Tên SP']
+                    product_name = form.cleaned_data[f'product_name_{index}']  # Lấy từ form đã chỉnh sửa
                     category_name = form.cleaned_data[f'category_{index}']  # Lấy từ form đã chỉnh sửa
                     quantity = form.cleaned_data[f'quantity_{index}']
                     import_price = form.cleaned_data[f'import_price_{index}']
                     selling_price = form.cleaned_data[f'selling_price_{index}']
-                    unit = row['Đơn vị']
-                    description = row.get('Mô tả', '')
-                    expiry_date = form.cleaned_data[f'expiry_date_{index}']
+                    unit = form.cleaned_data[f'unit_{index}']  # Lấy từ form đã chỉnh sửa
+                    description = row.get('Mô tả', '') or ''  # Đảm bảo description không bao giờ là None
+                    expiry_date = form.cleaned_data[f'expiry_date_{index}']  # Lấy từ form đã chỉnh sửa
+                    
+                    # Chuyển đổi expiry_date từ string thành date object nếu cần
+                    if isinstance(expiry_date, str):
+                        try:
+                            expiry_date = datetime.strptime(expiry_date, '%Y-%m-%d').date()
+                        except ValueError:
+                            # Nếu không parse được, sử dụng ngày mặc định
+                            expiry_date = timezone.now().date() + timezone.timedelta(days=365)
                     
                     # Xử lý danh mục
                     category_value = form.cleaned_data[f'category_{index}']
@@ -254,7 +264,7 @@ def import_excel_confirm(request):
                             'unit': unit,
                             'selling_price': selling_price,
                             'purchase_price': import_price,
-                            'description': description,
+                            'description': description or '',  # Đảm bảo description không bao giờ là None
                             'is_active': True
                         }
                     )
@@ -273,6 +283,8 @@ def import_excel_confirm(request):
                         # Cập nhật mô tả nếu chưa có
                         if not product.description and description:
                             product.description = description
+                        elif not product.description:
+                            product.description = ''  # Đảm bảo description không bao giờ là None
                         product.save()
                     
                     # Tạo ImportItem
@@ -304,6 +316,9 @@ def import_excel_confirm(request):
             
             messages.success(request, f'Đã import thành công {import_order.items.count()} sản phẩm!')
             return redirect('inventory:import_detail', pk=import_order.pk)
+        else:
+            # Form không hợp lệ, hiển thị lỗi
+            messages.error(request, 'Vui lòng kiểm tra lại dữ liệu. Có lỗi validation.')
     else:
         form = ImportItemBulkForm(excel_data=excel_data)
     

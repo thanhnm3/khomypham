@@ -59,22 +59,80 @@
                                             <input type="checkbox" name="include_{{ forloop.counter0 }}" value="1" checked class="item-checkbox">
                                         </td>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ row|get_item:"Tên SP" }}</td>
+                                        <td>
+                                            {{ form|get_product_name_field_value:forloop.counter0|safe }}
+                                            {% if form.errors %}
+                                                {% for field, errors in form.errors.items %}
+                                                    {% if field == 'product_name_'|add:forloop.counter0|stringformat:"s" %}
+                                                        {% for error in errors %}
+                                                            <small class="text-danger">{{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </td>
                                         <td>
                                             {{ form|get_field_value:forloop.counter0|safe }}
                                         </td>
                                         <td>
-                                            <input type="number" name="quantity_{{ forloop.counter0 }}" value="{{ row|get_item:'Số lượng' }}" min="1" class="form-control form-control-sm" style="width: 80px;">
+                                            {{ form|get_quantity_field_value:forloop.counter0|safe }}
+                                            {% if form.errors %}
+                                                {% for field, errors in form.errors.items %}
+                                                    {% if field == 'quantity_'|add:forloop.counter0|stringformat:"s" %}
+                                                        {% for error in errors %}
+                                                            <small class="text-danger">{{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                         </td>
                                         <td>
-                                            <input type="number" name="import_price_{{ forloop.counter0 }}" value="{{ row|get_item:'Giá nhập' }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
+                                            {{ form|get_import_price_field_value:forloop.counter0|safe }}
+                                            {% if form.errors %}
+                                                {% for field, errors in form.errors.items %}
+                                                    {% if field == 'import_price_'|add:forloop.counter0|stringformat:"s" %}
+                                                        {% for error in errors %}
+                                                            <small class="text-danger">{{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                         </td>
                                         <td>
-                                            <input type="number" name="selling_price_{{ forloop.counter0 }}" value="{{ row|get_item:'Giá bán' }}" min="0" step="0.01" class="form-control form-control-sm" style="width: 100px;">
+                                            {{ form|get_selling_price_field_value:forloop.counter0|safe }}
+                                            {% if form.errors %}
+                                                {% for field, errors in form.errors.items %}
+                                                    {% if field == 'selling_price_'|add:forloop.counter0|stringformat:"s" %}
+                                                        {% for error in errors %}
+                                                            <small class="text-danger">{{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                         </td>
-                                        <td>{{ row|get_item:"Đơn vị" }}</td>
                                         <td>
-                                            <input type="date" name="expiry_date_{{ forloop.counter0 }}" value="{{ row|get_item:'Hạn sử dụng'|default:'' }}" class="form-control form-control-sm" style="width: 130px;">
+                                            {{ form|get_unit_field_value:forloop.counter0|safe }}
+                                            {% if form.errors %}
+                                                {% for field, errors in form.errors.items %}
+                                                    {% if field == 'unit_'|add:forloop.counter0|stringformat:"s" %}
+                                                        {% for error in errors %}
+                                                            <small class="text-danger">{{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ form|get_expiry_field_value:forloop.counter0|safe }}
+                                            {% if form.errors %}
+                                                {% for field, errors in form.errors.items %}
+                                                    {% if field == 'expiry_date_'|add:forloop.counter0|stringformat:"s" %}
+                                                        {% for error in errors %}
+                                                            <small class="text-danger">{{ error }}</small>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                         </td>
                                         <td>{{ row|get_item:"Mô tả"|default:'' }}</td>
                                     </tr>
@@ -101,6 +159,25 @@
                         </div>
                         {% endif %}
                         
+                        <!-- Hiển thị lỗi validation -->
+                        {% if form.errors %}
+                        <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                            <div class="col-12" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
+                                <div class="glass-alert alert alert-danger glass-alert" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="fade-in" data-aos-delay="300">
+                                    <i class="fas fa-exclamation-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                                    <strong style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Lỗi validation:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        {% for field, errors in form.errors.items %}
+                                            {% for error in errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
                         <!-- Thống kê -->
                         <div class="row mt-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
@@ -118,6 +195,8 @@
                                         <li>Sản phẩm mới sẽ được tạo tự động</li>
                                         <li>Danh mục tồn tại: hiển thị màu xanh</li>
                                         <li>Danh mục không tồn tại: chọn từ dropdown</li>
+                                        <li>Tất cả trường hợp lệ: màu xanh, không hợp lệ: màu đỏ</li>
+                                        <li>Có thể chỉnh sửa tất cả trường trực tiếp trên bảng</li>
                                         <li>Sản phẩm cũ sẽ cập nhật giá bán</li>
                                     </ul>
                                 </div>
@@ -189,6 +268,40 @@ document.addEventListener('DOMContentLoaded', function() {
             select.style.borderColor = '#ffc107';
             select.style.color = '#856404';
             select.title = 'Vui lòng chọn danh mục có sẵn hoặc tạo mới';
+        }
+    });
+    
+    // Highlight tất cả các input fields
+    const allInputs = document.querySelectorAll('input[class*="-valid"], input[class*="-invalid"], input[class*="is-invalid"]');
+    allInputs.forEach(input => {
+        if (input.classList.contains('is-invalid')) {
+            // Có lỗi validation - màu đỏ
+            input.style.backgroundColor = '#f8d7da';
+            input.style.borderColor = '#dc3545';
+            input.style.color = '#721c24';
+            input.title = 'Có lỗi validation';
+        } else if (input.classList.contains('product-name-valid') || 
+                   input.classList.contains('quantity-valid') || 
+                   input.classList.contains('import-price-valid') || 
+                   input.classList.contains('selling-price-valid') || 
+                   input.classList.contains('unit-valid') || 
+                   input.classList.contains('expiry-valid')) {
+            // Field hợp lệ - màu xanh
+            input.style.backgroundColor = '#d4edda';
+            input.style.borderColor = '#28a745';
+            input.style.color = '#155724';
+            input.title = 'Dữ liệu hợp lệ';
+        } else if (input.classList.contains('product-name-invalid') || 
+                   input.classList.contains('quantity-invalid') || 
+                   input.classList.contains('import-price-invalid') || 
+                   input.classList.contains('selling-price-invalid') || 
+                   input.classList.contains('unit-invalid') || 
+                   input.classList.contains('expiry-invalid')) {
+            // Field không hợp lệ - màu đỏ
+            input.style.backgroundColor = '#f8d7da';
+            input.style.borderColor = '#dc3545';
+            input.style.color = '#721c24';
+            input.title = 'Vui lòng nhập dữ liệu hợp lệ';
         }
     });
     

@@ -3,11 +3,14 @@
 Script xóa dữ liệu database đơn giản sử dụng PostgreSQL
 """
 
+import os
 import psycopg2
 from dj_database_url import parse
 
-# Database URL
-DATABASE_URL = "postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham"
+# Database URL (đọc từ ENV)
+DATABASE_URL = os.getenv("DATABASE_URL", "")
+if not DATABASE_URL:
+    raise SystemExit("DATABASE_URL is not set. Please set it in your environment or .env file.")
 
 def clear_database_simple():
     """Xóa dữ liệu sử dụng SQL trực tiếp"""

@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kho_my_pham.settings')
 
 # Override database settings cho PostgreSQL
-os.environ['DATABASE_URL'] = 'postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham'
+os.environ.setdefault('DATABASE_URL', '')  # đọc từ .env nếu có
 
 django.setup()
 
@@ -25,7 +25,7 @@ def run_local():
     print("🚀 Starting Django development server with PostgreSQL...")
     print("📊 Database: PostgreSQL on Render.com")
     print("🌐 URL: http://127.0.0.1:8000/")
-    print("👤 Admin login: admin / admin123")
+    # Gợi ý: tạo superuser thủ công nếu cần: python manage.py createsuperuser
     print("⏹️  Press Ctrl+C to stop")
     print("-" * 50)
     

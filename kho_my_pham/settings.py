@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-u8&78e%ch+w(7#8a2nm)!$)+iihrx7h35e5pi-exh1z_w$=6se')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
@@ -84,8 +84,8 @@ WSGI_APPLICATION = 'kho_my_pham.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Luôn sử dụng PostgreSQL cho cả development và production
-DATABASE_URL = config('DATABASE_URL', default='postgresql://khomypham_user:t07FMiBJ7dcCacUvydxBC4o9tSLTw1Hd@dpg-d24qrjili9vc73ej9sqg-a.singapore-postgres.render.com/khomypham')
+# Luôn sử dụng PostgreSQL cho cả development và production (bắt buộc qua ENV)
+DATABASE_URL = config('DATABASE_URL')
 
 import dj_database_url
 db_config = dj_database_url.parse(DATABASE_URL)

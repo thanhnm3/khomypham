@@ -12,26 +12,26 @@
     </div>
     <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-primary mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-primary" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ total_products }}</h4>
-                    <p class="glass-card-text">Tổng sản phẩm</p>
+                    <h4 class="glass-card-title text-primary">{{ total_products }}</h4>
+                    <p class="glass-card-text text-muted">Tổng sản phẩm</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-success mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-success" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ low_stock_products|length }}</h4>
-                    <p class="glass-card-text">Sắp hết hàng</p>
+                    <h4 class="glass-card-title text-success">{{ low_stock_products|length }}</h4>
+                    <p class="glass-card-text text-muted">Sắp hết hàng</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-danger mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-danger" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ expiring_products|length }}</h4>
-                    <p class="glass-card-text">Sắp hết hạn</p>
+                    <h4 class="glass-card-title text-danger">{{ expiring_products|length }}</h4>
+                    <p class="glass-card-text text-muted">Sắp hết hạn</p>
                 </div>
             </div>
         </div>
@@ -41,45 +41,37 @@
             <thead class="table glass-table glass-table-light">
                 <tr data-aos="fade-in" data-aos-delay="500">
                     <th>#</th>
-                    <th>Mã SP</th>
                     <th>Tên sản phẩm</th>
                     <th>Danh mục</th>
                     <th>Đơn vị</th>
                     <th>Tổng tồn kho</th>
-                    <th>Lô hàng</th>
-                    <th>Hạn sử dụng</th>
-                    <th>Số lượng còn</th>
                     <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in inventory_details %}
+                {% for item in inventory_products %}
                 <tr data-aos="fade-in" data-aos-delay="500">
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ item.product.code }}</td>
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.product.category.name }}</td>
                     <td>{{ item.product.unit }}</td>
-                    <td>{{ item.product.total_stock }}</td>
-                    <td>{{ item.batch.batch_code }}</td>
-                    <td>{{ item.batch.expiry_date|date:'d/m/Y'|default:"-" }}</td>
-                    <td>{{ item.batch.remaining_quantity }}</td>
+                    <td>{{ item.total_stock }}</td>
                     <td>
-                        {% if item.batch.expiry_date and item.batch.expiry_date < today %}
-                            <span class="badge badge-modern badge-modern badge-modern badge-expired">Hết hạn</span>
-                        {% elif item.batch.expiry_date and item.batch.expiry_date < expiring_soon %}
-                            <span class="badge badge-modern badge-modern badge-modern badge-expiring text-dark">Sắp hết hạn</span>
-                        {% elif item.batch.remaining_quantity <= 1 %}
-                            <span class="badge badge-modern badge-modern badge-modern badge-expiring text-dark">Sắp hết hàng</span>
+                        {% if item.status == 'expired' %}
+                            <span class="badge badge-modern badge-expired">Hết hạn (có lô)</span>
+                        {% elif item.status == 'expiring' %}
+                            <span class="badge badge-modern badge-expiring text-dark">Sắp hết hạn (có lô)</span>
+                        {% elif item.status == 'low' %}
+                            <span class="badge badge-modern badge-expiring text-dark">Sắp hết hàng</span>
                         {% else %}
-                            <span class="badge badge-modern badge-modern badge-modern badge-normal">Bình thường</span>
+                            <span class="badge badge-modern badge-normal">Bình thường</span>
                         {% endif %}
                     </td>
                 </tr>
                 {% empty %}
                 <tr data-aos="fade-in" data-aos-delay="500">
-                    <td colspan="10" class="text-center text-muted">
-                        <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chưa có dữ liệu tồn kho
+                    <td colspan="6" class="text-center text-muted">
+                        <i class="fas fa-info-circle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i> Chưa có dữ liệu tồn kho
                     </td>
                 </tr>
                 {% endfor %}

@@ -1,6 +1,13 @@
-# Generated manually
+"""
+This migration is intentionally a NO-OP.
 
-from django.db import migrations, models
+The field `purchase_price` is already created in 0001_initial, so adding it
+again causes "column ... already exists" on fresh databases. We keep this
+migration in history but without any database operations so both new and old
+databases can migrate consistently.
+"""
+
+from django.db import migrations
 
 
 class Migration(migrations.Migration):
@@ -9,10 +16,4 @@ class Migration(migrations.Migration):
         ('products', '0001_initial'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='product',
-            name='purchase_price',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True, verbose_name='Giá mua'),
-        ),
-    ] 
+    operations = []

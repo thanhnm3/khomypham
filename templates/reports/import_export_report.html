@@ -42,34 +42,34 @@
     <!-- Thống kê tổng quan -->
     <div class="row mb-4" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-primary mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-primary" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ imports.count }}</h4>
-                    <p class="glass-card-text">Phiếu nhập</p>
+                    <h4 class="glass-card-title text-primary">{{ imports.count }}</h4>
+                    <p class="glass-card-text text-muted">Phiếu nhập</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-success mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-success" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ exports.count }}</h4>
-                    <p class="glass-card-text">Phiếu xuất</p>
+                    <h4 class="glass-card-title text-success">{{ exports.count }}</h4>
+                    <p class="glass-card-text text-muted">Phiếu xuất</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-info mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-info" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ total_import_value|floatformat:0 }}</h4>
-                    <p class="glass-card-text">Tổng nhập (VNĐ)</p>
+                    <h4 class="glass-card-title text-info">{{ total_import_value|floatformat:0 }}</h4>
+                    <p class="glass-card-text text-muted">Tổng nhập (VNĐ)</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200">
-            <div class="glass-card text-bg-warning mb-3 glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
+            <div class="glass-card mb-3 border border-warning" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
                 <div class="glass-card-body text-center glass-card" data-aos="fade-up" data-aos-delay="200" data-aos="fade-up" data-aos-delay="200" data-aos="slide-up" data-aos-delay="200">
-                    <h4 class="glass-card-title">{{ total_export_value|floatformat:0 }}</h4>
-                    <p class="glass-card-text">Tổng xuất (VNĐ)</p>
+                    <h4 class="glass-card-title text-warning">{{ total_export_value|floatformat:0 }}</h4>
+                    <p class="glass-card-text text-muted">Tổng xuất (VNĐ)</p>
                 </div>
             </div>
         </div>

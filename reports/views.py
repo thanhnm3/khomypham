@@ -36,45 +36,53 @@ def report_list(request):
 def inventory_report(request):
     """Báo cáo tồn kho"""
     products = Product.objects.filter(is_active=True)
-    
+
     # Thống kê tổng quan
     total_products = products.count()
-    low_stock_products = []
-    expiring_products = []
-    
-    # Dữ liệu chi tiết cho bảng
-    inventory_details = []
+    low_stock_products: list[Product] = []
+    expiring_products: list[Product] = []
+
+    # Dữ liệu tổng hợp theo sản phẩm (không theo lô)
+    inventory_products = []
     today = timezone.now().date()
     expiring_soon = today + timedelta(days=270)  # 9 tháng
-    
+
     for product in products:
-        # Kiểm tra sản phẩm sắp hết hàng (tổng tồn kho <= 1)
+        # Kiểm tra trạng thái tồn kho
         if product.total_stock <= 1:
             low_stock_products.append(product)
-        
-        # Lấy tất cả lô hàng của sản phẩm
-        batches = product.batches.filter(is_active=True, remaining_quantity__gt=0).order_by('import_date')
-        
-        for batch in batches:
-            # Kiểm tra lô hàng sắp hết hạn (expiry_date là property)
-            if batch.expiry_date and batch.expiry_date <= expiring_soon:
-                expiring_products.append(product)
-            
-            # Thêm vào danh sách chi tiết
-            inventory_details.append({
-                'product': product,
-                'batch': batch,
-                'status': 'normal'
-            })
-    
+
+        active_batches = product.batches.filter(is_active=True, remaining_quantity__gt=0)
+        has_expired = any(b.expiry_date and b.expiry_date < today for b in active_batches)
+        has_expiring = any(
+            b.expiry_date and today <= b.expiry_date <= expiring_soon for b in active_batches
+        )
+        if has_expired or has_expiring:
+            expiring_products.append(product)
+
+        if has_expired:
+            status = 'expired'
+        elif has_expiring:
+            status = 'expiring'
+        elif product.total_stock <= 1:
+            status = 'low'
+        else:
+            status = 'normal'
+
+        inventory_products.append({
+            'product': product,
+            'total_stock': product.total_stock,
+            'status': status,
+        })
+
     # Loại bỏ trùng lặp trong expiring_products
     expiring_products = list(set(expiring_products))
-    
+
     context = {
         'total_products': total_products,
         'low_stock_products': low_stock_products,
         'expiring_products': expiring_products,
-        'inventory_details': inventory_details,
+        'inventory_products': inventory_products,
         'today': today,
         'expiring_soon': expiring_soon,
     }

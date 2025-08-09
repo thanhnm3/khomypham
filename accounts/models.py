@@ -39,4 +39,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save() 
+    # Đảm bảo luôn có Profile gắn với User; tránh lỗi khi User chưa có profile
+    from django.core.exceptions import ObjectDoesNotExist
+    try:
+        instance.profile  # truy cập để kiểm tra tồn tại
+    except ObjectDoesNotExist:
+        Profile.objects.get_or_create(user=instance)
+    else:
+        instance.profile.save()
